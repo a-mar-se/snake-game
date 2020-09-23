@@ -1,6 +1,7 @@
 console.log('Success!');
 
-const width = 10;
+const width = 4;
+const widthSize = 100 / width + '%';
 const height = width;
 
 const celCount = width * height;
@@ -11,6 +12,9 @@ for (let i = 0; i < celCount; i++) {
   // console.log(i);
   const cell = document.createElement('div');
   cell.innerText = i;
+
+  cell.style.setProperty('--heightCSS', widthSize);
+
   grido.appendChild(cell);
 }
 
@@ -33,7 +37,7 @@ function handleKeyPress(event) {
 
   console.log(key);
 
-  const lastCell = display[y * 10 + x];
+  const lastCell = display[y * width + x];
   lastCell.classList.remove('pika');
 
   switch (key) {
@@ -44,12 +48,12 @@ function handleKeyPress(event) {
       break;
 
     case 'ArrowDown':
-      if (y < 9) {
+      if (y < width - 1) {
         y = y + 1;
       }
       break;
     case 'ArrowRight':
-      if (x < 9) {
+      if (x < width - 1) {
         x = x + 1;
       }
       break;
@@ -66,10 +70,24 @@ function handleKeyPress(event) {
 }
 
 function plotPika(posx, posy) {
-  const celdilla = display[posy * 10 + posx];
+  const celdilla = display[posy * width + posx];
 
   celdilla.classList.add('pika');
   console.log(celdilla);
 }
 
+function apareceManzana() {
+  const randomX = Math.floor(Math.random() * width);
+  const randomY = Math.floor(Math.random() * width);
+
+  const celdilla = display[randomY * width + randomX];
+
+  const cell = document.createElement('p');
+  cell.classList.add('apple');
+
+  celdilla.appendChild(cell);
+  console.log(cell);
+}
+
 plotPika(x, y);
+apareceManzana();
