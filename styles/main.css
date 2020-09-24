@@ -78,3 +78,7 @@ h1 {
   border: 1px black solid;
   box-shadow: 20px 20px lightseagreen;
 }
+
+.wall {
+  background-color: black;
+}

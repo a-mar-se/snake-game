@@ -7,11 +7,21 @@ init = () => {
 document.addEventListener('DOMContentLoaded', init);
 
 // Create variables for the grid
-const width = 2;
+const width = 5;
 const height = width;
 const celCount = width * height;
 const widthSize = 100 / width + '%'; // Variable CSS
 const grido = document.querySelector('.grid');
+
+const wallsPositions = [];
+
+// Define the walls positions
+for (let i = 0; i < width; i++) {
+  for (let j = 0; j < width; j++) {
+    wallsPositions.push(j * width + i);
+  }
+}
+console.log(wallsPositions);
 
 // Generates a grid with the dimensions provided
 for (let i = 0; i < celCount; i++) {
@@ -20,15 +30,26 @@ for (let i = 0; i < celCount; i++) {
   grido.appendChild(cell);
 }
 
+// Get the cells of the grid as an argument
+const display = Array.from(document.querySelectorAll('.grid > div'));
+console.log(display);
+
+wallsPositions.forEach(showWalls);
+function showWalls(cellNumber) {
+  const wally = document.createElement('p');
+  wally.classList.add('wall');
+  console.log(cellNumber);
+  console.log(display[cellNumber]);
+  const cell = display[cellNumber];
+  cell.appendChild(wally);
+}
+
 // Creating position coordinates
-let y = width / 2;
-let x = width / 2;
+let y = Math.floor(width / 2);
+let x = Math.floor(width / 2);
 let snakeHead = y * width + x;
 let lengthSnake = 1;
 const snakePositions = [snakeHead];
-
-// Get the cells of the grid as an argument
-const display = Array.from(document.querySelectorAll('.grid > div'));
 
 let isEating = false;
 
@@ -48,11 +69,8 @@ function plotPika() {
 }
 
 function showSnake(array) {
-  console.log(array);
-  console.log(typeof array);
   array.forEach(showBody);
   function showBody(cellNumber) {
-    console.log(cellNumber);
     const cell = display[cellNumber];
     cell.classList.add('pika');
   }
@@ -66,7 +84,6 @@ function appearApple() {
   snakePositions.forEach((elem) => {
     if (applePosition === elem) {
       applePosition = generateNumber();
-      console.log('proper');
     }
   });
   // Find the cell of those coordinates
@@ -88,18 +105,16 @@ function handleKeyPress(event) {
   // key que va a coger una propiedad de event con el mismo nombre
 
   function checkIfEats() {
-    const pos = y * width + x;
+    // const pos = y * width + x;
 
-    if (pos === applePosition) {
+    if (snakeHead === applePosition) {
       function eatApple(pos) {
         function appleDisappears(pos) {
           const celdilla = display[pos];
 
-          // console.log(celdilla);
           const cell = celdilla.querySelector('p');
           cell.classList.remove('apple');
           celdilla.removeChild(document.querySelector('p'));
-          // console.log('apple dissappeared');
         }
 
         function snakeGrows() {
@@ -111,7 +126,7 @@ function handleKeyPress(event) {
         appearApple();
       }
 
-      eatApple(pos);
+      eatApple(snakeHead);
       console.log('Appple eaten!');
     }
   }
@@ -136,8 +151,9 @@ function handleKeyPress(event) {
     case 'ArrowLeft':
       if (x > 0) {
         x = x - 1;
-        // console.log(x);
       }
+
+      break;
     case 'w':
       if (y > 0) {
         y = y - 1;
@@ -157,21 +173,23 @@ function handleKeyPress(event) {
     case 'a':
       if (x > 0) {
         x = x - 1;
-        // console.log(x);
       }
       break;
     default:
       console.log('Not an arrow');
   }
+  console.log(`(x,y)=${x},${y}`);
 
   function checkCrash() {
     const checkBody = (elem) => {
       if (elem === snakeHead) {
-        console.log('crash');
+        console.log(`crash in position ${elem}`);
+        gameOver();
       }
     };
 
     snakePositions.forEach(checkBody);
+    wallsPositions.forEach(checkBody);
   }
   snakeHead = y * width + x;
   checkCrash();
