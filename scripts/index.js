@@ -38,8 +38,6 @@ wallsPositions.forEach(showWalls);
 function showWalls(cellNumber) {
   const wally = document.createElement('p');
   wally.classList.add('wall');
-  console.log(cellNumber);
-  console.log(display[cellNumber]);
   const cell = display[cellNumber];
   cell.appendChild(wally);
 }
@@ -64,7 +62,6 @@ function plotPika() {
   }
   isEating = false;
   snakePositions.push(snakeHead);
-  console.log(snakePositions);
   showSnake(snakePositions);
 }
 
@@ -75,6 +72,8 @@ function showSnake(array) {
     cell.classList.add('pika');
   }
 }
+
+// Function that generates a random position for an apple and shows it on screen
 function appearApple() {
   function generateNumber() {
     return Math.floor(Math.random() * celCount);
@@ -183,6 +182,9 @@ function handleKeyPress(event) {
   function checkCrash() {
     const checkBody = (elem) => {
       if (elem === snakeHead) {
+        function gameOver() {
+          console.log('Game Over');
+        }
         console.log(`crash in position ${elem}`);
         gameOver();
       }
