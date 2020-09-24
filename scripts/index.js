@@ -231,8 +231,8 @@ function handleKeyPress(event) {
     wallsPositions.forEach(checkBody);
   }
   snakeHead = y * width + x;
-  checkCrash();
-  checkIfEats();
 
   plotSnake();
+  checkCrash();
+  checkIfEats();
 }

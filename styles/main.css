@@ -80,7 +80,16 @@ body {
       #613 10px,
       rgba(96, 16, 48, 0) 11px
     ),
-    #8a3;
+    /* radial-gradient(circle at 100% 0%, #8a3 50%, blue 96%, violet 100%), */
+      radial-gradient(
+        #8a3 25%,
+        rgb(164, 199, 76) 35%,
+        rgb(117, 148, 37) 63%,
+        rgb(117, 153, 25) 70%,
+        rgb(131, 167, 40) 85%,
+        rgb(167, 21, 167) 95%,
+        blue
+      );
   background-size: 20px 20px;
 }
 
