@@ -64,11 +64,44 @@ body {
   background: black;
 }
 
-.grid div.pika {
-  background-image: url('../images/pika-sprite.png');
-  background-repeat: no-repeat;
-  background-size: contain;
+.grid div.snakeBody {
+  border-radius: 2vw;
   cursor: pointer;
+  background: radial-gradient(
+        circle at 0% 50%,
+        rgba(96, 16, 48, 0) 9px,
+        #613 10px,
+        rgba(96, 16, 48, 0) 11px
+      )
+      0px 10px,
+    radial-gradient(
+      at 100% 100%,
+      rgba(96, 16, 48, 0) 9px,
+      #613 10px,
+      rgba(96, 16, 48, 0) 11px
+    ),
+    #8a3;
+  background-size: 20px 20px;
+}
+
+.grid div.snakeHead {
+  border-radius: 3vw 3vw 1vw 1vw;
+  cursor: pointer;
+  background: radial-gradient(
+        circle at 0% 50%,
+        rgba(96, 16, 48, 0) 9px,
+        #613 10px,
+        rgba(96, 16, 48, 0) 11px
+      )
+      0px 10px,
+    radial-gradient(
+      at 100% 100%,
+      rgba(96, 16, 48, 0) 9px,
+      #613 10px,
+      rgba(96, 16, 48, 0) 11px
+    ),
+    rgb(168, 50, 3);
+  background-size: 20px 20px;
 }
 .apple {
   /* background-image: linear-gradient(22.5%, green, red); */
