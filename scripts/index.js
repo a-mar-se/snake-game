@@ -5,9 +5,63 @@ init = () => {
   plotSnake();
 
   appearApple();
+  initScorePanel();
+};
+document.addEventListener('DOMContentLoaded', init);
+
+let score = 0;
+let seconds = 0;
+let minutes = 0;
+let hours = 0;
+function initScorePanel() {
+  scorePanel.innerText = score;
+}
+
+scorePanel = document.querySelector('#score');
+timer = document.querySelector('#timer');
+
+// Trying to code a smooth movement
+let count = 0;
+let intervalId = null;
+
+const renderTimerTime = () => {
+  seconds = seconds + 1;
+  let timeString = ``;
+  if (seconds === 60) {
+    seconds = 0;
+    minutes = minutes + 1;
+    if (minutes === 60) {
+      minutes = 0;
+      hours = hours + 1;
+    }
+  }
+  if (hours < 10) {
+    timeString = timeString.concat(`0${hours} `);
+  } else {
+    timeString = `${timeString}${hourse} `;
+  }
+
+  if (minutes < 10) {
+    timeString = `${timeString}:0${minutes} `;
+  } else {
+    timeString = `${timeString}:${minutes} `;
+  }
+
+  if (seconds < 10) {
+    timeString = timeString.concat(`:0${seconds} `);
+  } else {
+    timeString = timeString.concat(`:${seconds} `);
+  }
+
+  score = score - 1;
+  timer.innerText = timeString;
+  scorePanel.innerText = score;
 };
 
-document.addEventListener('DOMContentLoaded', init);
+const startTimer = (event) => {
+  intervalId = setInterval(renderTimerTime, 1000);
+};
+startTimer();
 
 // Create variables for the grid
 const width = 7;
