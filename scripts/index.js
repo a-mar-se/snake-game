@@ -5,8 +5,14 @@ init = () => {
   plotSnake();
 
   appearApple();
+  initScorePanel();
 };
 
+let score = 0;
+function initScorePanel() {
+  scorePanel = document.querySelector('.scoreValue');
+  scorePanel.innerText = score;
+}
 document.addEventListener('DOMContentLoaded', init);
 
 // Create variables for the grid
