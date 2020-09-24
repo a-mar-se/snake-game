@@ -1,8 +1,8 @@
 // Initialize the program
 init = () => {
+  showWalls();
   plotPika(snakePositions[0]);
   appearApple();
-  showWalls();
 };
 
 document.addEventListener('DOMContentLoaded', init);
@@ -18,12 +18,15 @@ const grido = document.querySelector('.grid');
 const wallsPositions = [0];
 
 // Generates a grid with the dimensions provided
-for (let i = 0; i < celCount; i++) {
-  const cell = document.createElement('div');
-  cell.innerText = i;
-  cell.style.setProperty('--heightCSS', widthSize);
-  grido.appendChild(cell);
+function createGrid() {
+  for (let i = 0; i < celCount; i++) {
+    const cell = document.createElement('div');
+    cell.innerText = i;
+    cell.style.setProperty('--heightCSS', widthSize);
+    grido.appendChild(cell);
+  }
 }
+createGrid();
 
 // Get the cells of the grid as an argument
 const display = Array.from(document.querySelectorAll('.grid > div'));
@@ -35,6 +38,12 @@ let x = Math.floor(width / 2);
 let snakeHead = y * width + x;
 let lengthSnake = 1;
 const snakePositions = [snakeHead];
+
+let isEating = false;
+
+let applePosition = 0;
+let applePositionx = 0;
+let applePositiony = 0;
 
 function showWalls() {
   // Define the walls positions
@@ -57,13 +66,6 @@ function showWalls() {
     cell.appendChild(wally);
   }
 }
-
-let isEating = false;
-
-let applePosition = 0;
-let applePositionx = 0;
-let applePositiony = 0;
-
 // Showing Pikachu on the cell with coordinates (posx, posy)
 function plotPika() {
   if (!isEating) {
@@ -104,10 +106,15 @@ function appearApple() {
   const celdilla = display[applePosition];
 
   // Create new element to show on top of the field
-  const cell = document.createElement('p');
-  cell.classList.add('apple');
-  celdilla.appendChild(cell);
-
+  if (!celdilla.querySelector('p')) {
+    const cell = document.createElement('p');
+    cell.classList.add('apple');
+    celdilla.appendChild(cell);
+  } else {
+    const cell = celdilla.querySelector('p');
+    cell.classList.add('apple');
+    celdilla.appendChild(cell);
+  }
   console.log(`Apple created at position ${applePosition}`);
 }
 
@@ -128,7 +135,8 @@ function handleKeyPress(event) {
 
           const cell = celdilla.querySelector('p');
           cell.classList.remove('apple');
-          celdilla.removeChild(document.querySelector('p'));
+          // celdilla.removeChild(document.querySelector('p'));
+          celdilla.classList.add('pika');
         }
 
         function snakeGrows() {
