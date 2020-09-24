@@ -1,5 +1,7 @@
 * {
   box-sizing: border-box;
+  font-size: x-large;
+  color: gray;
 }
 
 img {
@@ -44,6 +46,12 @@ body {
   width: 600px;
 }
 
+h1 {
+  position: absolute;
+  border: 1px black solid;
+  box-shadow: 20px 20px lightseagreen;
+}
+
 .grid div {
   border: 1px solid lightgrey;
   flex-grow: 1;
@@ -58,13 +66,15 @@ body {
 }
 
 .wall {
-  width: 100%;
-  height: 100%;
+  width: 98%;
+  height: 98%;
   border-radius: 0;
   background: black;
 }
 
-.grid div.snakeBody {
+.snakeBody {
+  width: 80%;
+  height: 80%;
   border-radius: 2vw;
   cursor: pointer;
   background: radial-gradient(
@@ -93,7 +103,9 @@ body {
   background-size: 20px 20px;
 }
 
-.grid div.snakeHead {
+.snakeHead {
+  width: 90%;
+  height: 90%;
   border-radius: 3vw 3vw 1vw 1vw;
   cursor: pointer;
   background: radial-gradient(
@@ -124,10 +136,4 @@ body {
   height: 100%;
   border-radius: 50%;
   cursor: pointer;
-}
-
-h1 {
-  position: absolute;
-  border: 1px black solid;
-  box-shadow: 20px 20px lightseagreen;
 }
