@@ -24,15 +24,21 @@ timer = document.querySelector('#timer');
 let count = 0;
 let intervalId = null;
 
+let deciSeconds = 0;
 const renderTimerTime = () => {
-  seconds = seconds + 1;
+  deciSeconds = deciSeconds + 1;
+  // seconds = seconds + 0.1;
   let timeString = ``;
-  if (seconds === 60) {
-    seconds = 0;
-    minutes = minutes + 1;
-    if (minutes === 60) {
-      minutes = 0;
-      hours = hours + 1;
+  if (deciSeconds === 10) {
+    seconds = seconds + 1;
+    deciSeconds = 0;
+    if (seconds === 60) {
+      seconds = 0;
+      minutes = minutes + 1;
+      if (minutes === 60) {
+        minutes = 0;
+        hours = hours + 1;
+      }
     }
   }
   if (hours < 10) {
@@ -53,13 +59,97 @@ const renderTimerTime = () => {
     timeString = timeString.concat(`:${seconds} `);
   }
 
-  score = score - 1;
+  score = score + 1;
   timer.innerText = timeString;
   scorePanel.innerText = score;
+  moveObjects();
 };
 
+let timeCount = 0;
+function moveObjects() {
+  function moveSnake(direction) {
+    switch (direction) {
+      case 'up':
+        if (y > 1) {
+          y = y - 1;
+        }
+        break;
+
+      case 'down':
+        if (y < width - 2) {
+          y = y + 1;
+        }
+        break;
+      case 'right':
+        if (x < width - 2) {
+          x = x + 1;
+        }
+        break;
+      case 'left':
+        if (x > 1) {
+          x = x - 1;
+        }
+      default:
+        console.log('Not an arrow');
+    }
+  }
+  timeCount = timeCount + 0.1;
+  if (timeCount === speed) {
+    moveSnake(direction);
+    timeCount = 0;
+  }
+
+  function checkIfEats() {
+    // const pos = y * width + x;
+
+    if (snakeHead === applePosition) {
+      function eatApple(pos) {
+        function appleDisappears(pos) {
+          const cell = display[pos];
+
+          cell.classList.remove('apple');
+          // celdilla.removeChild(document.querySelector('p'));
+          // celdilla.classList.add('snakeBody');
+        }
+
+        function snakeGrows() {
+          lengthSnake = lengthSnake + 1;
+          isEating = true;
+        }
+        snakeGrows();
+        appleDisappears(pos);
+        appearApple();
+      }
+
+      eatApple(snakeHead);
+      console.log('Appple eaten!');
+    }
+  }
+
+  function checkCrash() {
+    const checkBody = (elem) => {
+      if (elem === snakeHead) {
+        function gameOver() {
+          console.log('Game Over');
+        }
+        console.log(`crash in position ${elem}`);
+        gameOver();
+      }
+    };
+
+    snakePositions.forEach(checkBody);
+    wallsPositions.forEach(checkBody);
+  }
+  snakeHead = y * width + x;
+
+  plotSnake();
+  checkCrash();
+  checkIfEats();
+}
+
+let direction = 'up';
 const startTimer = (event) => {
-  intervalId = setInterval(renderTimerTime, 1000);
+  intervalId = setInterval(renderTimerTime, 100);
 };
 startTimer();
 
@@ -96,6 +186,7 @@ console.log(display);
 let y = Math.floor(width / 2);
 let x = Math.floor(width / 2);
 let snakeHead = y * width + x;
+let speed = 0.5;
 let lengthSnake = 1;
 const snakePositions = [snakeHead];
 snakePositions.push(snakeHead);
@@ -192,99 +283,43 @@ function handleKeyPress(event) {
   // const { key } = event;  // crea una constante llamada
   // key que va a coger una propiedad de event con el mismo nombre
 
-  function checkIfEats() {
-    // const pos = y * width + x;
-
-    if (snakeHead === applePosition) {
-      function eatApple(pos) {
-        function appleDisappears(pos) {
-          const cell = display[pos];
-
-          cell.classList.remove('apple');
-          // celdilla.removeChild(document.querySelector('p'));
-          // celdilla.classList.add('snakeBody');
-        }
-
-        function snakeGrows() {
-          lengthSnake = lengthSnake + 1;
-          isEating = true;
-        }
-        snakeGrows();
-        appleDisappears(pos);
-        appearApple();
-      }
-
-      eatApple(snakeHead);
-      console.log('Appple eaten!');
-    }
-  }
-
   switch (key) {
     case 'ArrowUp':
-      if (y > 1) {
-        y = y - 1;
-      }
+      direction = 'up';
+
       break;
 
     case 'ArrowDown':
-      if (y < width - 2) {
-        y = y + 1;
-      }
+      direction = 'down';
+
       break;
     case 'ArrowRight':
-      if (x < width - 2) {
-        x = x + 1;
-      }
+      direction = 'right';
+
       break;
     case 'ArrowLeft':
-      if (x > 1) {
-        x = x - 1;
-      }
+      direction = 'left';
 
       break;
     case 'w':
-      if (y > 1) {
-        y = y - 1;
-      }
+      direction = 'up';
+
       break;
 
     case 's':
-      if (y < width - 2) {
-        y = y + 1;
-      }
+      direction = 'down';
+
       break;
     case 'd':
-      if (x < width - 2) {
-        x = x + 1;
-      }
+      direction = 'right';
+
       break;
     case 'a':
-      if (x > 1) {
-        x = x - 1;
-      }
+      direction = 'left';
+
       break;
     default:
       console.log('Not an arrow');
   }
   console.log(`(x,y)=${x},${y}`);
-
-  function checkCrash() {
-    const checkBody = (elem) => {
-      if (elem === snakeHead) {
-        function gameOver() {
-          console.log('Game Over');
-        }
-        console.log(`crash in position ${elem}`);
-        gameOver();
-      }
-    };
-
-    snakePositions.forEach(checkBody);
-    wallsPositions.forEach(checkBody);
-  }
-  snakeHead = y * width + x;
-
-  plotSnake();
-  checkCrash();
-  checkIfEats();
 }
