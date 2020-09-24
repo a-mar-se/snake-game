@@ -67,6 +67,10 @@ body {
   /* background-image: linear-gradient(22.5%, green, red); */
   /* order: -1; */
   background: red;
+
+  background-image: url('../images/apples.png');
+  background-repeat: no-repeat;
+  background-size: cover;
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -80,5 +84,8 @@ h1 {
 }
 
 .wall {
-  background-color: black;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  background: black;
 }

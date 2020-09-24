@@ -2,6 +2,8 @@
 init = () => {
   plotPika(snakePositions[0]);
   appearApple();
+  // wallsPositions;
+  showWalls();
 };
 
 document.addEventListener('DOMContentLoaded', init);
@@ -12,16 +14,7 @@ const height = width;
 const celCount = width * height;
 const widthSize = 100 / width + '%'; // Variable CSS
 const grido = document.querySelector('.grid');
-
 const wallsPositions = [];
-
-// Define the walls positions
-for (let i = 0; i < width; i++) {
-  for (let j = 0; j < width; j++) {
-    wallsPositions.push(j * width + i);
-  }
-}
-console.log(wallsPositions);
 
 // Generates a grid with the dimensions provided
 for (let i = 0; i < celCount; i++) {
@@ -34,20 +27,34 @@ for (let i = 0; i < celCount; i++) {
 const display = Array.from(document.querySelectorAll('.grid > div'));
 console.log(display);
 
-wallsPositions.forEach(showWalls);
-function showWalls(cellNumber) {
-  const wally = document.createElement('p');
-  wally.classList.add('wall');
-  const cell = display[cellNumber];
-  cell.appendChild(wally);
-}
-
 // Creating position coordinates
 let y = Math.floor(width / 2);
 let x = Math.floor(width / 2);
 let snakeHead = y * width + x;
 let lengthSnake = 1;
 const snakePositions = [snakeHead];
+
+function showWalls() {
+  // Define the walls positions
+  for (let i = 0; i < width; i++) {
+    for (let j = 0; j < width; j++) {
+      if (i === 0 || i === width - 1 || j === 0 || j === width - 1) {
+        const wallPosition = j * width + i;
+
+        wallsPositions.push(wallPosition);
+      }
+    }
+  }
+  console.log(wallsPositions);
+  wallsPositions.forEach(showWalls);
+  function showWalls(cellNumber) {
+    const wally = document.createElement('p');
+    wally.classList.add('wall');
+    const cell = display[cellNumber];
+    // console.log(cellNumber);
+    cell.appendChild(wally);
+  }
+}
 
 let isEating = false;
 
