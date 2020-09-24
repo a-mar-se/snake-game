@@ -23,15 +23,19 @@ const wallsPositions = [0];
 function createGrid() {
   for (let i = 0; i < celCount; i++) {
     const cell = document.createElement('div');
-    cell.innerText = i;
+
     cell.style.setProperty('--heightCSS', widthSize);
+
+    const insideCell = document.createElement('p');
+    insideCell.innerText = i;
+    cell.appendChild(insideCell);
     grido.appendChild(cell);
   }
 }
 createGrid();
 
 // Get the cells of the grid as an argument
-const display = Array.from(document.querySelectorAll('.grid > div'));
+const display = Array.from(document.querySelectorAll('.grid > div>p'));
 console.log(display);
 
 // Creating position coordinates
@@ -62,11 +66,11 @@ function showWalls() {
   }
   wallsPositions.forEach(showWalls);
   function showWalls(cellNumber) {
-    const wally = document.createElement('p');
-    wally.classList.add('wall');
     const cell = display[cellNumber];
-    // console.log(cellNumber);
-    cell.appendChild(wally);
+    console.log(cell);
+    console.log(cellNumber);
+
+    cell.classList.add('wall');
   }
 }
 // Showing Pikachu on the cell with coordinates (posx, posy)
@@ -88,11 +92,14 @@ function plotSnake() {
 }
 
 function showSnake(array) {
+  console.log('accessing showsnake');
   console.log(array);
   array.forEach(showBody);
   function showBody(cellNumber) {
     const cell = display[cellNumber];
     if (cellNumber === array[array.length - 1]) {
+      console.log(array);
+      console.log(cell);
       cell.classList.add('snakeHead');
     } else {
       cell.classList.add('snakeBody');
@@ -117,18 +124,10 @@ function appearApple() {
   }
 
   // Find the cell of those coordinates
-  const celdilla = display[applePosition];
+  const cell = display[applePosition];
 
   // Create new element to show on top of the field
-  if (!celdilla.querySelector('p')) {
-    const cell = document.createElement('p');
-    cell.classList.add('apple');
-    celdilla.appendChild(cell);
-  } else {
-    const cell = celdilla.querySelector('p');
-    cell.classList.add('apple');
-    celdilla.appendChild(cell);
-  }
+  cell.classList.add('apple');
   console.log(`Apple created at position ${applePosition}`);
 }
 
@@ -145,12 +144,11 @@ function handleKeyPress(event) {
     if (snakeHead === applePosition) {
       function eatApple(pos) {
         function appleDisappears(pos) {
-          const celdilla = display[pos];
+          const cell = display[pos];
 
-          const cell = celdilla.querySelector('p');
           cell.classList.remove('apple');
           // celdilla.removeChild(document.querySelector('p'));
-          celdilla.classList.add('snakeBody');
+          // celdilla.classList.add('snakeBody');
         }
 
         function snakeGrows() {
