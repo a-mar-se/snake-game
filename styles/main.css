@@ -57,6 +57,13 @@ body {
   background: linear-gradient(22.5deg, lightgreen, lightseagreen);
 }
 
+.wall {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  background: black;
+}
+
 .grid div.pika {
   background-image: url('../images/pika-sprite.png');
   background-repeat: no-repeat;
@@ -81,11 +88,4 @@ h1 {
   position: absolute;
   border: 1px black solid;
   box-shadow: 20px 20px lightseagreen;
-}
-
-.wall {
-  width: 100%;
-  height: 100%;
-  border-radius: 0;
-  background: black;
 }

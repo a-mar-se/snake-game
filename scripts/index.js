@@ -2,7 +2,6 @@
 init = () => {
   plotPika(snakePositions[0]);
   appearApple();
-  // wallsPositions;
   showWalls();
 };
 
@@ -10,15 +9,18 @@ document.addEventListener('DOMContentLoaded', init);
 
 // Create variables for the grid
 const width = 5;
+const mapWidth = width - 2;
 const height = width;
 const celCount = width * height;
+const mapCount = mapWidth ** 2;
 const widthSize = 100 / width + '%'; // Variable CSS
 const grido = document.querySelector('.grid');
-const wallsPositions = [];
+const wallsPositions = [0];
 
 // Generates a grid with the dimensions provided
 for (let i = 0; i < celCount; i++) {
   const cell = document.createElement('div');
+  cell.innerText = i;
   cell.style.setProperty('--heightCSS', widthSize);
   grido.appendChild(cell);
 }
@@ -40,12 +42,12 @@ function showWalls() {
     for (let j = 0; j < width; j++) {
       if (i === 0 || i === width - 1 || j === 0 || j === width - 1) {
         const wallPosition = j * width + i;
-
-        wallsPositions.push(wallPosition);
+        if (i !== 0 || j !== 0) {
+          wallsPositions.push(wallPosition);
+        }
       }
     }
   }
-  console.log(wallsPositions);
   wallsPositions.forEach(showWalls);
   function showWalls(cellNumber) {
     const wally = document.createElement('p');
@@ -59,6 +61,8 @@ function showWalls() {
 let isEating = false;
 
 let applePosition = 0;
+let applePositionx = 0;
+let applePositiony = 0;
 
 // Showing Pikachu on the cell with coordinates (posx, posy)
 function plotPika() {
@@ -83,15 +87,19 @@ function showSnake(array) {
 // Function that generates a random position for an apple and shows it on screen
 function appearApple() {
   function generateNumber() {
-    return Math.floor(Math.random() * celCount);
+    return Math.floor(Math.random() * mapWidth);
   }
   // Generate random coordinates for the apple
-  applePosition = generateNumber();
-  snakePositions.forEach((elem) => {
-    if (applePosition === elem) {
-      applePosition = generateNumber();
-    }
-  });
+  let wrongPosition = true;
+
+  while (wrongPosition) {
+    applePositionx = 1 + generateNumber();
+
+    applePositiony = 1 + generateNumber();
+    applePosition = applePositionx + applePositiony * width;
+    wrongPosition = snakePositions.includes(applePosition);
+  }
+
   // Find the cell of those coordinates
   const celdilla = display[applePosition];
 
@@ -139,45 +147,45 @@ function handleKeyPress(event) {
 
   switch (key) {
     case 'ArrowUp':
-      if (y > 0) {
+      if (y > 1) {
         y = y - 1;
       }
       break;
 
     case 'ArrowDown':
-      if (y < width - 1) {
+      if (y < width - 2) {
         y = y + 1;
       }
       break;
     case 'ArrowRight':
-      if (x < width - 1) {
+      if (x < width - 2) {
         x = x + 1;
       }
       break;
     case 'ArrowLeft':
-      if (x > 0) {
+      if (x > 1) {
         x = x - 1;
       }
 
       break;
     case 'w':
-      if (y > 0) {
+      if (y > 1) {
         y = y - 1;
       }
       break;
 
     case 's':
-      if (y < width - 1) {
+      if (y < width - 2) {
         y = y + 1;
       }
       break;
     case 'd':
-      if (x < width - 1) {
+      if (x < width - 2) {
         x = x + 1;
       }
       break;
     case 'a':
-      if (x > 0) {
+      if (x > 1) {
         x = x - 1;
       }
       break;
