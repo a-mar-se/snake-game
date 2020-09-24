@@ -1,14 +1,16 @@
 // Initialize the program
 init = () => {
   showWalls();
-  plotPika(snakePositions[0]);
+
+  plotSnake();
+
   appearApple();
 };
 
 document.addEventListener('DOMContentLoaded', init);
 
 // Create variables for the grid
-const width = 5;
+const width = 7;
 const mapWidth = width - 2;
 const height = width;
 const celCount = width * height;
@@ -38,7 +40,8 @@ let x = Math.floor(width / 2);
 let snakeHead = y * width + x;
 let lengthSnake = 1;
 const snakePositions = [snakeHead];
-
+snakePositions.push(snakeHead);
+console.log(snakePositions);
 let isEating = false;
 
 let applePosition = 0;
@@ -67,29 +70,48 @@ function showWalls() {
   }
 }
 // Showing Pikachu on the cell with coordinates (posx, posy)
-function plotPika() {
+function plotSnake() {
+  console.log(snakePositions[0]);
+  const head = snakePositions[snakePositions.length - 1];
+  const headCell = display[head];
+  headCell.classList.remove('snakeHead');
+
+  if (!isEating) {
+    const tail = snakePositions.shift();
+    const tailCell = display[tail];
+    tailCell.classList.remove('snakeBody');
+  }
+
+  isEating = false;
+  snakePositions.push(snakeHead);
   showSnake(snakePositions);
 }
 
 function showSnake(array) {
+  console.log(array);
   array.forEach(showBody);
   function showBody(cellNumber) {
     const cell = display[cellNumber];
-    cell.classList.add('pika');
+    if (cellNumber === array[array.length - 1]) {
+      cell.classList.add('snakeHead');
+    } else {
+      cell.classList.add('snakeBody');
+    }
   }
 }
 
 // Function that generates a random position for an apple and shows it on screen
 function appearApple() {
   function generateNumber() {
-    return 1 + Math.floor(Math.random() * mapWidth);
+    return Math.floor(Math.random() * mapWidth);
   }
   // Generate random coordinates for the apple
   let wrongPosition = true;
 
   while (wrongPosition) {
-    applePositionx = generateNumber();
-    applePositiony = generateNumber();
+    applePositionx = 1 + generateNumber();
+
+    applePositiony = 1 + generateNumber();
     applePosition = applePositionx + applePositiony * width;
     wrongPosition = snakePositions.includes(applePosition);
   }
@@ -107,9 +129,6 @@ function appearApple() {
     cell.classList.add('apple');
     celdilla.appendChild(cell);
   }
-
-  console.log(snakePositions);
-  plotPika();
   console.log(`Apple created at position ${applePosition}`);
 }
 
@@ -131,22 +150,20 @@ function handleKeyPress(event) {
           const cell = celdilla.querySelector('p');
           cell.classList.remove('apple');
           // celdilla.removeChild(document.querySelector('p'));
-          celdilla.classList.add('pika');
+          celdilla.classList.add('snakeBody');
         }
 
         function snakeGrows() {
           lengthSnake = lengthSnake + 1;
           isEating = true;
-          // plotPika();
         }
-
-        appleDisappears(pos);
         snakeGrows();
+        appleDisappears(pos);
         appearApple();
       }
 
       eatApple(snakeHead);
-      console.log(`Appple eaten at cell ${snakeHead}!`);
+      console.log('Appple eaten!');
     }
   }
 
@@ -197,14 +214,15 @@ function handleKeyPress(event) {
     default:
       console.log('Not an arrow');
   }
+  console.log(`(x,y)=${x},${y}`);
 
   function checkCrash() {
     const checkBody = (elem) => {
       if (elem === snakeHead) {
         function gameOver() {
-          // console.log('Game Over');
+          console.log('Game Over');
         }
-        // console.log(`crash in position ${elem}`);
+        console.log(`crash in position ${elem}`);
         gameOver();
       }
     };
@@ -214,20 +232,7 @@ function handleKeyPress(event) {
   }
   snakeHead = y * width + x;
   checkCrash();
-
-  function updateSnakeBody() {
-    if (!isEating) {
-      const tail = snakePositions.shift();
-      const tailCell = display[tail];
-      tailCell.classList.remove('pika');
-    }
-
-    isEating = false;
-    snakePositions.push(snakeHead);
-  }
-
-  updateSnakeBody();
   checkIfEats();
 
-  plotPika();
+  plotSnake();
 }
