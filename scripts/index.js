@@ -68,13 +68,6 @@ function showWalls() {
 }
 // Showing Pikachu on the cell with coordinates (posx, posy)
 function plotPika() {
-  if (!isEating) {
-    const tail = snakePositions.shift();
-    const tailCell = display[tail];
-    tailCell.classList.remove('pika');
-  }
-  isEating = false;
-  snakePositions.push(snakeHead);
   showSnake(snakePositions);
 }
 
@@ -89,15 +82,14 @@ function showSnake(array) {
 // Function that generates a random position for an apple and shows it on screen
 function appearApple() {
   function generateNumber() {
-    return Math.floor(Math.random() * mapWidth);
+    return 1 + Math.floor(Math.random() * mapWidth);
   }
   // Generate random coordinates for the apple
   let wrongPosition = true;
 
   while (wrongPosition) {
-    applePositionx = 1 + generateNumber();
-
-    applePositiony = 1 + generateNumber();
+    applePositionx = generateNumber();
+    applePositiony = generateNumber();
     applePosition = applePositionx + applePositiony * width;
     wrongPosition = snakePositions.includes(applePosition);
   }
@@ -115,6 +107,9 @@ function appearApple() {
     cell.classList.add('apple');
     celdilla.appendChild(cell);
   }
+
+  console.log(snakePositions);
+  plotPika();
   console.log(`Apple created at position ${applePosition}`);
 }
 
@@ -142,14 +137,16 @@ function handleKeyPress(event) {
         function snakeGrows() {
           lengthSnake = lengthSnake + 1;
           isEating = true;
+          // plotPika();
         }
-        snakeGrows();
+
         appleDisappears(pos);
+        snakeGrows();
         appearApple();
       }
 
       eatApple(snakeHead);
-      console.log('Appple eaten!');
+      console.log(`Appple eaten at cell ${snakeHead}!`);
     }
   }
 
@@ -200,15 +197,14 @@ function handleKeyPress(event) {
     default:
       console.log('Not an arrow');
   }
-  console.log(`(x,y)=${x},${y}`);
 
   function checkCrash() {
     const checkBody = (elem) => {
       if (elem === snakeHead) {
         function gameOver() {
-          console.log('Game Over');
+          // console.log('Game Over');
         }
-        console.log(`crash in position ${elem}`);
+        // console.log(`crash in position ${elem}`);
         gameOver();
       }
     };
@@ -218,6 +214,19 @@ function handleKeyPress(event) {
   }
   snakeHead = y * width + x;
   checkCrash();
+
+  function updateSnakeBody() {
+    if (!isEating) {
+      const tail = snakePositions.shift();
+      const tailCell = display[tail];
+      tailCell.classList.remove('pika');
+    }
+
+    isEating = false;
+    snakePositions.push(snakeHead);
+  }
+
+  updateSnakeBody();
   checkIfEats();
 
   plotPika();
