@@ -331,14 +331,14 @@ h1 {
 .highlightButtonBack {
   background: black;
 }
-button {
+.startButton {
   border: 30px black solid;
   width: 30vh;
   height: 30vh;
   border-radius: 50%;
 }
 
-button:hover {
+.startButton:hover {
   background: radial-gradient(
     rgba(0, 0, 255, 0.5),
     rgba(255, 255, 255, 0.8),
