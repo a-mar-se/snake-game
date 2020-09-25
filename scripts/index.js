@@ -291,10 +291,10 @@ function moveObjects() {
 }
 
 // Head and move direction
-let direction = 'up';
+let direction = 'down';
 
 // Create variables for the grid
-const width = 7;
+const width = 20;
 const mapWidth = width - 2;
 const height = width;
 const celCount = width * height;
