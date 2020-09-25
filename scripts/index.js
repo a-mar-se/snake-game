@@ -161,9 +161,7 @@ function moveObjects() {
   function changeToSafeDirection() {
     moveSnake(directions[(directions.indexOf(direction) + 2) % 4]);
 
-    // plotSnake();
     direction = directions[(directions.indexOf(direction) + 1) % 4];
-    // plotSnake();
   }
 
   // changeToSafeDirection();
@@ -359,7 +357,36 @@ function plotSnake() {
 
   isEating = false;
   snakePositions.push(snakeHead);
+
   showSnake(snakePositions);
+  const snakeHeadVisual = document.querySelector('.snakeHead');
+  let directionRadialBorder = ` `;
+  const dircs = [
+    '4vw 4vw 1vw 1vw',
+    '4vw 1vw 1vw 4vw',
+    '1vw 1vw 4vw 4vw',
+    '1vw 4vw 4vw 1vw',
+  ];
+  switch (direction) {
+    case 'up': {
+      directionRadialBorder = dircs[0];
+      break;
+    }
+    case 'left': {
+      directionRadialBorder = dircs[1];
+      break;
+    }
+    case 'down': {
+      directionRadialBorder = dircs[2];
+      break;
+    }
+    case 'right': {
+      directionRadialBorder = dircs[3];
+      break;
+    }
+  }
+  console.log(directionRadialBorder);
+  snakeHeadVisual.style.setProperty('--directionSnake', directionRadialBorder);
 }
 
 function showSnake(array) {

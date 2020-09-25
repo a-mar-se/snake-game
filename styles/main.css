@@ -170,7 +170,7 @@ h1 {
 .snakeHead {
   width: 90%;
   height: 90%;
-  border-radius: 3vw 3vw 1vw 1vw;
+  border-radius: var(--directionSnake);
   cursor: pointer;
 
   background: radial-gradient(
