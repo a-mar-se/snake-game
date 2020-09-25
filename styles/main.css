@@ -48,7 +48,7 @@ h1 {
 
   box-shadow: 20px 20px lightseagreen;
   display: grid;
-  grid-template: 1fr 1fr /1fr 1fr;
+  grid-template: 1fr 1fr 1fr 1fr/1fr 1fr;
   /* justify-content: center; */
   align-items: center;
   /* align-content: center; */
@@ -58,7 +58,7 @@ h1 {
 .scorePanel div {
   /* border: 1px black solid; */
   min-width: 50%;
-  font-size: xx-large;
+  font-size: xxlarge;
   color: black;
   font-weight: 900;
   text-align: end;
@@ -67,7 +67,9 @@ h1 {
 }
 
 #timer,
-#score {
+#score,
+#lifes,
+#applesEaten {
   text-align: start;
 }
 
