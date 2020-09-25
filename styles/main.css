@@ -171,7 +171,7 @@ h1 {
   /* order: -1; */
   background: red;
 
-  background-image: url('../images/apples.png');
+  background-image: url('../images/normal-apple.png');
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
