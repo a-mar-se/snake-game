@@ -85,9 +85,17 @@ function moveObjects() {
           lengthSnake = lengthSnake + 1;
           isEating = true;
         }
+
+        function addAppleScore() {
+          applesScore = appleScore + 1;
+          score = score + 100;
+          const appleScorePanel = document.querySelector('#applesEaten');
+          appleScorePanel.innerText = appleScore;
+        }
         snakeGrows();
         appleDisappears(pos);
         appearApple();
+        addAppleScore();
       }
 
       eatApple(snakeHead);
