@@ -1,7 +1,7 @@
 * {
   box-sizing: border-box;
   font-size: x-large;
-  color: gray;
+  color: rgb(0, 0, 0);
 }
 
 img {
@@ -15,18 +15,19 @@ picture {
 }
 
 body {
-  background-color: gray;
+  background-color: rgb(157, 170, 180);
   font-size: 100%;
+
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  display: grid;
+  grid-template: 1fr / 1fr;
   /* background-color: aqua; */
 }
 
 * {
   box-sizing: border-box;
-}
-
-body {
-  height: 100vh;
-  margin: 0;
 }
 
 h1 {
@@ -105,7 +106,10 @@ h1 {
   width: 98%;
   height: 98%;
   border-radius: 0;
-  background: black;
+  color: black;
+  background-color: gray;
+
+  box-shadow: 3px 3px rgb(0, 0, 0);
 }
 
 .snakeBody {
@@ -172,4 +176,68 @@ h1 {
   height: 100%;
   border-radius: 50%;
   cursor: pointer;
+}
+
+.neon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 100vw;
+  max-height: 100vh;
+  display: absolute;
+  /* display: inline-flex; */
+  /* filter: brightness(200%); */
+  /* overflow: hidden; */
+  /* border: 10px red solid; */
+}
+.dodge {
+  background: radial-gradient(
+        circle at var(--sunx) var(--suny),
+        rgba(255, 255, 255, 0.8) 0.5%,
+        rgba(255, 255, 25, 0.3) 1.5%,
+        rgba(255, 25, 25, 0.3) 5%,
+        rgba(255, 255, 255, 0.2) 10%,
+        rgba(255, 255, 255, 0.15) 20%,
+        rgba(255, 0, 0, 0.075) 40%,
+        rgba(255, 255, 255, 0.051) 50%,
+        rgba(255, 0, 0, 0.051) 51%,
+        black 75%
+      )
+      center,
+    radial-gradient(
+        circle at var(--shinex) var(--shiney),
+        rgba(255, 255, 255, 0.8) 0.5%,
+        rgba(25, 25, 255, 0.3) 1.5%,
+        rgba(55, 205, 205, 0.2) 10%,
+        black 75%
+      )
+      center,
+    radial-gradient(
+        circle at var(--planetx) var(--planety),
+        white 1%,
+        rgba(55, 205, 205, 0.2) 10%,
+        /* white 30%, */ black 75%
+      )
+      center,
+    linear-gradient(
+      90deg,
+      black,
+      rgba(255, 255, 0, 0.2) var(--shinex),
+      rgba(255, 0, 0, 0.2),
+      rgba(255, 255, 0, 0.2) var(--sunx),
+      rgba(255, 0, 0, 0.2),
+      black
+    );
+
+  /* linear-gradient(blue, red) */
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  right: 0%;
+  bottom: 0%;
+
+  /* transform-origin: 50% 50%; */
+  /* transform: translate(50%, 50%); */
+  mix-blend-mode: color-dodge;
+  /* border: red solid 10px; */
 }
