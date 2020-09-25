@@ -436,38 +436,47 @@ function handleKeyPress(event) {
 
   switch (key) {
     case 'ArrowUp':
-      direction = 'up';
+      if (direction !== 'down') {
+        direction = 'up';
+      }
 
       break;
 
     case 'ArrowDown':
-      direction = 'down';
-
+      if (direction !== 'up') {
+        direction = 'down';
+      }
       break;
     case 'ArrowRight':
-      direction = 'right';
-
+      if (direction !== 'left') {
+        direction = 'right';
+      }
       break;
     case 'ArrowLeft':
-      direction = 'left';
-
+      if (direction !== 'right') {
+        direction = 'left';
+      }
       break;
     case 'w':
-      direction = 'up';
-
+      if (direction !== 'down') {
+        direction = 'up';
+      }
       break;
 
     case 's':
-      direction = 'down';
-
+      if (direction !== 'up') {
+        direction = 'down';
+      }
       break;
     case 'd':
-      direction = 'right';
-
+      if (direction !== 'left') {
+        direction = 'right';
+      }
       break;
     case 'a':
-      direction = 'left';
-
+      if (direction !== 'right') {
+        direction = 'left';
+      }
       break;
     default:
       break;
