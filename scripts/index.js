@@ -67,6 +67,7 @@ const renderTimerTime = () => {
 
 let timeCount = 0;
 
+let attackProgress = 0;
 function moveObjects() {
   function checkIfEats() {
     // const pos = y * width + x;
@@ -155,13 +156,19 @@ function moveObjects() {
   }
 
   const sun = document.querySelector('.dodge');
-  // console.log(sun);
-  // for (let i = 0; i < 100; i++) {
-  //   sunx.push((seconds));
-  //   suny.push((seconds));
-  // }
-  // const sunx = `${seconds + 0.1 * deciSeconds}%`;
+  const attackPanel = document.querySelector('#attackBar > div');
+  console.log(attackPanel);
+  if (attackProgress < 100) {
+    attackProgress = attackProgress + 1;
+  } else {
+    attackPanel.classList.add('full-bar');
+  }
+  const attackProgress2 = attackProgress + 1;
+  const attackProgressValue = `${attackProgress}%`;
+  const attackProgressValue2 = `${attackProgress2}%`;
 
+  attackPanel.style.setProperty('--attackBar', attackProgressValue);
+  attackPanel.style.setProperty('--attackBar2', attackProgressValue2);
   const sunnyPos =
     100 *
     Math.cos(((((seconds + 0.1 * deciSeconds) * 100) / 60) * Math.PI) / 180);
