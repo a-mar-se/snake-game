@@ -1,8 +1,8 @@
 // Initialize the program
 init = () => {
-  startButton.addEventListener('click', initGame);
+  // startButton.addEventListener('click', initGame);
 
-  // initGame();
+  initGame();
 };
 
 initGame = () => {
@@ -182,7 +182,6 @@ function moveObjects() {
       }
     };
     wallsPositions.forEach(checkWall);
-    console.log(snakePositions);
     snakePositions.forEach(checkBody);
   }
 
@@ -283,7 +282,7 @@ function moveObjects() {
 let direction = 'up';
 
 // Create variables for the grid
-const width = 6;
+const width = 20;
 const mapWidth = width - 2;
 const height = width;
 const celCount = width * height;
@@ -385,7 +384,6 @@ function plotSnake() {
       break;
     }
   }
-  console.log(directionRadialBorder);
   snakeHeadVisual.style.setProperty('--directionSnake', directionRadialBorder);
 }
 
