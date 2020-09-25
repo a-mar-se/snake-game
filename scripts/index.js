@@ -1,21 +1,13 @@
 // Initialize the program
 init = () => {
-  function waitForStart() {
-    startButton.addEventListener('click', initGame);
+  startButton.addEventListener('click', initGame);
 
-    // function initBackground() {
-    //   startButtonContainer.classList.remove('.startButtonContainer');
-    //   startButtonContainer.classList.add('.highlightButtonBack');
-    // }
-    // startButton.addEventListener('mouseover', initBackground);
-  }
-
-  // waitForStart();
-  initGame();
+  // initGame();
 };
 
 initGame = () => {
-  startButtonContainer.remove();
+  startButtonContainer.remove('.startButtonContainer');
+  startButton.remove('.startButton');
   showWalls();
 
   plotSnake();
@@ -117,8 +109,6 @@ function moveObjects() {
           const cell = display[pos];
 
           cell.classList.remove('apple');
-          // celdilla.removeChild(document.querySelector('p'));
-          // celdilla.classList.add('snakeBody');
         }
 
         function snakeGrows() {
@@ -127,11 +117,13 @@ function moveObjects() {
         }
 
         function addAppleScore() {
-          applesScore = appleScore + 1;
+          appleScore = appleScore + 1;
           score = score + 100;
           const appleScorePanel = document.querySelector('#applesEaten');
           appleScorePanel.innerText = appleScore;
         }
+        // appleScore = appleScore + 1;
+        // score = score + 100;
         snakeGrows();
         appleDisappears(pos);
         appearApple();
@@ -143,28 +135,44 @@ function moveObjects() {
     }
   }
   function recieveDamage() {
-    function changeToSafeDirection() {
-      moveSnake(directions[(directions.indexOf(direction) + 2) % 4]);
-
-      // plotSnake();
-      direction = directions[(directions.indexOf(direction) + 1) % 4];
-    }
-    changeToSafeDirection();
     console.log('You lost 1 life!');
     lifes = lifes - 1;
     if (lifes <= 0) {
       lifes = 0;
+      // Añadir boton de reset
       console.log('Game Over');
       clearInterval(intervalId);
+
+      const doby = document.querySelector('body');
+      const back = document.createElement('div');
+      back.classList.add('startButtonContainer');
+
+      const botonReset = document.createElement('button');
+      // botonReset.innerText('Restart');
+      botonReset.classList.add('startButton');
+      back.appendChild(botonReset);
+      doby.appendChild(back);
+      return;
     }
     // update lifes
     document.getElementById('lifes').innerText = lifes;
   }
+
+  function changeToSafeDirection() {
+    moveSnake(directions[(directions.indexOf(direction) + 2) % 4]);
+
+    // plotSnake();
+    direction = directions[(directions.indexOf(direction) + 1) % 4];
+    // plotSnake();
+  }
+
+  // changeToSafeDirection();
   function checkCrash() {
     const checkWall = (elem) => {
       if (elem == snakeHead) {
         console.log(`crash with the wall ${elem}`);
         recieveDamage();
+        changeToSafeDirection();
       }
     };
     const checkBody = (elem) => {
@@ -390,7 +398,9 @@ function appearApple() {
   console.log(`Apple created at position ${applePosition}`);
 }
 
+//
 // When pressing a key...
+
 window.addEventListener('keydown', handleKeyPress);
 function handleKeyPress(event) {
   const key = event.key; //
