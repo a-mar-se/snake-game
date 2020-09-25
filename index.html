@@ -13,18 +13,31 @@
       <span class="dodge"></span>
     </div>
     <h1>The Game 1.0</h1>
-    <div class="scorePanel">
-      <div>Time:</div>
-      <div class="scoreValue" id="timer">00:00:00</div>
-      <div>Score:</div>
-      <div class="scoreValue" id="score">0</div>
-      <div>Apples:</div>
-      <div class="scoreValue" id="applesEaten">0</div>
-      <div>Lifes:</div>
-      <div class="scoreValue" id="lifes">0</div>
+    <div class="panels">
+      <div class="scorePanel">
+        <div>Time:</div>
+        <div class="scoreValue" id="timer">00:00:00</div>
+        <div>Score:</div>
+        <div class="scoreValue" id="score">0</div>
+        <div>Apples:</div>
+        <div class="scoreValue" id="applesEaten">0</div>
+      </div>
+      <div class="scorePanel">
+        <div>Lifes:</div>
+        <div class="scoreValue" id="lifes">3</div>
+        <div>Speed:</div>
+        <div class="scoreValue" id="speed">0.5 cells / s</div>
+        <div>Attack:</div>
+        <div class="scoreValue" id="attackBar"><div></div></div></div>
+      </div>
     </div>
+
     <div class="grid-wrapper">
       <div class="grid"></div>
+    </div>
+
+    <div  class="startButtonContainer">
+    <button  class="startButton">Start</button>
     </div>
     <script src="./scripts/index.js"></script>
   </body>

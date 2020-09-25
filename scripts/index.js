@@ -1,24 +1,59 @@
 // Initialize the program
 init = () => {
+  function waitForStart() {
+    startButton.addEventListener('click', initGame);
+
+    // function initBackground() {
+    //   startButtonContainer.classList.remove('.startButtonContainer');
+    //   startButtonContainer.classList.add('.highlightButtonBack');
+    // }
+    // startButton.addEventListener('mouseover', initBackground);
+  }
+
+  waitForStart();
+};
+
+initGame = () => {
+  startButtonContainer.remove();
   showWalls();
 
   plotSnake();
 
   appearApple();
+
+  function initScorePanel() {
+    scorePanel.innerText = score;
+  }
   initScorePanel();
+
+  function intro() {
+    function moveInAll() {
+      const mainBody = document.querySelector('.panels');
+      mainBody.classList.add('moveIn');
+      const gridof = document.querySelector('.grid-wrapper');
+      gridof.classList.add('moveIn');
+    }
+    moveInAll();
+  }
+  intro();
+
+  const startTimer = (event) => {
+    intervalId = setInterval(renderTimerTime, 100);
+  };
+  setTimeout(startTimer, 3000);
 };
 document.addEventListener('DOMContentLoaded', init);
+
+const startButton = document.querySelector('.startButton');
+const startButtonContainer = document.querySelector('.startButtonContainer');
 
 let score = 0;
 let seconds = 0;
 let minutes = 0;
 let hours = 0;
-function initScorePanel() {
-  scorePanel.innerText = score;
-}
 
-scorePanel = document.querySelector('#score');
-timer = document.querySelector('#timer');
+const scorePanel = document.querySelector('#score');
+const timer = document.querySelector('#timer');
 
 // Trying to code a smooth movement
 let count = 0;
@@ -67,6 +102,7 @@ const renderTimerTime = () => {
 
 let timeCount = 0;
 
+let attackProgress = 0;
 function moveObjects() {
   function checkIfEats() {
     // const pos = y * width + x;
@@ -155,13 +191,19 @@ function moveObjects() {
   }
 
   const sun = document.querySelector('.dodge');
-  // console.log(sun);
-  // for (let i = 0; i < 100; i++) {
-  //   sunx.push((seconds));
-  //   suny.push((seconds));
-  // }
-  // const sunx = `${seconds + 0.1 * deciSeconds}%`;
+  const attackPanel = document.querySelector('#attackBar > div');
+  console.log(attackPanel);
+  if (attackProgress < 100) {
+    attackProgress = attackProgress + 1;
+  } else {
+    attackPanel.classList.add('full-bar');
+  }
+  const attackProgress2 = attackProgress + 1;
+  const attackProgressValue = `${attackProgress}%`;
+  const attackProgressValue2 = `${attackProgress2}%`;
 
+  attackPanel.style.setProperty('--attackBar', attackProgressValue);
+  attackPanel.style.setProperty('--attackBar2', attackProgressValue2);
   const sunnyPos =
     100 *
     Math.cos(((((seconds + 0.1 * deciSeconds) * 100) / 60) * Math.PI) / 180);
@@ -195,13 +237,9 @@ function moveObjects() {
 }
 
 let direction = 'up';
-const startTimer = (event) => {
-  intervalId = setInterval(renderTimerTime, 100);
-};
-startTimer();
 
 // Create variables for the grid
-const width = 7;
+const width = 13;
 const mapWidth = width - 2;
 const height = width;
 const celCount = width * height;
@@ -218,7 +256,7 @@ function createGrid() {
     cell.style.setProperty('--heightCSS', widthSize);
 
     const insideCell = document.createElement('p');
-    insideCell.innerText = i;
+    // insideCell.innerText = i;
     cell.appendChild(insideCell);
     grido.appendChild(cell);
   }
