@@ -123,7 +123,10 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(22.5deg, lightgreen, lightseagreen);
+  background-image: linear-gradient(22.5deg, lightgreen, lightseagreen);
+  background-color: silver;
+
+  /* background-size: 100px 50px; */
 }
 
 .wall {
@@ -134,6 +137,13 @@ h1 {
   background-color: gray;
 
   box-shadow: 3px 3px rgb(0, 0, 0);
+  background-color: silver;
+  background-image: linear-gradient(335deg, #b00 23px, transparent 23px),
+    linear-gradient(155deg, #d00 23px, transparent 23px),
+    linear-gradient(335deg, #b00 23px, transparent 23px),
+    linear-gradient(155deg, #d00 23px, transparent 23px);
+  background-size: 58px 58px;
+  background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
 }
 
 .snakeBody {

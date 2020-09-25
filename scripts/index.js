@@ -29,6 +29,7 @@ initGame = () => {
     moveInAll();
   }
   intro();
+  showShop();
 
   const startTimer = (event) => {
     const renderTimerTime = () => {
@@ -334,6 +335,10 @@ let applePosition = 0;
 let applePositionx = 0;
 let applePositiony = 0;
 
+function showShop() {
+  const cell = display[shopPosition];
+  cell.innerHTML = 'SHOP';
+}
 const speedPanel = document.getElementById('speed');
 function displaySpeed() {
   console.log(speedPanel);
@@ -345,12 +350,15 @@ function showWalls() {
     for (let j = 0; j < width; j++) {
       if (i === 0 || i === width - 1 || j === 0 || j === width - 1) {
         const wallPosition = j * width + i;
-        if (i !== 0 || j !== 0) {
+        if (j === 0 && i === Math.floor(width / 2)) {
+          shopPosition = wallPosition;
+        } else {
           wallsPositions.push(wallPosition);
         }
       }
     }
   }
+
   wallsPositions.forEach(showWalls);
   function showWalls(cellNumber) {
     const cell = display[cellNumber];
