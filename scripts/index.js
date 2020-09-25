@@ -66,7 +66,48 @@ const renderTimerTime = () => {
 };
 
 let timeCount = 0;
+
 function moveObjects() {
+  function checkIfEats() {
+    // const pos = y * width + x;
+
+    if (snakeHead === applePosition) {
+      function eatApple(pos) {
+        function appleDisappears(pos) {
+          const cell = display[pos];
+
+          cell.classList.remove('apple');
+          // celdilla.removeChild(document.querySelector('p'));
+          // celdilla.classList.add('snakeBody');
+        }
+
+        function snakeGrows() {
+          lengthSnake = lengthSnake + 1;
+          isEating = true;
+        }
+        snakeGrows();
+        appleDisappears(pos);
+        appearApple();
+      }
+
+      eatApple(snakeHead);
+      console.log('Appple eaten!');
+    }
+  }
+  function checkCrash() {
+    const checkBody = (elem) => {
+      if (elem === snakeHead) {
+        function gameOver() {
+          console.log('Game Over');
+        }
+        console.log(`crash in position ${elem}`);
+        gameOver();
+      }
+    };
+
+    snakePositions.forEach(checkBody);
+    wallsPositions.forEach(checkBody);
+  }
   function moveSnake(direction) {
     switch (direction) {
       case 'up':
@@ -97,54 +138,52 @@ function moveObjects() {
   if (timeCount === speed) {
     moveSnake(direction);
     timeCount = 0;
+
+    snakeHead = y * width + x;
+
+    plotSnake();
+    checkCrash();
+    checkIfEats();
   }
 
-  function checkIfEats() {
-    // const pos = y * width + x;
+  const sun = document.querySelector('.dodge');
+  // console.log(sun);
+  // for (let i = 0; i < 100; i++) {
+  //   sunx.push((seconds));
+  //   suny.push((seconds));
+  // }
+  // const sunx = `${seconds + 0.1 * deciSeconds}%`;
 
-    if (snakeHead === applePosition) {
-      function eatApple(pos) {
-        function appleDisappears(pos) {
-          const cell = display[pos];
-
-          cell.classList.remove('apple');
-          // celdilla.removeChild(document.querySelector('p'));
-          // celdilla.classList.add('snakeBody');
-        }
-
-        function snakeGrows() {
-          lengthSnake = lengthSnake + 1;
-          isEating = true;
-        }
-        snakeGrows();
-        appleDisappears(pos);
-        appearApple();
-      }
-
-      eatApple(snakeHead);
-      console.log('Appple eaten!');
-    }
-  }
-
-  function checkCrash() {
-    const checkBody = (elem) => {
-      if (elem === snakeHead) {
-        function gameOver() {
-          console.log('Game Over');
-        }
-        console.log(`crash in position ${elem}`);
-        gameOver();
-      }
-    };
-
-    snakePositions.forEach(checkBody);
-    wallsPositions.forEach(checkBody);
-  }
-  snakeHead = y * width + x;
-
-  plotSnake();
-  checkCrash();
-  checkIfEats();
+  const sunnyPos =
+    100 *
+    Math.cos(((((seconds + 0.1 * deciSeconds) * 100) / 60) * Math.PI) / 180);
+  const sunnxPos =
+    100 *
+    Math.sin(((((seconds + 0.1 * deciSeconds) * 100) / 60) * Math.PI) / 180);
+  const sunx = `${sunnxPos}%`;
+  const shinex = `${
+    100 *
+      Math.sin(((((seconds + 0.1 * deciSeconds) * 100) / 60) * Math.PI) / 180) -
+    2.25
+  }%`;
+  const suny = `${sunnyPos}%`;
+  const shiney = `${
+    100 *
+      Math.cos(((((seconds + 0.1 * deciSeconds) * 100) / 60) * Math.PI) / 180) +
+    2.5 * (((seconds + 0.1 * deciSeconds) * 100) / 60)
+  }%`;
+  // const planetx = `${sunnyPos + 0}%`;
+  // const planety = `${sunnyPos}%`;
+  const planetx = `${sunnxPos - (sunnxPos / 100) * 30}%`;
+  const planety = `${sunnyPos - (sunnyPos / 100) * 30}%`;
+  sun.style.setProperty('--sunx', sunx);
+  sun.style.setProperty('--suny', suny);
+  sun.style.setProperty('--shinex', shinex);
+  sun.style.setProperty('--shiney', shiney);
+  sun.style.setProperty('--planetx', planetx);
+  sun.style.setProperty('--planety', planety);
+  // sun.style.setProperty('--sunx', );
+  // sun.style.setProperty('--suny', `${Math.cos(seconds * 60)}%`);
 }
 
 let direction = 'up';
