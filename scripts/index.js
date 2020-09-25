@@ -35,7 +35,7 @@ initGame = () => {
       deciSeconds = deciSeconds + 1;
       // seconds = seconds + 0.1;
       let timeString = ``;
-      if (deciSeconds === 10) {
+      if (deciSeconds === 100) {
         seconds = seconds + 1;
         deciSeconds = 0;
         if (seconds === 60) {
@@ -65,12 +65,14 @@ initGame = () => {
         timeString = timeString.concat(`:${seconds} `);
       }
 
-      score = score + 1;
-      timer.innerText = timeString;
-      scorePanel.innerText = score;
+      if (deciSeconds % 10 === 0) {
+        score = score + 1;
+        timer.innerText = timeString;
+        scorePanel.innerText = score;
+      }
       moveObjects();
     };
-    intervalId = setInterval(renderTimerTime, 100);
+    intervalId = setInterval(renderTimerTime, 10);
   };
   setTimeout(startTimer, 1000);
 };
@@ -122,12 +124,20 @@ function moveObjects() {
           const appleScorePanel = document.querySelector('#applesEaten');
           appleScorePanel.innerText = appleScore;
         }
+
+        function increaseSpeed() {
+          if (speed > 0.1) {
+            speed = speed - 1;
+          }
+          displaySpeed();
+        }
         // appleScore = appleScore + 1;
         // score = score + 100;
         snakeGrows();
         appleDisappears(pos);
         appearApple();
         addAppleScore();
+        increaseSpeed();
       }
 
       eatApple(snakeHead);
@@ -211,7 +221,8 @@ function moveObjects() {
         break;
     }
   }
-  timeCount = timeCount + 0.1;
+  displaySpeed();
+  timeCount = timeCount + 1;
   if (timeCount === speed) {
     moveSnake(direction);
     timeCount = 0;
@@ -282,7 +293,7 @@ function moveObjects() {
 let direction = 'up';
 
 // Create variables for the grid
-const width = 20;
+const width = 7;
 const mapWidth = width - 2;
 const height = width;
 const celCount = width * height;
@@ -313,7 +324,7 @@ const display = Array.from(document.querySelectorAll('.grid > div>p'));
 let y = Math.floor(width / 2);
 let x = Math.floor(width / 2);
 let snakeHead = y * width + x;
-let speed = 0.5;
+let speed = 20;
 let lengthSnake = 1;
 const snakePositions = [snakeHead];
 snakePositions.push(snakeHead);
@@ -323,6 +334,11 @@ let applePosition = 0;
 let applePositionx = 0;
 let applePositiony = 0;
 
+const speedPanel = document.getElementById('speed');
+function displaySpeed() {
+  console.log(speedPanel);
+  speedPanel.innerHTML = speed;
+}
 function showWalls() {
   // Define the walls positions
   for (let i = 0; i < width; i++) {
