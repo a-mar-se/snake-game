@@ -1,24 +1,59 @@
 // Initialize the program
 init = () => {
+  function waitForStart() {
+    startButton.addEventListener('click', initGame);
+
+    // function initBackground() {
+    //   startButtonContainer.classList.remove('.startButtonContainer');
+    //   startButtonContainer.classList.add('.highlightButtonBack');
+    // }
+    // startButton.addEventListener('mouseover', initBackground);
+  }
+
+  waitForStart();
+};
+
+initGame = () => {
+  startButtonContainer.remove();
   showWalls();
 
   plotSnake();
 
   appearApple();
+
+  function initScorePanel() {
+    scorePanel.innerText = score;
+  }
   initScorePanel();
+
+  function intro() {
+    function moveInAll() {
+      const mainBody = document.querySelector('.panels');
+      mainBody.classList.add('moveIn');
+      const gridof = document.querySelector('.grid-wrapper');
+      gridof.classList.add('moveIn');
+    }
+    moveInAll();
+  }
+  intro();
+
+  const startTimer = (event) => {
+    intervalId = setInterval(renderTimerTime, 100);
+  };
+  setTimeout(startTimer, 3000);
 };
 document.addEventListener('DOMContentLoaded', init);
+
+const startButton = document.querySelector('.startButton');
+const startButtonContainer = document.querySelector('.startButtonContainer');
 
 let score = 0;
 let seconds = 0;
 let minutes = 0;
 let hours = 0;
-function initScorePanel() {
-  scorePanel.innerText = score;
-}
 
-scorePanel = document.querySelector('#score');
-timer = document.querySelector('#timer');
+const scorePanel = document.querySelector('#score');
+const timer = document.querySelector('#timer');
 
 // Trying to code a smooth movement
 let count = 0;
@@ -202,13 +237,9 @@ function moveObjects() {
 }
 
 let direction = 'up';
-const startTimer = (event) => {
-  intervalId = setInterval(renderTimerTime, 100);
-};
-startTimer();
 
 // Create variables for the grid
-const width = 7;
+const width = 13;
 const mapWidth = width - 2;
 const height = width;
 const celCount = width * height;
@@ -225,7 +256,7 @@ function createGrid() {
     cell.style.setProperty('--heightCSS', widthSize);
 
     const insideCell = document.createElement('p');
-    insideCell.innerText = i;
+    // insideCell.innerText = i;
     cell.appendChild(insideCell);
     grido.appendChild(cell);
   }

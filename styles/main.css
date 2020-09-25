@@ -72,15 +72,25 @@ h1 {
 
 .grid-wrapper {
   height: 100vh;
-  display: flex;
+  width: 100vw;
+  position: absolute;
+
+  left: -100vw;
+  top: 0%;
+  /* left: 50vw; */
+  /* display: flex; */
   justify-content: center;
   align-items: center;
+  /* border: 10px black solid; */
 }
 
 .panels {
   position: absolute;
   left: 0;
   top: 0;
+
+  left: -100vw;
+  top: 0%;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -93,11 +103,14 @@ h1 {
   align-items: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
   display: flex;
+  position: absolute;
+  left: 30%;
+  top: 10%;
   flex-wrap: wrap;
-  height: 100%;
+  /* height: 100%; */
   justify-content: center;
-  height: 600px;
-  width: 600px;
+  height: 80%;
+  width: 40%;
 }
 
 .grid div {
@@ -287,4 +300,49 @@ h1 {
     transform: scale(1.5);
     background: blueviolet;
   }
+}
+
+.moveIn {
+  position: absolute;
+  animation: movein 3s ease-in-out;
+  animation-fill-mode: forwards;
+}
+@keyframes movein {
+  0% {
+    left: -100vw;
+    top: 0%;
+  }
+  100% {
+    left: 0%;
+    top: 0%;
+  }
+}
+
+.startButtonContainer {
+  width: 100%;
+  height: 100%;
+  border: 1px black solid;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.5));
+}
+.highlightButtonBack {
+  background: black;
+}
+button {
+  border: 30px black solid;
+  width: 30vh;
+  height: 30vh;
+  border-radius: 50%;
+}
+
+button:hover {
+  background: radial-gradient(
+    rgba(0, 0, 255, 0.5),
+    rgba(255, 255, 255, 0.8),
+    rgba(0, 0, 0, 0.5)
+  );
+  background: darkorange;
 }
