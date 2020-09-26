@@ -257,15 +257,15 @@ function moveObjects() {
     const sun = document.querySelector('.dodge');
     const sunnyPos =
       100 *
-      Math.cos(((((seconds + 0.1 * deciSeconds) * 100) / 60) * Math.PI) / 180);
+      Math.cos(((((seconds + 0.01 * deciSeconds) * 100) / 60) * Math.PI) / 10);
     const sunnxPos =
       100 *
-      Math.sin(((((seconds + 0.1 * deciSeconds) * 100) / 60) * Math.PI) / 180);
+      Math.sin(((((seconds + 0.01 * deciSeconds) * 100) / 60) * Math.PI) / 10);
     const sunx = `${sunnxPos}%`;
     const shinex = `${
       100 *
         Math.sin(
-          ((((seconds + 0.1 * deciSeconds) * 100) / 60) * Math.PI) / 180,
+          ((((seconds + 0.01 * deciSeconds) * 100) / 60) * Math.PI) / 180,
         ) -
       2.25
     }%`;
@@ -273,9 +273,9 @@ function moveObjects() {
     const shiney = `${
       100 *
         Math.cos(
-          ((((seconds + 0.1 * deciSeconds) * 100) / 60) * Math.PI) / 180,
+          ((((seconds + 0.01 * deciSeconds) * 100) / 60) * Math.PI) / 10,
         ) +
-      2.5 * (((seconds + 0.1 * deciSeconds) * 100) / 60)
+      2.5 * (((seconds + 0.01 * deciSeconds) * 100) / 60)
     }%`;
 
     const planetx = `${sunnxPos - (sunnxPos / 100) * 30}%`;
