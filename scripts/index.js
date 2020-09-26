@@ -127,9 +127,8 @@ function moveObjects() {
         }
 
         function increaseSpeed() {
-          if (speed > 0.1) {
-            speed = speed - 1;
-          }
+          speed = speed + 0.1;
+
           displaySpeed();
         }
         // appleScore = appleScore + 1;
@@ -224,7 +223,7 @@ function moveObjects() {
   }
   displaySpeed();
   timeCount = timeCount + 1;
-  if (timeCount === speed) {
+  if (timeCount === Math.floor(10 / speed)) {
     moveSnake(direction);
     timeCount = 0;
 
@@ -325,7 +324,7 @@ const display = Array.from(document.querySelectorAll('.grid > div>p'));
 let y = Math.floor(width / 2);
 let x = Math.floor(width / 2);
 let snakeHead = y * width + x;
-let speed = 20;
+let speed = 0.5;
 let lengthSnake = 1;
 const snakePositions = [snakeHead];
 snakePositions.push(snakeHead);
@@ -342,7 +341,7 @@ function showShop() {
 const speedPanel = document.getElementById('speed');
 function displaySpeed() {
   console.log(speedPanel);
-  speedPanel.innerHTML = speed;
+  speedPanel.innerHTML = Math.round(speed * 10) / 10;
 }
 function showWalls() {
   // Define the walls positions
