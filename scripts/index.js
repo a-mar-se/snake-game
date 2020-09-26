@@ -29,50 +29,8 @@ initGame = () => {
     moveInAll();
   }
   intro();
-  showShop();
 
   const startTimer = (event) => {
-    const renderTimerTime = () => {
-      deciSeconds = deciSeconds + 1;
-      // seconds = seconds + 0.1;
-      let timeString = ``;
-      if (deciSeconds === 100) {
-        seconds = seconds + 1;
-        deciSeconds = 0;
-        if (seconds === 60) {
-          seconds = 0;
-          minutes = minutes + 1;
-          if (minutes === 60) {
-            minutes = 0;
-            hours = hours + 1;
-          }
-        }
-      }
-      if (hours < 10) {
-        timeString = timeString.concat(`0${hours} `);
-      } else {
-        timeString = `${timeString}${hourse} `;
-      }
-
-      if (minutes < 10) {
-        timeString = `${timeString}:0${minutes} `;
-      } else {
-        timeString = `${timeString}:${minutes} `;
-      }
-
-      if (seconds < 10) {
-        timeString = timeString.concat(`:0${seconds} `);
-      } else {
-        timeString = timeString.concat(`:${seconds} `);
-      }
-
-      if (deciSeconds % 10 === 0) {
-        score = score + 1;
-        timer.innerText = timeString;
-        scorePanel.innerText = score;
-      }
-      moveObjects();
-    };
     intervalId = setInterval(renderTimerTime, 10);
   };
   setTimeout(startTimer, 1000);
@@ -81,9 +39,49 @@ document.addEventListener('DOMContentLoaded', init);
 
 const startButton = document.querySelector('.startButton');
 const startButtonContainer = document.querySelector('.startButtonContainer');
+const renderTimerTime = () => {
+  deciSeconds = deciSeconds + 1;
+  // seconds = seconds + 0.1;
+  let timeString = ``;
+  if (deciSeconds === 100) {
+    seconds = seconds + 1;
+    deciSeconds = 0;
+    if (seconds === 60) {
+      seconds = 0;
+      minutes = minutes + 1;
+      if (minutes === 60) {
+        minutes = 0;
+        hours = hours + 1;
+      }
+    }
+  }
+  if (hours < 10) {
+    timeString = timeString.concat(`0${hours} `);
+  } else {
+    timeString = `${timeString}${hourse} `;
+  }
 
+  if (minutes < 10) {
+    timeString = `${timeString}:0${minutes} `;
+  } else {
+    timeString = `${timeString}:${minutes} `;
+  }
+
+  if (seconds < 10) {
+    timeString = timeString.concat(`:0${seconds} `);
+  } else {
+    timeString = timeString.concat(`:${seconds} `);
+  }
+
+  if (deciSeconds % 10 === 0) {
+    score = score + 1;
+    timer.innerText = timeString;
+    scorePanel.innerText = score;
+  }
+  moveObjects();
+};
 let playing = true;
-let lifes = 3;
+let lifes = 30;
 let score = 0;
 let seconds = 0;
 let minutes = 0;
@@ -164,8 +162,49 @@ function moveObjects() {
       doby.appendChild(back);
       return;
     }
-    // update lifes
+    // update lifes on screen
     document.getElementById('lifes').innerText = lifes;
+
+    function resetSnakePosition() {
+      const cell = display[snakeHead];
+
+      cell.classList.remove('snakeHead');
+      for (let ii = 0; ii < snakePositions.length - 1; ii++) {
+        const cellr = display[snakePositions[ii]];
+        console.log(snakePositions[ii]);
+        console.log(ii);
+        cellr.classList.remove('snakeBody');
+        // }
+      }
+      for (let i = 0; i < lengthSnake; i++) {
+        snakePositions.shift();
+      }
+
+      x = 1;
+      y = width / 2;
+      snakeHead = x + y * width;
+      snakePositions.push(snakeHead);
+      console.log(snakePositions);
+      direction = 'right';
+      // showSnake();
+    }
+    resetSnakePosition();
+    const cell = display[snakeHead];
+    showSnakeReset();
+    function showSnakeReset() {
+      cell.classList.add('snakeHead');
+      cell.classList.add('flick');
+    }
+
+    clearInterval(intervalId);
+    setTimeout(restartTimer, 1000);
+
+    function restartTimer() {
+      intervalId = setInterval(renderTimerTime, 10);
+      // startTimer();
+      console.log('resiti');
+      cell.classList.remove('flick');
+    }
   }
 
   function changeToSafeDirection() {
@@ -180,7 +219,7 @@ function moveObjects() {
       if (elem == snakeHead) {
         console.log(`crash with the wall ${elem}`);
         recieveDamage();
-        changeToSafeDirection();
+        // changeToSafeDirection();
       }
     };
     const checkBody = (elem) => {
@@ -195,7 +234,7 @@ function moveObjects() {
     snakePositions.forEach(checkBody);
   }
 
-  function moveSnake(direction) {
+  function moveSnake() {
     switch (direction) {
       case 'up':
         if (y > 0) {
@@ -224,6 +263,7 @@ function moveObjects() {
   displaySpeed();
   timeCount = timeCount + 1;
   if (timeCount === Math.floor(10 / speed)) {
+    keyJustPressed = false;
     moveSnake(direction);
     timeCount = 0;
 
@@ -290,7 +330,7 @@ function moveObjects() {
 }
 
 // Head and move direction
-let direction = 'down';
+let direction = 'right';
 
 // Create variables for the grid
 const width = 20;
@@ -322,7 +362,7 @@ const display = Array.from(document.querySelectorAll('.grid > div>p'));
 
 // Creating position coordinates
 let y = Math.floor(width / 2);
-let x = Math.floor(width / 2);
+let x = 1;
 let snakeHead = y * width + x;
 let speed = 0.5;
 let lengthSnake = 1;
@@ -333,6 +373,7 @@ let isEating = false;
 let applePosition = 0;
 let applePositionx = 0;
 let applePositiony = 0;
+let keyJustPressed = false;
 
 function showShop() {
   const cell = display[shopPosition];
@@ -340,8 +381,7 @@ function showShop() {
 }
 const speedPanel = document.getElementById('speed');
 function displaySpeed() {
-  console.log(speedPanel);
-  speedPanel.innerHTML = Math.round(speed * 10) / 10;
+  speedPanel.innerHTML = `${Math.round(speed * 10) / 10} cells / s`;
 }
 function showWalls() {
   // Define the walls positions
@@ -358,12 +398,14 @@ function showWalls() {
     }
   }
 
-  wallsPositions.forEach(showWalls);
-  function showWalls(cellNumber) {
+  function showWall(cellNumber) {
     const cell = display[cellNumber];
 
     cell.classList.add('wall');
   }
+  wallsPositions.forEach(showWall);
+
+  showShop();
 }
 // Showing Pikachu on the cell with coordinates (posx, posy)
 function plotSnake() {
@@ -454,52 +496,54 @@ function handleKeyPress(event) {
   const key = event.key; //
   // const { key } = event;  // crea una constante llamada
   // key que va a coger una propiedad de event con el mismo nombre
+  if (!keyJustPressed) {
+    switch (key) {
+      case 'ArrowUp':
+        if (direction !== 'down') {
+          direction = 'up';
+        }
 
-  switch (key) {
-    case 'ArrowUp':
-      if (direction !== 'down') {
-        direction = 'up';
-      }
+        break;
 
-      break;
+      case 'ArrowDown':
+        if (direction !== 'up') {
+          direction = 'down';
+        }
+        break;
+      case 'ArrowRight':
+        if (direction !== 'left') {
+          direction = 'right';
+        }
+        break;
+      case 'ArrowLeft':
+        if (direction !== 'right') {
+          direction = 'left';
+        }
+        break;
+      case 'w':
+        if (direction !== 'down') {
+          direction = 'up';
+        }
+        break;
 
-    case 'ArrowDown':
-      if (direction !== 'up') {
-        direction = 'down';
-      }
-      break;
-    case 'ArrowRight':
-      if (direction !== 'left') {
-        direction = 'right';
-      }
-      break;
-    case 'ArrowLeft':
-      if (direction !== 'right') {
-        direction = 'left';
-      }
-      break;
-    case 'w':
-      if (direction !== 'down') {
-        direction = 'up';
-      }
-      break;
-
-    case 's':
-      if (direction !== 'up') {
-        direction = 'down';
-      }
-      break;
-    case 'd':
-      if (direction !== 'left') {
-        direction = 'right';
-      }
-      break;
-    case 'a':
-      if (direction !== 'right') {
-        direction = 'left';
-      }
-      break;
-    default:
-      break;
+      case 's':
+        if (direction !== 'up') {
+          direction = 'down';
+        }
+        break;
+      case 'd':
+        if (direction !== 'left') {
+          direction = 'right';
+        }
+        break;
+      case 'a':
+        if (direction !== 'right') {
+          direction = 'left';
+        }
+        break;
+      default:
+        break;
+    }
+    keyJustPressed = true;
   }
 }
