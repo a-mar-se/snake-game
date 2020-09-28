@@ -4,7 +4,6 @@ function gameOverAnimation() {
   const doby = document.querySelector('body');
   doby.appendChild(panel);
   panel.classList.add('gameOverPanel');
-  console.log(panel);
 }
 
 // document.addEventListener('DOMContentLoaded', init);
