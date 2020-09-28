@@ -3,18 +3,6 @@
 const startButton = document.querySelector('.startButton');
 const startButtonContainer = document.querySelector('.startButtonContainer');
 function init() {
-  // startButtonContainer.classList.add('startButtonContainer');
-  // startButton.classList.add('startButton');
-  // startButton.innerHTML = 'Start';
-  // const doby = document.querySelector('body');
-
-  // startButtonContainer.appendChild(startButton);
-
-  // doby.appendChild(startButtonContainer);
-  // console.log('Starting environment');
-  // const startButton = document.querySelector('.startButton');
-  // const startButtonContainer = document.querySelector('.startButtonContainer');
-
   // Click the button or press "Enter" or "SpaceBar" to start
   startButton.addEventListener('click', execGame);
   window.addEventListener('keydown', handleKeyPress);
