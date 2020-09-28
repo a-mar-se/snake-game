@@ -52,7 +52,7 @@ function initGame() {
   let direction = 'right';
 
   // Create variables for the grid
-  const width = 20;
+  const width = 10;
   const mapWidth = width - 2;
   const height = width;
   const celCount = width * height;
@@ -62,6 +62,14 @@ function initGame() {
   const wallsPositions = [0];
 
   let lifes = 1;
+
+  let lifesDisp = ``;
+  for (let i = 0; i < lifes; i++) {
+    lifesDisp = lifesDisp + '❤';
+  }
+  document.getElementById('lifes').innerText = lifesDisp;
+
+  let reseting = false;
   let score = 0;
   let seconds = 0;
   let minutes = 0;
@@ -148,6 +156,9 @@ function initGame() {
   }
 
   function moveSnake() {
+    var snakeSound = document.getElementById('snakeMove');
+    snakeSound.play();
+
     switch (direction) {
       case 'up':
         if (y > 0) {
@@ -174,13 +185,22 @@ function initGame() {
     }
 
     function recieveDamage() {
-      console.log('You lost 1 life!');
+      console.log('- ❤');
       lifes = lifes - 1;
-      document.getElementById('lifes').innerText = lifes;
+      let lifesDisp = ``;
+      for (let i = 0; i < lifes; i++) {
+        lifesDisp = lifesDisp + '❤';
+      }
+      document.getElementById('lifes').innerText = lifesDisp;
+      document.getElementById('lifes').classList.add('flick');
+      // document.getElementById('lifes').classList.remove('flick');
 
       clearInterval(intervalId);
       // Game over
+
       if (lifes <= 0) {
+        var gameOverSound = document.getElementById('gameOverSound');
+        gameOverSound.play();
         lifes = 0;
         // Añadir boton de reset
         console.log('Game Over');
@@ -189,7 +209,6 @@ function initGame() {
         // clearTimeout(gameRunning);
 
         window.removeEventListener('keydown', handleKeyPress);
-        // console.log('timer stops');
       }
       // Loose one life
       else {
@@ -199,8 +218,7 @@ function initGame() {
           cell.classList.remove('snakeHead');
           for (let ii = 0; ii < snakePositions.length - 1; ii++) {
             const cellr = display[snakePositions[ii]];
-            console.log(snakePositions[ii]);
-            console.log(ii);
+
             cellr.classList.remove('snakeBody');
             // }
           }
@@ -209,32 +227,35 @@ function initGame() {
           }
 
           x = 1;
-          y = width / 2;
+          y = parseInt(width / 2);
           snakeHead = x + y * width;
+
+          // for (let i = 0; i < lengthSnake; i++) {
           snakePositions.push(snakeHead);
-          console.log(snakePositions);
+          // }
+
+          // snakePositions.push(snakeHead);
           direction = 'right';
           // showSnake();
         }
         function showSnakeReset() {
-          cell.classList.add('snakeHead');
-          cell.classList.add('flick');
+          const resetCell = display[snakeHead];
+          resetCell.classList.add('snakeHead');
+          resetCell.classList.add('flick');
         }
 
         function restartTimer() {
           intervalId = setInterval(renderTimerTime, 10);
-          // startTimer();
-          console.log('resiti');
-          cell.classList.remove('flick');
+
+          const resetCell = display[snakeHead];
+          resetCell.classList.remove('flick');
+          document.getElementById('lifes').classList.remove('flick');
         }
         resetSnakePosition();
-        const cell = display[snakeHead];
+        // const cell = display[snakeHead];
         showSnakeReset();
-
         setTimeout(restartTimer, 1000);
       }
-
-      // console.log('timer stops');
     }
 
     function checkCrash() {
@@ -296,6 +317,13 @@ function initGame() {
           appearApple();
           addAppleScore();
           increaseSpeed();
+
+          // Condition for winning: when the snake occupies 1/3 of all available cells
+          if (lengthSnake >= parseInt(mapCount / 3)) {
+            console.log('You won!');
+            console.log(lengthSnake, mapCount);
+            console.log(`${parseInt(mapCount / 3)} apples eaten. You won!`);
+          }
         }
 
         eatApple(snakeHead);
@@ -311,7 +339,6 @@ function initGame() {
     plotSnake();
     checkIfEats();
     checkCrash();
-    console.log(x, y);
   }
   // Generates a grid with the dimensions provided
   function createGrid() {
@@ -335,7 +362,7 @@ function initGame() {
   let y = Math.floor(width / 2);
   let x = 1;
   let snakeHead = y * width + x;
-  let speed = 0.5;
+  let speed = 0.25;
   let lengthSnake = 1;
   const snakePositions = [snakeHead];
   snakePositions.push(snakeHead);
@@ -429,11 +456,12 @@ function initGame() {
   function showSnake(array) {
     array.forEach(showBody);
     function showBody(cellNumber) {
-      const cell = display[cellNumber];
+      // console.log(`Cell Number : ${cellNumber}`);
+      const celly = display[cellNumber];
       if (cellNumber === array[array.length - 1]) {
-        cell.classList.add('snakeHead');
+        celly.classList.add('snakeHead');
       } else {
-        cell.classList.add('snakeBody');
+        celly.classList.add('snakeBody');
       }
     }
   }
@@ -459,6 +487,10 @@ function initGame() {
 
     // Create new element to show on top of the field
     cell.classList.add('apple');
+    cell.classList.add('flick');
+
+    setTimeout(() => cell.classList.remove('flick'), 1000);
+
     console.log(`Apple created at position ${applePosition}`);
   }
 

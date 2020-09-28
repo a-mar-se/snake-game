@@ -178,7 +178,7 @@ h1 {
         rgb(167, 21, 167) 95%,
         blue
       );
-  background-size: 10px 10px;
+  background-size: 8px 8px;
 }
 
 .snakeHead {
@@ -347,8 +347,9 @@ h1 {
 }
 .startButton {
   border: 30px black solid;
-  width: 30vh;
-  height: 30vh;
+  /* width: 30vh;
+  height: 30vh; */
+  padding: 2vh 2vw;
   border-radius: 50%;
 }
 
@@ -367,6 +368,6 @@ h1 {
 
 @keyframes anini {
   50% {
-    transform: scale(1.5);
+    transform: scale(2);
   }
 }

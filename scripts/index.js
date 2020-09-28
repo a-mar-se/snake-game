@@ -6,9 +6,20 @@ function init() {
   console.log('Starting environment');
   const startButton = document.querySelector('.startButton');
 
+  // Click the button or press "Enter" or "SpaceBar" to start
   startButton.addEventListener('click', execGame);
+  window.addEventListener('keydown', handleKeyPress);
+
+  function handleKeyPress(event) {
+    const key = event.key; //
+
+    if (key == 'Enter' || key == ' ') {
+      execGame();
+    }
+  }
   function execGame() {
-    startButton.removeEventListener('click', initGame);
+    startButton.removeEventListener('click', execGame);
+    startButton.removeEventListener('keydown', handleKeyPress);
     const winning = initGame();
 
     console.log(winning);
@@ -23,12 +34,4 @@ function init() {
   }
 }
 
-// init();
 document.addEventListener('DOMContentLoaded', init);
-
-// const startButton = document.createElement('button');
-// const startButtonContainer = document.createElement('div');
-// startButton.classList.add('startButton');
-// startButtonContainer.appendChild(startButton);
-// const doby = document.querySelector('body');
-// doby.appendChild(startButtonContainer);
