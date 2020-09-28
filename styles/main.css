@@ -338,7 +338,7 @@ h1 {
   border: 1px black solid;
   position: absolute;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   background: radial-gradient(rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.5));
 }
@@ -353,6 +353,10 @@ h1 {
   border-radius: 50%;
 }
 
+button {
+  height: 20vh;
+  width: 20vw;
+}
 .startButton:hover {
   background: radial-gradient(
     rgba(0, 0, 255, 0.5),
@@ -395,6 +399,6 @@ h1 {
   }
   100% {
     opacity: 100%;
-    transform: scale(200%);
+    transform: scale(100%);
   }
 }
