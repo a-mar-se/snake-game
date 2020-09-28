@@ -7,6 +7,15 @@
 
     <link rel="stylesheet" href="./styles/normalize.css" />
     <link rel="stylesheet" href="./styles/main.css" />
+
+    <audio src="./sounds/wall-crash.wav" id="wallSound"></audio>
+
+    <audio src="./sounds/apple-eat.wav" id="appleSound"></audio>
+
+    <audio src="./sounds/move-snake.wav" id="snakeMove"></audio>
+
+    <audio src="./sounds/snake-crash.wav" id="snakeSound"></audio>
+    <audio src="./sounds/game-over-sound.wav" id="gameOverSound"></audio>
   </head>
   <body>
     <div class="neon-wraper">
@@ -24,7 +33,7 @@
       </div>
       <div class="scorePanel">
         <div>Lifes:</div>
-        <div class="scoreValue" id="lifes">3</div>
+        <div class="scoreValue" id="lifes"></div>
         <div>Speed:</div>
         <div class="scoreValue" id="speed"></div>
         <div>Attack:</div>
@@ -37,7 +46,10 @@
     </div>
 
     <div class="startButtonContainer">
-      <button class="startButton">Start</button>
+      <button class="startButton">
+        Start
+        <p>Press Enter, Spacebar or click here</p>
+      </button>
     </div>
 
     <script src="./scripts/index.js" type="module"></script>
