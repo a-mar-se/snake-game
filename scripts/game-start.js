@@ -1,11 +1,11 @@
+import { sunMove } from './sunmove.js';
+import { init } from './index.js';
 let winning = false;
 let playing = true;
 function initGame() {
-  const startButton = document.querySelector('.startButton');
-  const startButtonContainer = document.querySelector('.startButtonContainer');
+  // const startButton = document.querySelector('.startButton');
+  // const startButtonContainer = document.querySelector('.startButtonContainer');
 
-  startButtonContainer.remove('.startButtonContainer');
-  startButton.remove('.startButton');
   const renderTimerTime = () => {
     deciSeconds = deciSeconds + 1;
     let timeString = ``;
@@ -114,45 +114,8 @@ function initGame() {
     // attackFill();
 
     // Sun in the background moving
-    function sunMove() {
-      const sun = document.querySelector('.dodge');
-      const sunnyPos =
-        100 *
-        Math.cos(
-          ((((seconds + 0.01 * deciSeconds) * 100) / 60) * Math.PI) / 10,
-        );
-      const sunnxPos =
-        100 *
-        Math.sin(
-          ((((seconds + 0.01 * deciSeconds) * 100) / 60) * Math.PI) / 10,
-        );
-      const sunx = `${sunnxPos}%`;
-      const shinex = `${
-        100 *
-          Math.sin(
-            ((((seconds + 0.01 * deciSeconds) * 100) / 60) * Math.PI) / 180,
-          ) -
-        2.25
-      }%`;
-      const suny = `${sunnyPos}%`;
-      const shiney = `${
-        100 *
-          Math.cos(
-            ((((seconds + 0.01 * deciSeconds) * 100) / 60) * Math.PI) / 10,
-          ) +
-        2.5 * (((seconds + 0.01 * deciSeconds) * 100) / 60)
-      }%`;
 
-      const planetx = `${sunnxPos - (sunnxPos / 100) * 30}%`;
-      const planety = `${sunnyPos - (sunnyPos / 100) * 30}%`;
-      sun.style.setProperty('--sunx', sunx);
-      sun.style.setProperty('--suny', suny);
-      sun.style.setProperty('--shinex', shinex);
-      sun.style.setProperty('--shiney', shiney);
-      sun.style.setProperty('--planetx', planetx);
-      sun.style.setProperty('--planety', planety);
-    }
-    sunMove();
+    sunMove(deciSeconds, seconds);
   }
 
   function moveSnake() {
@@ -206,9 +169,10 @@ function initGame() {
         console.log('Game Over');
         winning = false;
         playing = false;
-        // clearTimeout(gameRunning);
 
-        window.removeEventListener('keydown', handleKeyPress);
+        document.getElementById('lifes').classList.remove('flick');
+        init();
+        // return playing;
       }
       // Loose one life
       else {
@@ -340,6 +304,7 @@ function initGame() {
     checkIfEats();
     checkCrash();
   }
+
   // Generates a grid with the dimensions provided
   function createGrid() {
     for (let i = 0; i < celCount; i++) {
@@ -594,6 +559,11 @@ function initGame() {
     intervalId = setInterval(renderTimerTime, 10);
   };
   const gameRunning = setTimeout(startTimer, 1000);
+
+  // console.log(playing, winning);
+  console.log('Playing: ' + playing);
+
+  // return playing;
 }
 
 // document.addEventListener('DOMContentLoaded', initGame);
