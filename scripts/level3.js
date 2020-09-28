@@ -5,7 +5,7 @@ import { gameOverAnimation } from './game-over-animation.js';
 let direction = 'right';
 
 // Create variables for the grid
-const width = 10;
+const width = 12;
 const mapWidth = width - 2;
 const height = width;
 const celCount = width * height;
@@ -39,7 +39,7 @@ let intervalId = null;
 let deciSeconds = 0;
 
 let timeCount = 0;
-let appleScore = 0;
+let appleScore = 10;
 let attackProgress = 0;
 
 // Creating position coordinates
@@ -47,16 +47,19 @@ let y = Math.floor(width / 2);
 let x = 1;
 let snakeHead = y * width + x;
 let speed = 0.25;
-let lengthSnake = 1;
+let lengthSnake = 4;
+
 const snakePositions = [snakeHead];
-// snakePositions.push(snakeHead);
+for (let i = 0; i < lengthSnake; i++) {
+  snakePositions.push(snakeHead);
+}
 let isEating = false;
 
 let applePosition = 0;
 let applePositionx = 0;
 let applePositiony = 0;
 let keyJustPressed = false;
-let shopPosition = 0;
+const shopPosition = [];
 
 function initGame() {
   const renderTimerTime = () => {
@@ -99,7 +102,15 @@ function initGame() {
     }
     moveObjects();
   };
-
+  showAppleScore();
+  function showAppleScore() {
+    const appleScorePanel = document.querySelector('#applesEaten');
+    appleScorePanel.innerText = appleScore;
+  }
+  function addAppleScore() {
+    appleScore = appleScore + 1;
+    score = score + 100;
+  }
   function removingElements() {
     const cellr = display[snakeHead];
 
@@ -120,6 +131,18 @@ function initGame() {
       const cell = document.querySelector('.grid div');
       grido.removeChild(cell);
     }
+  }
+  function showLifes() {
+    let lifesDisp = ``;
+    for (let i = 0; i < lifes; i++) {
+      lifesDisp = lifesDisp + '❤';
+    }
+    document.getElementById('lifes').innerText = lifesDisp;
+    document.getElementById('lifes').classList.add('flick');
+
+    setTimeout(() => {
+      document.getElementById('lifes').classList.remove('flick');
+    }, 250);
   }
   function moveObjects() {
     displaySpeed();
@@ -151,6 +174,37 @@ function initGame() {
     sunMove(deciSeconds, seconds);
   }
 
+  function resetSnakePosition() {
+    const cell = display[snakeHead];
+
+    cell.classList.remove('snakeHead');
+    for (let ii = 0; ii < snakePositions.length - 1; ii++) {
+      const cellr = display[snakePositions[ii]];
+
+      cellr.classList.remove('snakeBody');
+      // }
+    }
+    for (let i = 0; i < lengthSnake; i++) {
+      snakePositions.shift();
+    }
+    for (let i = 0; i < lengthSnake - 1; i++) {
+      snakePositions.push(snakeHead);
+    }
+    x = 1;
+    y = parseInt(width / 2);
+    snakeHead = x + y * width;
+
+    // for (let i = 0; i < lengthSnake; i++) {
+
+    // showSnake();
+  }
+  function restartTimer() {
+    intervalId = setInterval(renderTimerTime, 10);
+
+    const resetCell = display[snakeHead];
+    resetCell.classList.remove('flick');
+    document.getElementById('lifes').classList.remove('flick');
+  }
   function moveSnake() {
     var snakeSound = document.getElementById('snakeMove');
     snakeSound.play();
@@ -183,50 +237,13 @@ function initGame() {
     function recieveDamage() {
       console.log('- ❤');
       lifes = lifes - 1;
-      let lifesDisp = ``;
-      for (let i = 0; i < lifes; i++) {
-        lifesDisp = lifesDisp + '❤';
-      }
-      document.getElementById('lifes').innerText = lifesDisp;
+
+      showLifes();
       document.getElementById('lifes').classList.add('flick');
       // document.getElementById('lifes').classList.remove('flick');
 
       clearInterval(intervalId);
 
-      function resetSnakePosition() {
-        const cell = display[snakeHead];
-
-        cell.classList.remove('snakeHead');
-        for (let ii = 0; ii < snakePositions.length - 1; ii++) {
-          const cellr = display[snakePositions[ii]];
-
-          cellr.classList.remove('snakeBody');
-          // }
-        }
-        for (let i = 0; i < lengthSnake; i++) {
-          snakePositions.shift();
-        }
-
-        x = 1;
-        y = parseInt(width / 2);
-        snakeHead = x + y * width;
-
-        // for (let i = 0; i < lengthSnake; i++) {
-
-        // showSnake();
-      }
-      function showSnakeReset() {
-        const resetCell = display[snakeHead];
-        resetCell.classList.add('snakeHead');
-        resetCell.classList.add('flick');
-      }
-      function restartTimer() {
-        intervalId = setInterval(renderTimerTime, 10);
-
-        const resetCell = display[snakeHead];
-        resetCell.classList.remove('flick');
-        document.getElementById('lifes').classList.remove('flick');
-      }
       // Game over
       if (lifes <= 0) {
         lifes = 0;
@@ -234,10 +251,6 @@ function initGame() {
         console.log('Game Over');
 
         document.getElementById('lifes').classList.remove('flick');
-        // resetSnakePosition();
-        // removingElements();
-        // direction = 'right';
-        // showSnakeReset();
 
         window.removeEventListener('keydown', handleKeyPress);
         // const cell = display[snakeHead];
@@ -245,7 +258,7 @@ function initGame() {
         appleSound.play();
         gameOverAnimation();
         setTimeout(() => {
-          window.location.href = './game-over.html';
+          // window.location.href = './game-over.html';
         }, 3000);
         // return playing;
       }
@@ -269,7 +282,6 @@ function initGame() {
             appleSound.play();
           }, 1);
           recieveDamage();
-          // changeToSafeDirection();
         }
       };
       const checkBody = (elem) => {
@@ -304,13 +316,6 @@ function initGame() {
             isEating = true;
           }
 
-          function addAppleScore() {
-            appleScore = appleScore + 1;
-            score = score + 100;
-            const appleScorePanel = document.querySelector('#applesEaten');
-            appleScorePanel.innerText = appleScore;
-          }
-
           function increaseSpeed() {
             speed = speed + 0.05;
 
@@ -324,12 +329,10 @@ function initGame() {
           increaseSpeed();
           function checkIfWins() {
             // Condition for winning: when the snake occupies 1/3 of all available cells
-            if (appleScore >= 20) {
+            if (appleScore >= 15) {
               console.log('You won!');
 
-              clearInterval(intervalId);
-              removingElements();
-              init_level2();
+              window.location.href = './level3-intro.html';
             }
           }
 
@@ -351,8 +354,83 @@ function initGame() {
     plotSnake();
     checkIfEats();
     checkCrash();
+
+    function enterShop() {
+      const shopLayout = document.createElement('div');
+
+      shopLayout.classList.add('shopLayout');
+      function showOffers() {
+        // Vida extra
+        const vida = document.createElement('button');
+        vida.classList.add('vida');
+        shopLayout.appendChild(vida);
+        document.querySelector('body').appendChild(shopLayout);
+
+        if (appleScore >= 5) {
+          vida.addEventListener('click', comprarVida);
+        }
+
+        vida.innerHTML = '❤';
+
+        const precio = document.createElement('p');
+        precio.innerHTML = '5 🍏';
+        vida.appendChild(precio);
+
+        function comprarVida() {
+          vida.removeEventListener('click', comprarVida);
+          lifes = lifes + 1;
+          appleScore = appleScore - 5;
+          console.log('You bought an extra life!');
+          if (appleScore >= 5) {
+            vida.addEventListener('click', comprarVida);
+          }
+
+          showAppleScore();
+
+          showLifes();
+          // updateScreens();
+        }
+        // Reduce speed
+      }
+      clearInterval(intervalId);
+
+      showOffers();
+
+      const goBackButton = document.createElement('button');
+      goBackButton.classList.add('goBack');
+      goBackButton.innerHTML = 'Go Back';
+      shopLayout.appendChild(goBackButton);
+
+      function goBack() {
+        console.log('Exit shop!');
+        restartTimer();
+        // direction = 'down';
+        resetSnakePosition();
+        snakePositions.push(snakeHead);
+        direction = 'right';
+        showSnakeReset();
+
+        document.querySelector('body').removeChild(shopLayout);
+      }
+      goBackButton.addEventListener('click', goBack);
+    }
+
+    function checkShop() {
+      for (let i = 0; i < shopPosition.length; i++) {
+        if (snakeHead == shopPosition[i]) {
+          console.log('Enter shop');
+          enterShop();
+        }
+      }
+    }
+    checkShop();
   }
 
+  function showSnakeReset() {
+    const resetCell = display[snakeHead];
+    resetCell.classList.add('snakeHead');
+    // resetCell.classList.add('flick');
+  }
   // Generates a grid with the dimensions provided
   function createGrid() {
     for (let i = 0; i < celCount; i++) {
@@ -372,8 +450,10 @@ function initGame() {
   const display = Array.from(document.querySelectorAll('.grid > div>p'));
 
   function showShop() {
-    const cell = display[shopPosition];
-    cell.innerHTML = 'SHOP NOT AVAILABLE';
+    for (let i = 0; i < shopPosition.length; i++) {
+      const cell = display[shopPosition[i]];
+      cell.innerHTML = 'SHOP';
+    }
   }
   const speedPanel = document.getElementById('speed');
   function displaySpeed() {
@@ -385,23 +465,23 @@ function initGame() {
       for (let j = 0; j < width; j++) {
         if (i === 0 || i === width - 1 || j === 0 || j === width - 1) {
           const wallPosition = j * width + i;
-          if (j === 0 && i === Math.floor(width / 2)) {
-            shopPosition = wallPosition;
+          if (i === 0 && j == Math.floor(width / 2)) {
+            shopPosition.push(wallPosition);
           } else {
             wallsPositions.push(wallPosition);
           }
         }
       }
+
+      function showWall(cellNumber) {
+        const cell = display[cellNumber];
+
+        cell.classList.add('wall');
+      }
+      wallsPositions.forEach(showWall);
+
+      showShop();
     }
-
-    function showWall(cellNumber) {
-      const cell = display[cellNumber];
-
-      cell.classList.add('wall');
-    }
-    wallsPositions.forEach(showWall);
-
-    showShop();
   }
   // Showing Pikachu on the cell with coordinates (posx, posy)
   function plotSnake() {

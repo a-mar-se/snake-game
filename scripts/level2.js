@@ -1,8 +1,67 @@
 import { sunMove } from './sunmove.js';
-function initLevel2() {
-  // const startButton = document.querySelector('.startButton');
-  // const startButtonContainer = document.querySelector('.startButtonContainer');
+import { gameOverAnimation } from './game-over-animation.js';
 
+// Head and move direction
+let direction = 'right';
+
+// Create variables for the grid
+const width = 12;
+const mapWidth = width - 2;
+const height = width;
+const celCount = width * height;
+const mapCount = mapWidth ** 2;
+const widthSize = 100 / width + '%'; // Variable CSS
+const grido = document.querySelector('.grid');
+const wallsPositions = [0];
+
+const scorePanel = document.querySelector('#score');
+const timer = document.querySelector('#timer');
+
+const directions = ['up', 'left', 'down', 'right'];
+let lifes = 1;
+
+let lifesDisp = ``;
+for (let i = 0; i < lifes; i++) {
+  lifesDisp = lifesDisp + '❤';
+}
+document.getElementById('lifes').innerText = lifesDisp;
+
+let reseting = false;
+let score = 0;
+let seconds = 0;
+let minutes = 0;
+let hours = 0;
+
+// Trying to code a smooth movement
+let count = 0;
+let intervalId = null;
+
+let deciSeconds = 0;
+
+let timeCount = 0;
+let appleScore = 0;
+let attackProgress = 0;
+
+// Creating position coordinates
+let y = Math.floor(width / 2);
+let x = 1;
+let snakeHead = y * width + x;
+let speed = 0.25;
+let lengthSnake = 4;
+
+const snakePositions = [snakeHead];
+for (let i = 0; i < lengthSnake; i++) {
+  snakePositions.push(snakeHead);
+}
+let isEating = false;
+
+let applePosition = 0;
+let applePositionx = 0;
+let applePositiony = 0;
+let keyJustPressed = false;
+let shopPosition = 0;
+
+function initGame() {
   const renderTimerTime = () => {
     deciSeconds = deciSeconds + 1;
     let timeString = ``;
@@ -42,49 +101,8 @@ function initLevel2() {
       scorePanel.innerText = score;
     }
     moveObjects();
-    // return winning;
   };
 
-  // Head and move direction
-  let direction = 'right';
-
-  // Create variables for the grid
-  const width = 10;
-  const mapWidth = width - 2;
-  const height = width;
-  const celCount = width * height;
-  const mapCount = mapWidth ** 2;
-  const widthSize = 100 / width + '%'; // Variable CSS
-  const grido = document.querySelector('.grid');
-  const wallsPositions = [0];
-
-  let lifes = 3;
-
-  let lifesDisp = ``;
-  for (let i = 0; i < lifes; i++) {
-    lifesDisp = lifesDisp + '❤';
-  }
-  document.getElementById('lifes').innerText = lifesDisp;
-
-  let reseting = false;
-  let score = 0;
-  let seconds = 0;
-  let minutes = 0;
-  let hours = 0;
-
-  const scorePanel = document.querySelector('#score');
-  const timer = document.querySelector('#timer');
-
-  // Trying to code a smooth movement
-  let count = 0;
-  let intervalId = null;
-
-  let deciSeconds = 0;
-
-  const directions = ['up', 'left', 'down', 'right'];
-  let timeCount = 0;
-  let appleScore = 0;
-  let attackProgress = 0;
   function removingElements() {
     const cellr = display[snakeHead];
 
@@ -103,7 +121,6 @@ function initLevel2() {
 
     for (let i = 0; i < celCount; i++) {
       const cell = document.querySelector('.grid div');
-      console.log(cell);
       grido.removeChild(cell);
     }
   }
@@ -178,68 +195,71 @@ function initLevel2() {
       // document.getElementById('lifes').classList.remove('flick');
 
       clearInterval(intervalId);
-      // Game over
 
+      function resetSnakePosition() {
+        const cell = display[snakeHead];
+
+        cell.classList.remove('snakeHead');
+        for (let ii = 0; ii < snakePositions.length - 1; ii++) {
+          const cellr = display[snakePositions[ii]];
+
+          cellr.classList.remove('snakeBody');
+          // }
+        }
+        for (let i = 0; i < lengthSnake; i++) {
+          snakePositions.shift();
+        }
+
+        x = 1;
+        y = parseInt(width / 2);
+        snakeHead = x + y * width;
+
+        // for (let i = 0; i < lengthSnake; i++) {
+
+        // showSnake();
+      }
+      function showSnakeReset() {
+        const resetCell = display[snakeHead];
+        resetCell.classList.add('snakeHead');
+        resetCell.classList.add('flick');
+      }
+      function restartTimer() {
+        intervalId = setInterval(renderTimerTime, 10);
+
+        const resetCell = display[snakeHead];
+        resetCell.classList.remove('flick');
+        document.getElementById('lifes').classList.remove('flick');
+      }
+      // Game over
       if (lifes <= 0) {
-        var gameOverSound = document.getElementById('gameOverSound');
-        gameOverSound.play();
         lifes = 0;
         // Añadir boton de reset
         console.log('Game Over');
-        winning = false;
-        playing = false;
 
         document.getElementById('lifes').classList.remove('flick');
+        // resetSnakePosition();
+        // removingElements();
+        // direction = 'right';
+        // showSnakeReset();
 
-        removingElements();
-        init();
+        window.removeEventListener('keydown', handleKeyPress);
+        // const cell = display[snakeHead];
+        var appleSound = document.getElementById('gameOverSound');
+        appleSound.play();
+        gameOverAnimation();
+        setTimeout(() => {
+          window.location.href = './game-over.html';
+        }, 3000);
         // return playing;
       }
       // Loose one life
       else {
-        function resetSnakePosition() {
-          const cell = display[snakeHead];
-
-          cell.classList.remove('snakeHead');
-          for (let ii = 0; ii < snakePositions.length - 1; ii++) {
-            const cellr = display[snakePositions[ii]];
-
-            cellr.classList.remove('snakeBody');
-            // }
-          }
-          for (let i = 0; i < lengthSnake; i++) {
-            snakePositions.shift();
-          }
-
-          x = 1;
-          y = parseInt(width / 2);
-          snakeHead = x + y * width;
-
-          // for (let i = 0; i < lengthSnake; i++) {
-          snakePositions.push(snakeHead);
-          // }
-
-          // snakePositions.push(snakeHead);
-          direction = 'right';
-          // showSnake();
-        }
-        function showSnakeReset() {
-          const resetCell = display[snakeHead];
-          resetCell.classList.add('snakeHead');
-          resetCell.classList.add('flick');
-        }
-
-        function restartTimer() {
-          intervalId = setInterval(renderTimerTime, 10);
-
-          const resetCell = display[snakeHead];
-          resetCell.classList.remove('flick');
-          document.getElementById('lifes').classList.remove('flick');
-        }
-        resetSnakePosition();
-        // const cell = display[snakeHead];
-        showSnakeReset();
         setTimeout(restartTimer, 1000);
+
+        resetSnakePosition();
+        snakePositions.push(snakeHead);
+        direction = 'right';
+        showSnakeReset();
       }
     }
 
@@ -248,7 +268,9 @@ function initLevel2() {
         if (elem == snakeHead) {
           console.log(`crash with the wall ${elem}`);
           var appleSound = document.getElementById('wallSound');
-          appleSound.play();
+          setTimeout(() => {
+            appleSound.play();
+          }, 1);
           recieveDamage();
           // changeToSafeDirection();
         }
@@ -258,7 +280,9 @@ function initLevel2() {
           if (elem == snakeHead) {
             console.log(`crash with itself at ${elem}`);
             var appleSound = document.getElementById('snakeSound');
-            appleSound.play();
+            setTimeout(() => {
+              appleSound.play();
+            }, 1);
             recieveDamage();
           }
         }
@@ -299,23 +323,20 @@ function initLevel2() {
           // score = score + 100;
           snakeGrows();
           appleDisappears(pos);
-          appearApple();
           addAppleScore();
           increaseSpeed();
           function checkIfWins() {
             // Condition for winning: when the snake occupies 1/3 of all available cells
-            if (appleScore >= 3) {
+            if (appleScore >= 10) {
               console.log('You won!');
 
-              clearInterval(intervalId);
-              removingElements();
-              init_level2();
-              // console.log(lengthSnake, mapCount);
-              // console.log(`${parseInt(mapCount / 3)} apples eaten. You won!`);
+              window.location.href = './level3-intro.html';
             }
           }
 
           checkIfWins();
+
+          appearApple();
         }
 
         eatApple(snakeHead);
@@ -346,32 +367,15 @@ function initLevel2() {
       grido.appendChild(cell);
     }
   }
-  // if (!gridCreated) {
   createGrid();
-  // }
 
   // Get the cells of the grid as an argument
   const display = Array.from(document.querySelectorAll('.grid > div>p'));
 
-  // Creating position coordinates
-  let y = Math.floor(width / 2);
-  let x = 1;
-  let snakeHead = y * width + x;
-  let speed = 0.25;
-  let lengthSnake = 1;
-  const snakePositions = [snakeHead];
-  snakePositions.push(snakeHead);
-  let isEating = false;
-
-  let applePosition = 0;
-  let applePositionx = 0;
-  let applePositiony = 0;
-  let keyJustPressed = false;
-  let shopPosition = 0;
-  function showShop() {
-    const cell = display[shopPosition];
-    cell.innerHTML = 'SHOP NOT AVAILABLE';
-  }
+  // function showShop() {
+  //   const cell = display[shopPosition];
+  //   cell.innerHTML = 'SHOP NOT AVAILABLE';
+  // }
   const speedPanel = document.getElementById('speed');
   function displaySpeed() {
     speedPanel.innerHTML = `${Math.round(speed * 10) / 10} cells / s`;
@@ -382,11 +386,10 @@ function initLevel2() {
       for (let j = 0; j < width; j++) {
         if (i === 0 || i === width - 1 || j === 0 || j === width - 1) {
           const wallPosition = j * width + i;
-          if (j === 0 && i === Math.floor(width / 2)) {
-            shopPosition = wallPosition;
-          } else {
-            wallsPositions.push(wallPosition);
-          }
+          // if (j === 0 && i === Math.floor(width / 2)) {
+          //   // shopPosition = wallPosition;
+          // } else {
+          wallsPositions.push(wallPosition);
         }
       }
     }
@@ -398,7 +401,7 @@ function initLevel2() {
     }
     wallsPositions.forEach(showWall);
 
-    showShop();
+    // showShop();
   }
   // Showing Pikachu on the cell with coordinates (posx, posy)
   function plotSnake() {
@@ -451,7 +454,6 @@ function initLevel2() {
   function showSnake(array) {
     array.forEach(showBody);
     function showBody(cellNumber) {
-      // console.log(`Cell Number : ${cellNumber}`);
       const celly = display[cellNumber];
       if (cellNumber === array[array.length - 1]) {
         celly.classList.add('snakeHead');
@@ -502,6 +504,7 @@ function initLevel2() {
         case 'ArrowUp':
           if (direction !== 'down') {
             direction = 'up';
+            moveSnake();
           }
 
           break;
@@ -589,11 +592,6 @@ function initLevel2() {
     intervalId = setInterval(renderTimerTime, 10);
   };
   const gameRunning = setTimeout(startTimer, 1000);
-
-  // console.log(playing, winning);
-  console.log('Playing: ' + playing);
-
-  // return playing;
 }
 
-export { initLevel2 };
+document.addEventListener('DOMContentLoaded', initGame);
