@@ -15,16 +15,7 @@ function init() {
     }
   }
   function execGame() {
-    window.location.href = './level1.html';
-
-    // startButton.removeEventListener('click', execGame);
-    // startButton.removeEventListener('keydown', handleKeyPress);
-
-    // startButtonContainer.classList.remove('startButtonContainer');
-    // startButton.classList.remove('startButton');
-    // startButton.remove();
-    // startButtonContainer.remove();
-    // initGame();
+    window.location.href = './level1-intro.html';
   }
 }
 

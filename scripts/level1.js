@@ -1,5 +1,6 @@
 import { sunMove } from './sunmove.js';
 import { gameOverAnimation } from './game-over-animation.js';
+
 // Head and move direction
 let direction = 'right';
 
@@ -17,7 +18,7 @@ const scorePanel = document.querySelector('#score');
 const timer = document.querySelector('#timer');
 
 const directions = ['up', 'left', 'down', 'right'];
-let lifes = 2;
+let lifes = 1;
 
 let lifesDisp = ``;
 for (let i = 0; i < lifes; i++) {
@@ -108,7 +109,6 @@ function initGame() {
 
       cellr.classList.remove('snakeBody');
       snakePositions.splice();
-      console.log(snakePositions);
       // }
     }
     // snakePositions = [];
@@ -122,7 +122,6 @@ function initGame() {
     }
   }
   function moveObjects() {
-    console.log(x, y);
     displaySpeed();
     timeCount = timeCount + 1;
     if (timeCount === Math.floor(10 / speed)) {
@@ -193,7 +192,6 @@ function initGame() {
       // document.getElementById('lifes').classList.remove('flick');
 
       clearInterval(intervalId);
-      // Game over
 
       function resetSnakePosition() {
         const cell = display[snakeHead];
@@ -229,6 +227,7 @@ function initGame() {
         resetCell.classList.remove('flick');
         document.getElementById('lifes').classList.remove('flick');
       }
+      // Game over
       if (lifes <= 0) {
         lifes = 0;
         // Añadir boton de reset
@@ -266,7 +265,9 @@ function initGame() {
         if (elem == snakeHead) {
           console.log(`crash with the wall ${elem}`);
           var appleSound = document.getElementById('wallSound');
-          setTimeout(appleSound.play(), 1);
+          setTimeout(() => {
+            appleSound.play();
+          }, 1);
           recieveDamage();
           // changeToSafeDirection();
         }
@@ -276,7 +277,9 @@ function initGame() {
           if (elem == snakeHead) {
             console.log(`crash with itself at ${elem}`);
             var appleSound = document.getElementById('snakeSound');
-            setTimeout(appleSound.play(), 1);
+            setTimeout(() => {
+              appleSound.play();
+            }, 1);
             recieveDamage();
           }
         }
@@ -363,9 +366,7 @@ function initGame() {
       grido.appendChild(cell);
     }
   }
-  // if (!gridCreated) {
   createGrid();
-  // }
 
   // Get the cells of the grid as an argument
   const display = Array.from(document.querySelectorAll('.grid > div>p'));
