@@ -13,6 +13,7 @@ const mapCount = mapWidth ** 2;
 const widthSize = 100 / width + '%'; // Variable CSS
 const grido = document.querySelector('.grid');
 const wallsPositions = [0];
+const speedUnitIncrease = 0.05;
 
 const scorePanel = document.querySelector('#score');
 const timer = document.querySelector('#timer');
@@ -40,6 +41,7 @@ let deciSeconds = 0;
 
 let timeCount = 0;
 let appleScore = 10;
+let applesEaten = 0;
 let attackProgress = 0;
 
 // Creating position coordinates
@@ -105,11 +107,15 @@ function initGame() {
   showAppleScore();
   function showAppleScore() {
     const appleScorePanel = document.querySelector('#applesEaten');
-    appleScorePanel.innerText = appleScore;
+    appleScorePanel.innerText = applesEaten;
+    const coinsScorePanel = document.querySelector('#coins');
+    coinsScorePanel.innerText = appleScore;
   }
   function addAppleScore() {
+    applesEaten = applesEaten + 1;
     appleScore = appleScore + 1;
     score = score + 100;
+    showAppleScore();
   }
   function removingElements() {
     const cellr = display[snakeHead];
@@ -317,13 +323,16 @@ function initGame() {
           }
 
           function increaseSpeed() {
-            speed = speed + 0.05;
+            speed = speed + speedUnitIncrease;
 
             displaySpeed();
           }
           // appleScore = appleScore + 1;
           // score = score + 100;
           snakeGrows();
+          const cell = display[applePosition];
+
+          cell.classList.remove('flick');
           appleDisappears(pos);
           addAppleScore();
           increaseSpeed();
@@ -361,36 +370,93 @@ function initGame() {
       shopLayout.classList.add('shopLayout');
       function showOffers() {
         // Vida extra
+
         const vida = document.createElement('button');
-        vida.classList.add('vida');
-        shopLayout.appendChild(vida);
-        document.querySelector('body').appendChild(shopLayout);
+        const speedProduct = document.createElement('button');
+        function optionVida() {
+          // const vida = document.createElement('button');
+          vida.classList.add('vida');
+          shopLayout.appendChild(vida);
+          document.querySelector('body').appendChild(shopLayout);
 
-        if (appleScore >= 5) {
-          vida.addEventListener('click', comprarVida);
-        }
-
-        vida.innerHTML = '❤';
-
-        const precio = document.createElement('p');
-        precio.innerHTML = '5 🍏';
-        vida.appendChild(precio);
-
-        function comprarVida() {
-          vida.removeEventListener('click', comprarVida);
-          lifes = lifes + 1;
-          appleScore = appleScore - 5;
-          console.log('You bought an extra life!');
           if (appleScore >= 5) {
             vida.addEventListener('click', comprarVida);
+
+            vida.classList.add('available');
           }
 
-          showAppleScore();
+          vida.innerHTML = '❤';
 
-          showLifes();
-          // updateScreens();
+          const precio = document.createElement('p');
+          precio.innerHTML = '5 🍏';
+          vida.appendChild(precio);
+
+          function comprarVida() {
+            vida.removeEventListener('click', comprarVida);
+
+            vida.classList.remove('available');
+
+            speedProduct.classList.remove('available');
+            lifes = lifes + 1;
+            appleScore = appleScore - 5;
+            console.log('You bought an extra life!');
+            if (appleScore >= 5) {
+              vida.addEventListener('click', comprarVida);
+
+              vida.classList.add('available');
+
+              speedProduct.classList.add('available');
+            }
+
+            showAppleScore();
+
+            showLifes();
+            // updateScreens();
+          }
+          // Reduce speed
         }
-        // Reduce speed
+
+        function optionSpeed() {
+          speedProduct.classList.add('vida');
+          shopLayout.appendChild(speedProduct);
+          document.querySelector('body').appendChild(shopLayout);
+
+          if (appleScore >= 5) {
+            speedProduct.addEventListener('click', comprarSpeed);
+            speedProduct.classList.add('available');
+          }
+
+          speedProduct.innerHTML = 'Speed Down';
+
+          const precio = document.createElement('p');
+          precio.innerHTML = '5 🍏';
+          speedProduct.appendChild(precio);
+
+          function comprarSpeed() {
+            speedProduct.removeEventListener('click', comprarSpeed);
+            speedProduct.classList.remove('available');
+            vida.classList.remove('available');
+            // lifes = lifes + 1;
+            speed = speed - 3 * speedUnitIncrease;
+            appleScore = appleScore - 5;
+            console.log('You bought a reduction in speed!');
+            if (appleScore >= 5) {
+              speedProduct.addEventListener('click', comprarSpeed);
+
+              speedProduct.classList.add('available');
+              vida.classList.add('available');
+            }
+
+            showAppleScore();
+
+            displaySpeed();
+
+            // updateScreens();
+          }
+          // Reduce speed
+        }
+        optionVida();
+        optionSpeed();
       }
       clearInterval(intervalId);
 
@@ -457,7 +523,7 @@ function initGame() {
   }
   const speedPanel = document.getElementById('speed');
   function displaySpeed() {
-    speedPanel.innerHTML = `${Math.round(speed * 10) / 10} cells / s`;
+    speedPanel.innerHTML = `${Math.round(speed * 100) / 100} cells / s`;
   }
   function showWalls() {
     // Define the walls positions

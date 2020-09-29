@@ -38,9 +38,9 @@ h1 {
 }
 
 .scorePanel {
-  /* position: absolute;
-  top: 25vh;
-  left: 10vw; */
+  /* position: absolute; */
+  /* top: 25vh;
+  left: 10vw;  */
   width: 20vw;
   height: 50vh;
   background-color: rgba(255, 255, 255, 0.5);
@@ -48,7 +48,7 @@ h1 {
 
   box-shadow: 20px 20px lightseagreen;
   display: grid;
-  grid-template: 1fr 1fr 1fr/1fr 1fr;
+  grid-template: 1fr 1fr 1fr 1fr/1fr 1fr;
   align-items: center;
 }
 
@@ -66,7 +66,10 @@ h1 {
 #timer,
 #score,
 #lifes,
-#applesEaten {
+#applesEaten,
+#coins,
+#lifes,
+#speed {
   text-align: start;
 }
 
@@ -412,8 +415,20 @@ button {
   /* background-color: red; */
 }
 .vida {
+  opacity: 50%;
   order: 20;
   z-index: 10;
+
+  /* cursor: none; */
+}
+.vida:hover {
+  box-shadow: 0 0 rgba(0, 0, 0, 0);
+}
+
+.available {
+  opacity: 100%;
+
+  cursor: pointer;
 }
 
 .shopLayout {
