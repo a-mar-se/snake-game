@@ -5,7 +5,7 @@ import { gameOverAnimation } from './game-over-animation.js';
 let direction = 'right';
 
 // Create variables for the grid
-const width = 12;
+const width = 32;
 const mapWidth = width - 2;
 const height = width;
 const celCount = width * height;

@@ -16,6 +16,8 @@ picture {
 
 body {
   background-color: rgb(157, 170, 180);
+
+  background-color: rgba(0, 0, 0, 0.644);
   font-size: 100%;
 
   width: 100vw;
@@ -51,42 +53,41 @@ h1 {
 }
 .dodge {
   background: radial-gradient(
+        circle at var(--planetx) var(--planety),
+        rgba(255, 255, 255, var(--intensity)) 0.02%,
+        rgba(55, 205, 205, 0.1) var(--alcance),
+        rgba(0, 0, 0, 0)
+      )
+      center,
+    radial-gradient(
         circle at var(--sunx) var(--suny),
         rgba(255, 255, 255, 0.8) 0.5%,
-        rgba(255, 255, 25, 0.3) 1.5%,
-        rgba(255, 25, 25, 0.3) 5%,
-        rgba(255, 255, 255, 0.2) 10%,
-        rgba(255, 255, 255, 0.15) 20%,
-        rgba(255, 0, 0, 0.075) 40%,
-        rgba(255, 255, 255, 0.051) 50%,
-        rgba(255, 0, 0, 0.051) 51%,
-        black 75%
+        rgba(255, 255, 25, 0.2) 1.5%,
+        rgba(255, 25, 25, 0.2) 5%,
+        rgba(255, 255, 255, 0.1) 10%,
+        rgba(255, 255, 255, 0.075) 20%,
+        rgba(255, 0, 0, 0.0375) 40%,
+        rgba(255, 255, 255, 0.0251) 50%,
+        rgba(255, 0, 0, 0.0251) 51%,
+        rgba(0, 0, 0, 0) 55%
       )
       center,
     radial-gradient(
         circle at var(--shinex) var(--shiney),
-        rgba(255, 255, 255, 0.8) 0.5%,
-        rgba(25, 25, 255, 0.3) 1.5%,
-        rgba(55, 205, 205, 0.2) 10%,
-        black 75%
+        rgba(23, 143, 255, 0.8) 0.5%,
+        rgba(90, 244, 255, 0.3) 1.5%,
+        rgba(55, 205, 205, 0.2) 3%,
+        rgba(0, 0, 0, 0) 15%
       )
-      center,
-    radial-gradient(
-        circle at var(--planetx) var(--planety),
-        white 1%,
-        rgba(55, 205, 205, 0.2) 10%,
-        /* white 30%, */ black 75%
-      )
-      center,
-    linear-gradient(
+      center;
+  /* linear-gradient(
       90deg,
       black,
-      rgba(255, 255, 0, 0.2) var(--shinex),
-      rgba(255, 0, 0, 0.2),
-      rgba(255, 255, 0, 0.2) var(--sunx),
-      rgba(255, 0, 0, 0.2),
-      black
-    );
+      rgba(255, 255, 0, 0.1) var(--shinex),
+      rgba(255, 0, 0, 0.1),
+      rgba(255, 255, 0, 0.1) var(--sunx),
+      rgba(255, 0, 0, 0.1),
+      black )*/
 
   /* linear-gradient(blue, red) */
   position: absolute;
@@ -113,18 +114,19 @@ h1 {
 
 .slidecontainer {
   text-align: center;
+  margin: 1vh 3vw;
 }
 
 .slidecontainer > div {
-  margin: 1.5vh 1.5vw;
+  margin: 1.5vh 2.5vw;
 }
 .propertiesBox {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  display: grid;
+  grid-template: 1fr 1fr / 1fr 1fr 1fr;
+  /* justify-content: space-around; */
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 20%;
+  height: 30%;
   border: 10px black solid;
 }
