@@ -373,6 +373,53 @@ function initGame() {
 
         const vida = document.createElement('button');
         const speedProduct = document.createElement('button');
+
+        function comprarVida() {
+          vida.removeEventListener('click', comprarVida);
+          speedProduct.removeEventListener('click', comprarSpeed);
+
+          vida.classList.remove('available');
+
+          speedProduct.classList.remove('available');
+          lifes = lifes + 1;
+          appleScore = appleScore - 5;
+          console.log('You bought an extra life!');
+          if (appleScore >= 5) {
+            vida.addEventListener('click', comprarVida);
+
+            vida.classList.add('available');
+
+            speedProduct.classList.add('available');
+          }
+
+          showAppleScore();
+
+          showLifes();
+          // updateScreens();
+        }
+
+        function comprarSpeed() {
+          vida.removeEventListener('click', comprarVida);
+          speedProduct.removeEventListener('click', comprarSpeed);
+          speedProduct.classList.remove('available');
+          vida.classList.remove('available');
+          // lifes = lifes + 1;
+          speed = speed - 3 * speedUnitIncrease;
+          appleScore = appleScore - 5;
+          console.log('You bought a reduction in speed!');
+          if (appleScore >= 5) {
+            speedProduct.addEventListener('click', comprarSpeed);
+
+            speedProduct.classList.add('available');
+            vida.classList.add('available');
+          }
+
+          showAppleScore();
+
+          displaySpeed();
+
+          // updateScreens();
+        }
         function optionVida() {
           // const vida = document.createElement('button');
           vida.classList.add('vida');
@@ -391,28 +438,6 @@ function initGame() {
           precio.innerHTML = '5 🍏';
           vida.appendChild(precio);
 
-          function comprarVida() {
-            vida.removeEventListener('click', comprarVida);
-
-            vida.classList.remove('available');
-
-            speedProduct.classList.remove('available');
-            lifes = lifes + 1;
-            appleScore = appleScore - 5;
-            console.log('You bought an extra life!');
-            if (appleScore >= 5) {
-              vida.addEventListener('click', comprarVida);
-
-              vida.classList.add('available');
-
-              speedProduct.classList.add('available');
-            }
-
-            showAppleScore();
-
-            showLifes();
-            // updateScreens();
-          }
           // Reduce speed
         }
 
@@ -432,27 +457,6 @@ function initGame() {
           precio.innerHTML = '5 🍏';
           speedProduct.appendChild(precio);
 
-          function comprarSpeed() {
-            speedProduct.removeEventListener('click', comprarSpeed);
-            speedProduct.classList.remove('available');
-            vida.classList.remove('available');
-            // lifes = lifes + 1;
-            speed = speed - 3 * speedUnitIncrease;
-            appleScore = appleScore - 5;
-            console.log('You bought a reduction in speed!');
-            if (appleScore >= 5) {
-              speedProduct.addEventListener('click', comprarSpeed);
-
-              speedProduct.classList.add('available');
-              vida.classList.add('available');
-            }
-
-            showAppleScore();
-
-            displaySpeed();
-
-            // updateScreens();
-          }
           // Reduce speed
         }
         optionVida();
