@@ -7,6 +7,15 @@
 
     <link rel="stylesheet" href="./styles/normalize.css" />
     <link rel="stylesheet" href="./styles/main.css" />
+
+    <audio src="./sounds/wall-crash.wav" id="wallSound"></audio>
+
+    <audio src="./sounds/apple-eat.wav" id="appleSound"></audio>
+
+    <audio src="./sounds/move-snake.wav" id="snakeMove"></audio>
+
+    <audio src="./sounds/snake-crash.wav" id="snakeSound"></audio>
+    <audio src="./sounds/game-over-sound.wav" id="gameOverSound"></audio>
   </head>
   <body>
     <div class="neon-wraper">
@@ -19,8 +28,10 @@
         <div class="scoreValue" id="timer">00:00:00</div>
         <div>Score:</div>
         <div class="scoreValue" id="score">0</div>
-        <div>Apples:</div>
-        <div class="scoreValue" id="applesEaten">0</div>
+        <div>Eaten:</div>
+        <div class="scoreValue" id="applesEaten">0 🍏</div>
+        <div>Money:</div>
+        <div class="scoreValue" id="coins">0 🍏</div>
       </div>
       <div class="scorePanel">
         <div>Lifes:</div>
@@ -36,12 +47,7 @@
       <div class="grid"></div>
     </div>
 
-    <div class="startButtonContainer">
-      <button class="startButton">Start</button>
-      <!-- <button class="startButtonInfinite">Infinite Mode</button> -->
-    </div>
-
-    <script src="./scripts/index.js" type="module"></script>
+    <script src="./scripts/level3.js" type="module"></script>
     <!-- <script src="./scripts/game-start.js" type="module"></script> -->
   </body>
 </html>
