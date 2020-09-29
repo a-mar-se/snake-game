@@ -374,6 +374,14 @@ function initGame() {
         const vida = document.createElement('button');
         const speedProduct = document.createElement('button');
 
+        function purchase() {
+          const purchaseSound = document.getElementById('purchase');
+          setTimeout(() => {
+            purchaseSound.pause();
+            purchaseSound.currentTime = 0;
+            purchaseSound.play();
+          }, 1);
+        }
         function comprarVida() {
           vida.removeEventListener('click', comprarVida);
           speedProduct.removeEventListener('click', comprarSpeed);
@@ -386,6 +394,7 @@ function initGame() {
           console.log('You bought an extra life!');
           if (appleScore >= 5) {
             vida.addEventListener('click', comprarVida);
+            speedProduct.addEventListener('click', comprarSpeed);
 
             vida.classList.add('available');
 
@@ -396,6 +405,7 @@ function initGame() {
 
           showLifes();
           // updateScreens();
+          purchase();
         }
 
         function comprarSpeed() {
@@ -409,6 +419,7 @@ function initGame() {
           console.log('You bought a reduction in speed!');
           if (appleScore >= 5) {
             speedProduct.addEventListener('click', comprarSpeed);
+            vida.addEventListener('click', comprarVida);
 
             speedProduct.classList.add('available');
             vida.classList.add('available');
@@ -419,6 +430,8 @@ function initGame() {
           displaySpeed();
 
           // updateScreens();
+
+          purchase();
         }
         function optionVida() {
           // const vida = document.createElement('button');
