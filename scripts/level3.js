@@ -365,6 +365,7 @@ function initGame() {
     checkCrash();
 
     function enterShop() {
+      window.removeEventListener('keydown', handleKeyPress);
       const shopLayout = document.createElement('div');
 
       shopLayout.classList.add('shopLayout');
@@ -477,6 +478,8 @@ function initGame() {
         showSnakeReset();
 
         document.querySelector('body').removeChild(shopLayout);
+
+        window.addEventListener('keydown', handleKeyPress);
       }
       goBackButton.addEventListener('click', goBack);
     }
