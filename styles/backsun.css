@@ -17,7 +17,7 @@ picture {
 body {
   background-color: rgb(157, 170, 180);
 
-  background-color: rgba(0, 0, 0, 0.644);
+  background-color: rgba(0, 0, 0, 0.836);
   font-size: 100%;
 
   width: 100vw;
@@ -53,8 +53,14 @@ h1 {
 }
 .dodge {
   background: radial-gradient(
+        circle at 50% 50%,
+        rgb(0, 0, 0) 2%,
+        rgba(0, 0, 0, 0) 2%
+      )
+      center,
+    radial-gradient(
         circle at var(--planetx) var(--planety),
-        rgba(255, 255, 255, var(--intensity)) 0.02%,
+        rgba(255, 255, 255, var(--intensity)) var(--brillo2),
         rgba(55, 205, 205, 0.1) var(--alcance),
         rgba(0, 0, 0, 0)
       )
@@ -62,13 +68,13 @@ h1 {
     radial-gradient(
         circle at var(--sunx) var(--suny),
         rgba(255, 255, 255, 0.8) 0.5%,
-        rgba(255, 255, 25, 0.2) 1.5%,
-        rgba(255, 25, 25, 0.2) 5%,
-        rgba(255, 255, 255, 0.1) 10%,
-        rgba(255, 255, 255, 0.075) 20%,
-        rgba(255, 0, 0, 0.0375) 40%,
-        rgba(255, 255, 255, 0.0251) 50%,
-        rgba(255, 0, 0, 0.0251) 51%,
+        rgba(255, 255, 125, 0.3) 1.5%,
+        rgba(205, 205, 205, 0.4) 5%,
+        rgba(255, 255, 255, 0.2) 10%,
+        rgba(255, 255, 255, 0.275) 20%,
+        rgba(255, 0, 0, 0.075) 40%,
+        rgba(255, 255, 255, 0.051) 50%,
+        rgba(255, 0, 0, 0.051) 51%,
         rgba(0, 0, 0, 0) 55%
       )
       center,

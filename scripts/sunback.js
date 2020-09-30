@@ -20,12 +20,11 @@ function sunMove() {
   const planetxx = sunnxPos - (sunnxPos / 100) * 30;
   const planetyy = sunnyPos - (sunnyPos / 100) * 30;
 
-  const intVal =
-    0.5 + 0.5 * Math.cos((miliseconds * Math.PI) / freqInput + Math.PI / 2);
   const alcancer =
-    5 + 5 * Math.cos((miliseconds * Math.PI) / freqInput + Math.PI / 2);
+    7 + 7 * Math.cos((miliseconds * Math.PI) / freqInput + Math.PI / 2);
 
-  // const brillo2 = alcancer * 0.001;
+  const intVal = ((sunnxPos + 48) / 100) * alcancer;
+  const brillo2 = alcancer * 0.1;
 
   const sunx = `${sunnxPos}%`;
   const suny = `${sunnyPos}%`;
@@ -36,7 +35,7 @@ function sunMove() {
   const planety = `${planetyy}%`;
   const intensity = `${intVal}`;
   const alcancee = `${alcancer}%`;
-  // const brillo = `${brillo2}%`;
+  const brillo = `${brillo2}%`;
   sun.style.setProperty('--sunx', sunx);
   sun.style.setProperty('--suny', suny);
   sun.style.setProperty('--shinex', shinex);
@@ -45,7 +44,7 @@ function sunMove() {
   sun.style.setProperty('--planety', planety);
   sun.style.setProperty('--intensity', intensity);
   sun.style.setProperty('--alcance', alcancee);
-  // sun.style.setProperty('--brillo2', brillo);
+  sun.style.setProperty('--brillo2', brillo);
 }
 
 const renderTimerTime = () => {
