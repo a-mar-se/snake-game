@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alejandro Márquez | The Game</title>
+
+    <link rel="stylesheet" href="./styles/normalize.css" />
+    <link rel="stylesheet" href="./styles/main.css" />
+
+    <audio src="./sounds/wall-crash.wav" id="wallSound"></audio>
+
+    <audio src="./sounds/endless.mp3" id="endless"></audio>
+
+    <audio src="./sounds/apple-eat.wav" id="appleSound"></audio>
+
+    <audio src="./sounds/move-snake.wav" id="snakeMove"></audio>
+    <audio src="./sounds/win-sound.wav" id="winSound"></audio>
+
+    <audio src="./sounds/snake-crash.wav" id="snakeSound"></audio>
+    <audio src="./sounds/game-over-sound.wav" id="gameOverSound"></audio>
+    <audio src="./sounds/purchase.wav" id="purchase"></audio>
+  </head>
+  <body>
+    <div class="neon-wraper">
+      <span class="dodge"></span>
+    </div>
+    <h1>The Game 1.0</h1>
+    <div class="panels">
+      <div class="scorePanel">
+        <div>Time:</div>
+        <div class="scoreValue" id="timer">00:00:00</div>
+        <div>Score:</div>
+        <div class="scoreValue" id="score">0</div>
+        <div>Eaten:</div>
+        <div class="scoreValue" id="applesEaten">0 🍏</div>
+        <div>Money:</div>
+        <div class="scoreValue" id="coins">0 🍏</div>
+      </div>
+      <div class="scorePanel">
+        <div>Lifes:</div>
+        <div class="scoreValue" id="lifes"></div>
+        <div>Speed:</div>
+        <div class="scoreValue" id="speed"></div>
+        <div>Attack:</div>
+        <div class="scoreValue" id="attackBar"><div></div></div>
+      </div>
+    </div>
+
+    <div class="grid-wrapper">
+      <div class="grid"></div>
+    </div>
+
+    <script src="./scripts/infinite.js" type="module"></script>
+    <!-- <script src="./scripts/game-start.js" type="module"></script> -->
+  </body>
+</html>

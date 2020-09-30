@@ -7,40 +7,109 @@
 
     <link rel="stylesheet" href="./styles/normalize.css" />
     <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="stylesheet" href="./styles/backsun.css" />
   </head>
   <body>
     <div class="neon-wraper">
       <span class="dodge"></span>
     </div>
-    <h1>The Game 1.0</h1>
-    <div class="panels">
-      <div class="scorePanel">
-        <div>Time:</div>
-        <div class="scoreValue" id="timer">00:00:00</div>
-        <div>Score:</div>
-        <div class="scoreValue" id="score">0</div>
-        <div>Apples:</div>
-        <div class="scoreValue" id="applesEaten">0</div>
-      </div>
-      <div class="scorePanel">
-        <div>Lifes:</div>
-        <div class="scoreValue" id="lifes"></div>
-        <div>Speed:</div>
-        <div class="scoreValue" id="speed"></div>
-        <div>Attack:</div>
-        <div class="scoreValue" id="attackBar"><div></div></div>
+    <h1>Snake 1.0</h1>
+
+    <!-- Levels Menu -->
+    <div class="levels-container">
+      <div class="levels-panel">
+        <div class="tuto">Tutorial</div>
+        <a href="./level1-intro.html"
+          ><div id="level-on-panel">Level 1</div>
+        </a>
+        <a href="./level2-intro.html"><div id="level-on-panel">Level 2</div></a>
+
+        <a href="./level3-intro.html"
+          ><div id="level-on-panel">Level 3</div>
+        </a>
       </div>
     </div>
 
-    <div class="grid-wrapper">
-      <div class="grid"></div>
+    <!-- Sliders menu to change sun in the backgroun -->
+    <div class="propertiesBox">
+      <p>Sun <span id="simul">Simulation</span></p>
+      <div class="slidecontainer">
+        <div>Amplitude X:</div>
+        <input
+          type="range"
+          min="1"
+          max="100"
+          value="5"
+          class="slider"
+          id="xinput"
+        />
+      </div>
+      <div class="slidecontainer">
+        <div>Amplitude Y:</div>
+        <input
+          type="range"
+          min="1"
+          max="100"
+          value="20"
+          class="slider"
+          id="yinput"
+        />
+      </div>
+      <div class="slidecontainer">
+        <div>Frequency:</div>
+        <input
+          type="range"
+          min="100"
+          max="6000"
+          value="800"
+          class="slider"
+          id="freqInput"
+        />
+      </div>
+      <div class="slidecontainer">
+        <div>Amplitude Planet X:</div>
+        <input
+          type="range"
+          min="1"
+          max="100"
+          value="5"
+          class="slider"
+          id="xinputp"
+        />
+      </div>
+      <div class="slidecontainer">
+        <div>Amplitude Planet Y:</div>
+        <input
+          type="range"
+          min="1"
+          max="100"
+          value="25"
+          class="slider"
+          id="yinputp"
+        />
+      </div>
+      <div class="slidecontainer">
+        <div>Frequency Planet:</div>
+        <input
+          type="range"
+          min="100"
+          max="6000"
+          value="300"
+          class="slider"
+          id="freqInputp"
+        />
+      </div>
     </div>
 
     <div class="startButtonContainer">
-      <button class="startButton">Start</button>
+      <button class="startButton">
+        Infinite Mode
+        <p>Press 'Spacebar', 'Enter' or click</p>
+      </button>
       <!-- <button class="startButtonInfinite">Infinite Mode</button> -->
     </div>
 
+    <script src="./scripts/sunback.js" type="module"></script>
     <script src="./scripts/index.js" type="module"></script>
     <!-- <script src="./scripts/game-start.js" type="module"></script> -->
   </body>

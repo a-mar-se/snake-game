@@ -1,11 +1,12 @@
 import { sunMove } from './sunmove.js';
 import { gameOverAnimation } from './game-over-animation.js';
+import { winAnimation } from './win-animation.js';
 
 // Head and move direction
 let direction = 'right';
 
 // Create variables for the grid
-const width = 20;
+const width = 15;
 const mapWidth = width - 2;
 const height = width;
 const celCount = width * height;
@@ -48,7 +49,7 @@ let attackProgress = 0;
 let y = Math.floor(width / 2);
 let x = 1;
 let snakeHead = y * width + x;
-let speed = 0.25;
+let speed = 0.75;
 let lengthSnake = 4;
 
 const snakePositions = [snakeHead];
@@ -264,7 +265,7 @@ function initGame() {
         appleSound.play();
         gameOverAnimation();
         setTimeout(() => {
-          // window.location.href = './game-over.html';
+          window.location.href = './index.html';
         }, 3000);
         // return playing;
       }
@@ -340,8 +341,17 @@ function initGame() {
             // Condition for winning: when the snake occupies 1/3 of all available cells
             if (applesEaten >= 15) {
               console.log('You won!');
+              var winSound = document.getElementById('winSound');
+              setTimeout(winSound.play(), 1);
+              winAnimation();
 
-              window.location.href = './level3-intro.html';
+              clearInterval(intervalId);
+
+              window.removeEventListener('keydown', handleKeyPress);
+
+              setTimeout(() => {
+                window.location.href = './index.html';
+              }, 3000);
             }
           }
 
@@ -353,7 +363,10 @@ function initGame() {
         eatApple(snakeHead);
         console.log('Appple eaten!');
         var appleSound = document.getElementById('appleSound');
-        appleSound.play();
+        appleSound.volume = 0.2;
+        setTimeout(() => {
+          appleSound.play();
+        }, 1);
       }
     }
     timeCount = 0;
