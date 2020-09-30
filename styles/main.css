@@ -321,7 +321,7 @@ h1 {
 
 .moveIn {
   position: absolute;
-  animation: movein 1s ease-in-out;
+  animation: movein 0s ease-in-out;
   animation-fill-mode: forwards;
 }
 @keyframes movein {

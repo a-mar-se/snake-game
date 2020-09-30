@@ -1,0 +1,138 @@
+* {
+  box-sizing: border-box;
+  font-size: x-large;
+  color: rgb(0, 0, 0);
+}
+
+img {
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
+picture {
+  display: block;
+}
+
+body {
+  background-color: rgb(157, 170, 180);
+
+  background-color: rgba(0, 0, 0, 0.836);
+  font-size: 100%;
+
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  display: grid;
+  grid-template: 1fr / 1fr;
+  /* background-color: aqua; */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  position: absolute;
+  color: black;
+  border: 1px black solid;
+  box-shadow: 20px 20px lightseagreen;
+}
+
+.neon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 100vw;
+  max-height: 100vh;
+  display: absolute;
+  /* display: inline-flex; */
+  /* filter: brightness(200%); */
+  /* overflow: hidden; */
+  /* border: 10px red solid; */
+}
+.dodge {
+  background: radial-gradient(
+        circle at 50% 50%,
+        rgb(0, 0, 0) 2%,
+        rgba(0, 0, 0, 0) 2%
+      )
+      center,
+    radial-gradient(
+        circle at var(--planetx) var(--planety),
+        rgba(255, 255, 255, var(--intensity)) var(--brillo2),
+        rgba(55, 205, 205, 0.1) var(--alcance),
+        rgba(0, 0, 0, 0)
+      )
+      center,
+    radial-gradient(
+        circle at var(--sunx) var(--suny),
+        rgba(255, 255, 255, 0.8) 0.5%,
+        rgba(255, 255, 125, 0.3) 1.5%,
+        rgba(205, 205, 205, 0.4) 5%,
+        rgba(255, 255, 255, 0.2) 10%,
+        rgba(255, 255, 255, 0.275) 20%,
+        rgba(255, 0, 0, 0.075) 40%,
+        rgba(255, 255, 255, 0.051) 50%,
+        rgba(255, 0, 0, 0.051) 51%,
+        rgba(0, 0, 0, 0) 55%
+      )
+      center,
+    radial-gradient(
+        circle at var(--shinex) var(--shiney),
+        rgba(23, 143, 255, 0.8) 0.5%,
+        rgba(90, 244, 255, 0.3) 1.5%,
+        rgba(55, 205, 205, 0.2) 3%,
+        rgba(0, 0, 0, 0) 15%
+      )
+      center;
+  /* linear-gradient(
+      90deg,
+      black,
+      rgba(255, 255, 0, 0.1) var(--shinex),
+      rgba(255, 0, 0, 0.1),
+      rgba(255, 255, 0, 0.1) var(--sunx),
+      rgba(255, 0, 0, 0.1),
+      black )*/
+
+  /* linear-gradient(blue, red) */
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  right: 0%;
+  bottom: 0%;
+
+  /* transform-origin: 50% 50%; */
+  /* transform: translate(50%, 50%); */
+  mix-blend-mode: color-dodge;
+  /* border: red solid 10px; */
+}
+
+.slider {
+  appearance: none;
+  width: 100%; /* Full-width */
+  height: 25px; /* Specified height */
+  background: #d3d3d3; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  transition: opacity 0.2s;
+}
+
+.slidecontainer {
+  text-align: center;
+  margin: 1vh 3vw;
+}
+
+.slidecontainer > div {
+  margin: 1.5vh 2.5vw;
+}
+.propertiesBox {
+  display: grid;
+  grid-template: 1fr 1fr / 1fr 1fr 1fr;
+  /* justify-content: space-around; */
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 30%;
+  border: 10px black solid;
+}

@@ -5,7 +5,7 @@ import { gameOverAnimation } from './game-over-animation.js';
 let direction = 'right';
 
 // Create variables for the grid
-const width = 12;
+const width = 20;
 const mapWidth = width - 2;
 const height = width;
 const celCount = width * height;
@@ -19,7 +19,7 @@ const scorePanel = document.querySelector('#score');
 const timer = document.querySelector('#timer');
 
 const directions = ['up', 'left', 'down', 'right'];
-let lifes = 1;
+let lifes = 3;
 
 let lifesDisp = ``;
 for (let i = 0; i < lifes; i++) {
@@ -338,7 +338,7 @@ function initGame() {
           increaseSpeed();
           function checkIfWins() {
             // Condition for winning: when the snake occupies 1/3 of all available cells
-            if (appleScore >= 15) {
+            if (applesEaten >= 15) {
               console.log('You won!');
 
               window.location.href = './level3-intro.html';
@@ -365,6 +365,7 @@ function initGame() {
     checkCrash();
 
     function enterShop() {
+      window.removeEventListener('keydown', handleKeyPress);
       const shopLayout = document.createElement('div');
 
       shopLayout.classList.add('shopLayout');
@@ -494,6 +495,8 @@ function initGame() {
         showSnakeReset();
 
         document.querySelector('body').removeChild(shopLayout);
+
+        window.addEventListener('keydown', handleKeyPress);
       }
       goBackButton.addEventListener('click', goBack);
     }
