@@ -1,6 +1,6 @@
 import { sunMove } from './sunmove.js';
 import { gameOverAnimation } from './game-over-animation.js';
-
+import { winAnimation } from './win-animation.js';
 // Head and move direction
 let direction = 'right';
 
@@ -131,24 +131,6 @@ function initGame() {
       moveSnake();
     }
 
-    // attack bar filling
-
-    // function attackFill() {
-    //   const attackPanel = document.querySelector('#attackBar > div');
-    //   if (attackProgress < 100) {
-    //     attackProgress = attackProgress + 1;
-    //   } else {
-    //     attackPanel.classList.add('full-bar');
-    //   }
-    //   const attackProgress2 = attackProgress + 1;
-    //   const attackProgressValue = `${attackProgress}%`;
-    //   const attackProgressValue2 = `${attackProgress2}%`;
-
-    //   attackPanel.style.setProperty('--attackBar', attackProgressValue);
-    //   attackPanel.style.setProperty('--attackBar2', attackProgressValue2);
-    // }
-    // attackFill();
-
     // Sun in the background moving
 
     sunMove(deciSeconds, seconds);
@@ -162,22 +144,30 @@ function initGame() {
       case 'up':
         if (y > 0) {
           y = y - 1;
+        } else {
+          y = width - 1;
         }
         break;
 
       case 'down':
         if (y < width - 1) {
           y = y + 1;
+        } else {
+          y = 0;
         }
         break;
       case 'right':
         if (x < width - 1) {
           x = x + 1;
+        } else {
+          x = 0;
         }
         break;
       case 'left':
         if (x > 0) {
           x = x - 1;
+        } else {
+          x = width - 1;
         }
       default:
         break;
@@ -200,7 +190,7 @@ function initGame() {
         const cell = display[snakeHead];
 
         cell.classList.remove('snakeHead');
-        for (let ii = 0; ii < snakePositions.length - 1; ii++) {
+        for (let ii = 0; ii < snakePositions.length; ii++) {
           const cellr = display[snakePositions[ii]];
 
           cellr.classList.remove('snakeBody');
@@ -287,8 +277,9 @@ function initGame() {
           }
         }
       };
-      wallsPositions.forEach(checkWall);
       snakePositions.forEach(checkBody);
+
+      wallsPositions.forEach(checkWall);
     }
 
     function checkIfEats() {
@@ -326,11 +317,21 @@ function initGame() {
           addAppleScore();
           increaseSpeed();
           function checkIfWins() {
+            // winAnimation();
             // Condition for winning: when the snake occupies 1/3 of all available cells
-            if (appleScore >= 10) {
+            if (appleScore >= 5) {
               console.log('You won!');
+              var winSound = document.getElementById('winSound');
+              setTimeout(winSound.play(), 1);
+              winAnimation();
 
-              window.location.href = './level3-intro.html';
+              clearInterval(intervalId);
+
+              window.removeEventListener('keydown', handleKeyPress);
+
+              setTimeout(() => {
+                window.location.href = './level2-intro.html';
+              }, 3000);
             }
           }
 
@@ -342,6 +343,7 @@ function initGame() {
         eatApple(snakeHead);
         console.log('Appple eaten!');
         var appleSound = document.getElementById('appleSound');
+        appleSound.volume = 0.2;
         appleSound.play();
       }
     }
@@ -372,10 +374,10 @@ function initGame() {
   // Get the cells of the grid as an argument
   const display = Array.from(document.querySelectorAll('.grid > div>p'));
 
-  // function showShop() {
-  //   const cell = display[shopPosition];
-  //   cell.innerHTML = 'SHOP NOT AVAILABLE';
-  // }
+  function showShop() {
+    const cell = display[shopPosition];
+    cell.innerHTML = 'SHOP NOT AVAILABLE';
+  }
   const speedPanel = document.getElementById('speed');
   function displaySpeed() {
     speedPanel.innerHTML = `${Math.round(speed * 10) / 10} cells / s`;
@@ -400,8 +402,6 @@ function initGame() {
       cell.classList.add('wall');
     }
     wallsPositions.forEach(showWall);
-
-    // showShop();
   }
   // Showing Pikachu on the cell with coordinates (posx, posy)
   function plotSnake() {

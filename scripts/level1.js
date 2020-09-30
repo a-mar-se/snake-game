@@ -1,6 +1,6 @@
 import { sunMove } from './sunmove.js';
 import { gameOverAnimation } from './game-over-animation.js';
-
+import { winAnimation } from './win-animation.js';
 // Head and move direction
 let direction = 'right';
 
@@ -189,7 +189,7 @@ function initGame() {
         const cell = display[snakeHead];
 
         cell.classList.remove('snakeHead');
-        for (let ii = 0; ii < snakePositions.length - 1; ii++) {
+        for (let ii = 0; ii < snakePositions.length; ii++) {
           const cellr = display[snakePositions[ii]];
 
           cellr.classList.remove('snakeBody');
@@ -303,15 +303,21 @@ function initGame() {
           addAppleScore();
           increaseSpeed();
           function checkIfWins() {
+            // winAnimation();
             // Condition for winning: when the snake occupies 1/3 of all available cells
-            if (appleScore >= 10) {
+            if (appleScore >= 5) {
               console.log('You won!');
+              var winSound = document.getElementById('winSound');
+              setTimeout(winSound.play(), 1);
+              winAnimation();
 
               clearInterval(intervalId);
-              removingElements();
-              // init_level2();
 
-              window.location.href = './level2-intro.html';
+              window.removeEventListener('keydown', handleKeyPress);
+
+              setTimeout(() => {
+                window.location.href = './level2-intro.html';
+              }, 3000);
             }
           }
 

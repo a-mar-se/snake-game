@@ -49,7 +49,7 @@ let attackProgress = 0;
 let y = Math.floor(width / 2);
 let x = 1;
 let snakeHead = y * width + x;
-let speed = 0.75;
+let speed = 0.5;
 let lengthSnake = 4;
 
 const snakePositions = [snakeHead];
@@ -265,7 +265,7 @@ function initGame() {
         appleSound.play();
         gameOverAnimation();
         setTimeout(() => {
-          // window.location.href = './game-over.html';
+          window.location.href = './index.html';
         }, 3000);
         // return playing;
       }
@@ -337,25 +337,6 @@ function initGame() {
           appleDisappears(pos);
           addAppleScore();
           increaseSpeed();
-          function checkIfWins() {
-            // Condition for winning: when the snake occupies 1/3 of all available cells
-            if (applesEaten >= 15) {
-              console.log('You won!');
-              var winSound = document.getElementById('winSound');
-              setTimeout(winSound.play(), 1);
-              winAnimation();
-
-              clearInterval(intervalId);
-
-              window.removeEventListener('keydown', handleKeyPress);
-
-              setTimeout(() => {
-                window.location.href = './index.html';
-              }, 3000);
-            }
-          }
-
-          checkIfWins();
 
           appearApple();
         }

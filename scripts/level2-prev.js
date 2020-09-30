@@ -1,12 +1,11 @@
 import { sunMove } from './sunmove.js';
 import { gameOverAnimation } from './game-over-animation.js';
-import { winAnimation } from './win-animation.js';
 
 // Head and move direction
 let direction = 'right';
 
 // Create variables for the grid
-const width = 15;
+const width = 12;
 const mapWidth = width - 2;
 const height = width;
 const celCount = width * height;
@@ -14,13 +13,12 @@ const mapCount = mapWidth ** 2;
 const widthSize = 100 / width + '%'; // Variable CSS
 const grido = document.querySelector('.grid');
 const wallsPositions = [0];
-const speedUnitIncrease = 0.05;
 
 const scorePanel = document.querySelector('#score');
 const timer = document.querySelector('#timer');
 
 const directions = ['up', 'left', 'down', 'right'];
-let lifes = 3;
+let lifes = 1;
 
 let lifesDisp = ``;
 for (let i = 0; i < lifes; i++) {
@@ -41,15 +39,14 @@ let intervalId = null;
 let deciSeconds = 0;
 
 let timeCount = 0;
-let appleScore = 10;
-let applesEaten = 0;
+let appleScore = 0;
 let attackProgress = 0;
 
 // Creating position coordinates
 let y = Math.floor(width / 2);
 let x = 1;
 let snakeHead = y * width + x;
-let speed = 0.75;
+let speed = 0.25;
 let lengthSnake = 4;
 
 const snakePositions = [snakeHead];
@@ -62,7 +59,7 @@ let applePosition = 0;
 let applePositionx = 0;
 let applePositiony = 0;
 let keyJustPressed = false;
-const shopPosition = [];
+let shopPosition = 0;
 
 function initGame() {
   const renderTimerTime = () => {
@@ -105,19 +102,7 @@ function initGame() {
     }
     moveObjects();
   };
-  showAppleScore();
-  function showAppleScore() {
-    const appleScorePanel = document.querySelector('#applesEaten');
-    appleScorePanel.innerText = applesEaten;
-    const coinsScorePanel = document.querySelector('#coins');
-    coinsScorePanel.innerText = appleScore;
-  }
-  function addAppleScore() {
-    applesEaten = applesEaten + 1;
-    appleScore = appleScore + 1;
-    score = score + 100;
-    showAppleScore();
-  }
+
   function removingElements() {
     const cellr = display[snakeHead];
 
@@ -138,18 +123,6 @@ function initGame() {
       const cell = document.querySelector('.grid div');
       grido.removeChild(cell);
     }
-  }
-  function showLifes() {
-    let lifesDisp = ``;
-    for (let i = 0; i < lifes; i++) {
-      lifesDisp = lifesDisp + '❤';
-    }
-    document.getElementById('lifes').innerText = lifesDisp;
-    document.getElementById('lifes').classList.add('flick');
-
-    setTimeout(() => {
-      document.getElementById('lifes').classList.remove('flick');
-    }, 250);
   }
   function moveObjects() {
     displaySpeed();
@@ -181,37 +154,6 @@ function initGame() {
     sunMove(deciSeconds, seconds);
   }
 
-  function resetSnakePosition() {
-    const cell = display[snakeHead];
-
-    cell.classList.remove('snakeHead');
-    for (let ii = 0; ii < snakePositions.length - 1; ii++) {
-      const cellr = display[snakePositions[ii]];
-
-      cellr.classList.remove('snakeBody');
-      // }
-    }
-    for (let i = 0; i < lengthSnake; i++) {
-      snakePositions.shift();
-    }
-    for (let i = 0; i < lengthSnake - 1; i++) {
-      snakePositions.push(snakeHead);
-    }
-    x = 1;
-    y = parseInt(width / 2);
-    snakeHead = x + y * width;
-
-    // for (let i = 0; i < lengthSnake; i++) {
-
-    // showSnake();
-  }
-  function restartTimer() {
-    intervalId = setInterval(renderTimerTime, 10);
-
-    const resetCell = display[snakeHead];
-    resetCell.classList.remove('flick');
-    document.getElementById('lifes').classList.remove('flick');
-  }
   function moveSnake() {
     var snakeSound = document.getElementById('snakeMove');
     snakeSound.play();
@@ -244,13 +186,50 @@ function initGame() {
     function recieveDamage() {
       console.log('- ❤');
       lifes = lifes - 1;
-
-      showLifes();
+      let lifesDisp = ``;
+      for (let i = 0; i < lifes; i++) {
+        lifesDisp = lifesDisp + '❤';
+      }
+      document.getElementById('lifes').innerText = lifesDisp;
       document.getElementById('lifes').classList.add('flick');
       // document.getElementById('lifes').classList.remove('flick');
 
       clearInterval(intervalId);
 
+      function resetSnakePosition() {
+        const cell = display[snakeHead];
+
+        cell.classList.remove('snakeHead');
+        for (let ii = 0; ii < snakePositions.length - 1; ii++) {
+          const cellr = display[snakePositions[ii]];
+
+          cellr.classList.remove('snakeBody');
+          // }
+        }
+        for (let i = 0; i < lengthSnake; i++) {
+          snakePositions.shift();
+        }
+
+        x = 1;
+        y = parseInt(width / 2);
+        snakeHead = x + y * width;
+
+        // for (let i = 0; i < lengthSnake; i++) {
+
+        // showSnake();
+      }
+      function showSnakeReset() {
+        const resetCell = display[snakeHead];
+        resetCell.classList.add('snakeHead');
+        resetCell.classList.add('flick');
+      }
+      function restartTimer() {
+        intervalId = setInterval(renderTimerTime, 10);
+
+        const resetCell = display[snakeHead];
+        resetCell.classList.remove('flick');
+        document.getElementById('lifes').classList.remove('flick');
+      }
       // Game over
       if (lifes <= 0) {
         lifes = 0;
@@ -258,6 +237,10 @@ function initGame() {
         console.log('Game Over');
 
         document.getElementById('lifes').classList.remove('flick');
+        // resetSnakePosition();
+        // removingElements();
+        // direction = 'right';
+        // showSnakeReset();
 
         window.removeEventListener('keydown', handleKeyPress);
         // const cell = display[snakeHead];
@@ -265,7 +248,7 @@ function initGame() {
         appleSound.play();
         gameOverAnimation();
         setTimeout(() => {
-          // window.location.href = './game-over.html';
+          window.location.href = './game-over.html';
         }, 3000);
         // return playing;
       }
@@ -289,6 +272,7 @@ function initGame() {
             appleSound.play();
           }, 1);
           recieveDamage();
+          // changeToSafeDirection();
         }
       };
       const checkBody = (elem) => {
@@ -323,35 +307,30 @@ function initGame() {
             isEating = true;
           }
 
+          function addAppleScore() {
+            appleScore = appleScore + 1;
+            score = score + 100;
+            const appleScorePanel = document.querySelector('#applesEaten');
+            appleScorePanel.innerText = appleScore;
+          }
+
           function increaseSpeed() {
-            speed = speed + speedUnitIncrease;
+            speed = speed + 0.05;
 
             displaySpeed();
           }
           // appleScore = appleScore + 1;
           // score = score + 100;
           snakeGrows();
-          const cell = display[applePosition];
-
-          cell.classList.remove('flick');
           appleDisappears(pos);
           addAppleScore();
           increaseSpeed();
           function checkIfWins() {
             // Condition for winning: when the snake occupies 1/3 of all available cells
-            if (applesEaten >= 15) {
+            if (appleScore >= 5) {
               console.log('You won!');
-              var winSound = document.getElementById('winSound');
-              setTimeout(winSound.play(), 1);
-              winAnimation();
 
-              clearInterval(intervalId);
-
-              window.removeEventListener('keydown', handleKeyPress);
-
-              setTimeout(() => {
-                window.location.href = './index.html';
-              }, 3000);
+              window.location.href = './level3-intro.html';
             }
           }
 
@@ -363,10 +342,7 @@ function initGame() {
         eatApple(snakeHead);
         console.log('Appple eaten!');
         var appleSound = document.getElementById('appleSound');
-        appleSound.volume = 0.2;
-        setTimeout(() => {
-          appleSound.play();
-        }, 1);
+        appleSound.play();
       }
     }
     timeCount = 0;
@@ -376,160 +352,8 @@ function initGame() {
     plotSnake();
     checkIfEats();
     checkCrash();
-
-    function enterShop() {
-      window.removeEventListener('keydown', handleKeyPress);
-      const shopLayout = document.createElement('div');
-
-      shopLayout.classList.add('shopLayout');
-      function showOffers() {
-        // Vida extra
-
-        const vida = document.createElement('button');
-        const speedProduct = document.createElement('button');
-
-        function purchase() {
-          const purchaseSound = document.getElementById('purchase');
-          setTimeout(() => {
-            purchaseSound.pause();
-            purchaseSound.currentTime = 0;
-            purchaseSound.play();
-          }, 1);
-        }
-        function comprarVida() {
-          vida.removeEventListener('click', comprarVida);
-          speedProduct.removeEventListener('click', comprarSpeed);
-
-          vida.classList.remove('available');
-
-          speedProduct.classList.remove('available');
-          lifes = lifes + 1;
-          appleScore = appleScore - 5;
-          console.log('You bought an extra life!');
-          if (appleScore >= 5) {
-            vida.addEventListener('click', comprarVida);
-            speedProduct.addEventListener('click', comprarSpeed);
-
-            vida.classList.add('available');
-
-            speedProduct.classList.add('available');
-          }
-
-          showAppleScore();
-
-          showLifes();
-          // updateScreens();
-          purchase();
-        }
-
-        function comprarSpeed() {
-          vida.removeEventListener('click', comprarVida);
-          speedProduct.removeEventListener('click', comprarSpeed);
-          speedProduct.classList.remove('available');
-          vida.classList.remove('available');
-          // lifes = lifes + 1;
-          speed = speed - 3 * speedUnitIncrease;
-          appleScore = appleScore - 5;
-          console.log('You bought a reduction in speed!');
-          if (appleScore >= 5) {
-            speedProduct.addEventListener('click', comprarSpeed);
-            vida.addEventListener('click', comprarVida);
-
-            speedProduct.classList.add('available');
-            vida.classList.add('available');
-          }
-
-          showAppleScore();
-
-          displaySpeed();
-
-          // updateScreens();
-
-          purchase();
-        }
-        function optionVida() {
-          // const vida = document.createElement('button');
-          vida.classList.add('vida');
-          shopLayout.appendChild(vida);
-          document.querySelector('body').appendChild(shopLayout);
-
-          if (appleScore >= 5) {
-            vida.addEventListener('click', comprarVida);
-
-            vida.classList.add('available');
-          }
-
-          vida.innerHTML = '❤';
-
-          const precio = document.createElement('p');
-          precio.innerHTML = '5 🍏';
-          vida.appendChild(precio);
-
-          // Reduce speed
-        }
-
-        function optionSpeed() {
-          speedProduct.classList.add('vida');
-          shopLayout.appendChild(speedProduct);
-          document.querySelector('body').appendChild(shopLayout);
-
-          if (appleScore >= 5) {
-            speedProduct.addEventListener('click', comprarSpeed);
-            speedProduct.classList.add('available');
-          }
-
-          speedProduct.innerHTML = 'Speed Down';
-
-          const precio = document.createElement('p');
-          precio.innerHTML = '5 🍏';
-          speedProduct.appendChild(precio);
-
-          // Reduce speed
-        }
-        optionVida();
-        optionSpeed();
-      }
-      clearInterval(intervalId);
-
-      showOffers();
-
-      const goBackButton = document.createElement('button');
-      goBackButton.classList.add('goBack');
-      goBackButton.innerHTML = 'Go Back';
-      shopLayout.appendChild(goBackButton);
-
-      function goBack() {
-        console.log('Exit shop!');
-        restartTimer();
-        // direction = 'down';
-        resetSnakePosition();
-        snakePositions.push(snakeHead);
-        direction = 'right';
-        showSnakeReset();
-
-        document.querySelector('body').removeChild(shopLayout);
-
-        window.addEventListener('keydown', handleKeyPress);
-      }
-      goBackButton.addEventListener('click', goBack);
-    }
-
-    function checkShop() {
-      for (let i = 0; i < shopPosition.length; i++) {
-        if (snakeHead == shopPosition[i]) {
-          console.log('Enter shop');
-          enterShop();
-        }
-      }
-    }
-    checkShop();
   }
 
-  function showSnakeReset() {
-    const resetCell = display[snakeHead];
-    resetCell.classList.add('snakeHead');
-    // resetCell.classList.add('flick');
-  }
   // Generates a grid with the dimensions provided
   function createGrid() {
     for (let i = 0; i < celCount; i++) {
@@ -548,15 +372,13 @@ function initGame() {
   // Get the cells of the grid as an argument
   const display = Array.from(document.querySelectorAll('.grid > div>p'));
 
-  function showShop() {
-    for (let i = 0; i < shopPosition.length; i++) {
-      const cell = display[shopPosition[i]];
-      cell.innerHTML = 'SHOP';
-    }
-  }
+  // function showShop() {
+  //   const cell = display[shopPosition];
+  //   cell.innerHTML = 'SHOP NOT AVAILABLE';
+  // }
   const speedPanel = document.getElementById('speed');
   function displaySpeed() {
-    speedPanel.innerHTML = `${Math.round(speed * 100) / 100} cells / s`;
+    speedPanel.innerHTML = `${Math.round(speed * 10) / 10} cells / s`;
   }
   function showWalls() {
     // Define the walls positions
@@ -564,23 +386,22 @@ function initGame() {
       for (let j = 0; j < width; j++) {
         if (i === 0 || i === width - 1 || j === 0 || j === width - 1) {
           const wallPosition = j * width + i;
-          if (i === 0 && j == Math.floor(width / 2)) {
-            shopPosition.push(wallPosition);
-          } else {
-            wallsPositions.push(wallPosition);
-          }
+          // if (j === 0 && i === Math.floor(width / 2)) {
+          //   // shopPosition = wallPosition;
+          // } else {
+          wallsPositions.push(wallPosition);
         }
       }
-
-      function showWall(cellNumber) {
-        const cell = display[cellNumber];
-
-        cell.classList.add('wall');
-      }
-      wallsPositions.forEach(showWall);
-
-      showShop();
     }
+
+    function showWall(cellNumber) {
+      const cell = display[cellNumber];
+
+      cell.classList.add('wall');
+    }
+    wallsPositions.forEach(showWall);
+
+    // showShop();
   }
   // Showing Pikachu on the cell with coordinates (posx, posy)
   function plotSnake() {
