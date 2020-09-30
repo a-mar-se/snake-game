@@ -233,8 +233,8 @@ function initGame() {
 
         window.removeEventListener('keydown', handleKeyPress);
         // const cell = display[snakeHead];
-        var appleSound = document.getElementById('gameOverSound');
-        appleSound.play();
+        var gameOverSound = document.getElementById('gameOverSound');
+        gameOverSound.play();
         gameOverAnimation();
         setTimeout(() => {
           window.location.href = './index.html';
@@ -257,9 +257,9 @@ function initGame() {
         if (snakePositions.indexOf(elem) !== snakePositions.length - 1) {
           if (elem == snakeHead) {
             console.log(`crash with itself at ${elem}`);
-            var appleSound = document.getElementById('snakeSound');
+            var snakeSound = document.getElementById('snakeSound');
             setTimeout(() => {
-              appleSound.play();
+              snakeSound.play();
             }, 1);
             recieveDamage();
           }
@@ -329,6 +329,7 @@ function initGame() {
         eatApple(snakeHead);
         console.log('Appple eaten!');
         var appleSound = document.getElementById('appleSound');
+        appleSound.volume = 0.2;
         appleSound.play();
       }
     }
