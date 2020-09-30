@@ -238,7 +238,7 @@ function initGame() {
         appleSound.play();
         gameOverAnimation();
         setTimeout(() => {
-          window.location.href = './game-over.html';
+          window.location.href = './index.html';
         }, 3000);
         // return playing;
       }
@@ -330,7 +330,7 @@ function initGame() {
               window.removeEventListener('keydown', handleKeyPress);
 
               setTimeout(() => {
-                window.location.href = './level2-intro.html';
+                window.location.href = './level3-intro.html';
               }, 3000);
             }
           }

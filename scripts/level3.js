@@ -265,7 +265,7 @@ function initGame() {
         appleSound.play();
         gameOverAnimation();
         setTimeout(() => {
-          // window.location.href = './game-over.html';
+          window.location.href = './index.html';
         }, 3000);
         // return playing;
       }
