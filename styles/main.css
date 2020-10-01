@@ -218,10 +218,10 @@ h1 {
 }
 
 .snakeBody {
-  width: 90%;
-  height: 90%;
+  width: 95%;
+  height: 80%;
   border-radius: 0.5vw;
-  cursor: pointer;
+  /* cursor: pointer; */
   background: radial-gradient(
         circle at 0% 50%,
         rgba(96, 16, 48, 0) 9px,
