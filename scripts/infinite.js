@@ -64,6 +64,7 @@ let applePositionx = 0;
 let applePositiony = 0;
 let keyJustPressed = false;
 const shopPosition = [];
+let appleIsAfraid = false;
 
 var appleSound = document.getElementById('appleSound');
 
@@ -230,6 +231,7 @@ function initGame() {
     resetCell.classList.remove('flick');
     document.getElementById('lifes').classList.remove('flick');
   }
+
   function moveSnake() {
     var snakeSound = document.getElementById('snakeMove');
     snakeSound.play();
@@ -259,6 +261,40 @@ function initGame() {
         break;
     }
 
+    let stillInArea = false;
+    function scaredApple() {
+      //  scary Area
+      // appleIsAfraid = false;
+      //  let      exitArea = false;
+      stillInArea = false;
+      for (let i = -3; i < 4; i++) {
+        for (let j = -3; j < 4; j++) {
+          if (applePosition == snakeHead + i + width * j) {
+            // if (!appleIsAfraid) {
+            //   appleIsAfraid = true;
+            // }
+            stillInArea = true;
+          }
+        }
+      }
+      const celdaManzana = display[applePosition];
+      if (stillInArea) {
+        var appleSound = document.getElementById('scaredSound');
+        appleSound.play();
+
+        celdaManzana.classList.add('scared');
+        celdaManzana.classList.remove('apple');
+      } else {
+        celdaManzana.classList.add('apple');
+        celdaManzana.classList.remove('scared');
+      }
+      console.log(stillInArea);
+    }
+    function checkIfAfraid() {
+      const celdaManzana = display[applePosition];
+    }
+
+    // checkIfAfraid();
     function recieveDamage() {
       console.log('- ❤');
       lifes = lifes - 1;
@@ -335,6 +371,7 @@ function initGame() {
             const cell = display[pos];
 
             cell.classList.remove('apple');
+            cell.classList.remove('scared');
           }
 
           function snakeGrows() {
@@ -356,6 +393,25 @@ function initGame() {
           increaseSpeed();
 
           appearApple();
+          function checkIfWins() {
+            // Condition for winning: when the snake occupies 1/3 of all available cells
+            if (applesEaten >= 100) {
+              console.log('You won!');
+              var winSound = document.getElementById('winSound');
+              setTimeout(winSound.play(), 1);
+              winAnimation();
+
+              clearInterval(intervalId);
+
+              window.removeEventListener('keydown', handleKeyPress);
+
+              setTimeout(() => {
+                window.location.href = './index.html';
+              }, 3000);
+            }
+          }
+
+          checkIfWins();
         }
 
         eatApple(snakeHead);
@@ -374,6 +430,7 @@ function initGame() {
 
     snakeHead = y * width + x;
 
+    scaredApple();
     plotSnake();
     checkIfEats();
     checkCrash();
