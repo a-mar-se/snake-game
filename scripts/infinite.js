@@ -6,7 +6,7 @@ import { winAnimation } from './win-animation.js';
 let direction = 'right';
 
 // Create variables for the grid
-const width = 20;
+const width = 16;
 const mapWidth = width - 2;
 const height = width;
 const celCount = width * height;
@@ -135,9 +135,9 @@ function initGame() {
     const appleinStock = document.querySelector('#applesInStock');
     appleinStock.innerText = `${applesNow} 🍏`;
     const coinsScorePanel = document.querySelector('#coins');
-    coinsScorePanel.innerText = `€ ${money.toFixed(2)}`;
+    coinsScorePanel.innerText = `$ ${money.toFixed(2)}`;
     const priceScorePanel = document.querySelector('#price');
-    priceScorePanel.innerText = `€ ${applePrice.toFixed(2)}`;
+    priceScorePanel.innerText = `$ ${applePrice.toFixed(2)}`;
     const reductionLengthPanel = document.querySelector('#reductionLength');
     reductionLengthPanel.innerText = `${lengthReduction.toFixed(2)}`;
     const reductionSpeedPanel = document.querySelector('#reductionSpeed');
@@ -409,7 +409,7 @@ function initGame() {
 
     function getItem(ittem) {
       // console.log('got ' + ittem);
-      const itemsPos = ['x1.5 💤', '+0.5 💌', 'x1.5 🛠', 'x1.2 €/🍏'];
+      const itemsPos = ['x1.5 💤', '+0.5 💌', 'x1.5 🛠', 'x1.2 $/🍏'];
       switch (ittem) {
         case itemsPos[0]:
           speedReduction = speedReduction * 1.5;
@@ -428,7 +428,7 @@ function initGame() {
       }
     }
 
-    const items = ['x1.5 💤', 'x1.5 ❤', 'x1.5 🛠', 'x1.2 €/🍏'];
+    const items = ['x1.5 💤', 'x1.5 ❤', 'x1.5 🛠', 'x1.2 $/🍏'];
 
     function enterShop() {
       window.removeEventListener('keydown', handleKeyPress);
@@ -539,7 +539,7 @@ function initGame() {
             vida.addEventListener('click', comprarVida);
             vida.classList.add('available');
           }
-          vida.innerHTML = '💌 - €5 (Press "l")';
+          vida.innerHTML = '💌 - $5 (Press "l")';
         }
 
         function optionSpeed() {
@@ -552,7 +552,7 @@ function initGame() {
             speedProduct.classList.add('available');
           }
 
-          speedProduct.innerHTML = '💤 -5 € (Press "s")';
+          speedProduct.innerHTML = '💤 -5 $ (Press "s")';
 
           // Reduce speed
         }
@@ -568,7 +568,7 @@ function initGame() {
             }
           }
 
-          reduceSnake.innerHTML = '🛠 - €5 (Press "r")';
+          reduceSnake.innerHTML = '🛠 - $5 (Press "r")';
         }
 
         function optionItem(itt) {
@@ -578,7 +578,7 @@ function initGame() {
             shopItem.addEventListener('click', comprarItem);
             shopItem.classList.add('available');
           }
-          shopItem.innerHTML = `${itt} - €8 (Press "i")`;
+          shopItem.innerHTML = `${itt} - $8 (Press "i")`;
         }
         optionItem(shopItemObject);
         optionLength();
@@ -716,13 +716,16 @@ function initGame() {
   function showShop() {
     for (let i = 0; i < shopPosition.length; i++) {
       const cell = display[shopPosition[i]];
-      cell.innerHTML = 'SHOP';
+      // cell.innerHTML = 'SHOP';
+
+      cell.classList.add('shop');
     }
   }
   function showMerca() {
     for (let i = 0; i < mercaPosition.length; i++) {
       const cell = display[mercaPosition[i]];
-      cell.innerHTML = 'Merca';
+      // cell.innerHTML = 'Merca';
+      cell.classList.add('merca');
     }
   }
   function showWalls() {
