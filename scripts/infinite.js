@@ -41,7 +41,7 @@ let intervalId = null;
 let deciSeconds = 0;
 
 let timeCount = 0;
-let money = 100;
+let money = 10;
 let applesEaten = 0;
 let attackProgress = 0;
 
@@ -57,6 +57,15 @@ let snakePositions = [];
 // for (let i = 0; i < lengthSnake; i++) {
 // }
 snakePositions.push(snakeHead);
+// const scoreN = ['score1', 'score2', 'score3', 'score4', 'score5'];
+// const highscoreAllTimes = []; // Open file with highscores
+// for (let i = 0; i < 5; i++) {
+//   if (localStorage.getItem(scoreN[i])) {
+//     highscoreAllTimes.push(localStorage.getItem(scoreN[i]));
+//   } else {
+//     highscoreAllTimes.push(0);
+//   }
+// }
 
 // console.log(snakePositions);
 let isEating = false;
@@ -77,16 +86,19 @@ let cureValue = 1;
 let lengthReduction = 3;
 let applePrice = 1;
 let applesNow = 0;
-
+let backNotPlaying = true;
 function initGame() {
   var backSound = document.getElementById('endless');
   backSound.volume = 0.3;
-  backSound.play(0, 5);
+  if (backNotPlaying) {
+    backSound.play();
+    backNotPlaying = true;
+  }
 
   const renderTimerTime = () => {
     deciSeconds = deciSeconds + 1;
     let timeString = ``;
-    if (deciSeconds === 1000) {
+    if (deciSeconds === 100) {
       seconds = seconds + 1;
       deciSeconds = 0;
       if (seconds === 60) {
@@ -131,7 +143,7 @@ function initGame() {
     const bappleScorePanel = document.querySelector('#applesEatenBack');
     const progi = document.querySelector('#progressLevel');
     bappleScorePanel.innerText = `${applesEaten} /100 🍏`;
-    // progi.style.setProperty('--progressLevel', `${applesEaten}%`);
+    bappleScorePanel.style.setProperty('--progressLevel', `${applesEaten}%`);
     const appleinStock = document.querySelector('#applesInStock');
     appleinStock.innerText = `${applesNow} 🍏`;
     const coinsScorePanel = document.querySelector('#coins');
@@ -274,7 +286,6 @@ function initGame() {
 
       // Game over
       if (lifes <= 0) {
-        debugger;
         lifes = 0;
         console.log('Game Over');
 
@@ -282,7 +293,9 @@ function initGame() {
         // const cell = display[snakeHead];
         var overSound = document.getElementById('gameOverSound');
         overSound.play();
+
         gameOverAnimation();
+        // highscore();
         setTimeout(() => {
           window.location.href = './index.html';
         }, 3000);
@@ -368,6 +381,7 @@ function initGame() {
             // Condition for winning: when the snake occupies 1/3 of all available cells
             if (applesEaten >= 100) {
               console.log('You won!');
+              // highscore();
               var winSound = document.getElementById('winSound');
               setTimeout(winSound.play(), 1);
               winAnimation();
@@ -391,7 +405,7 @@ function initGame() {
         setTimeout(() => {
           const cell = display[applePosition];
 
-          cell.classList.remove('flick');
+          // cell.classList.remove('flick');
           appleSound.pause();
           appleSound.play();
         }, 1);
@@ -409,7 +423,7 @@ function initGame() {
 
     function getItem(ittem) {
       // console.log('got ' + ittem);
-      const itemsPos = ['x1.5 💤', '+0.5 💌', 'x1.5 🛠', 'x1.2 $/🍏'];
+      const itemsPos = ['x1.5 💤', '+0.5 🐍', 'x1.5 🛠', 'x1.2 $/🍏'];
       switch (ittem) {
         case itemsPos[0]:
           speedReduction = speedReduction * 1.5;
@@ -428,7 +442,7 @@ function initGame() {
       }
     }
 
-    const items = ['x1.5 💤', 'x1.5 ❤', 'x1.5 🛠', 'x1.2 $/🍏'];
+    const items = ['x1.5 💤', '+0.5 🐍', 'x1.5 🛠', 'x1.2 $/🍏'];
 
     function enterShop() {
       window.removeEventListener('keydown', handleKeyPress);
@@ -539,7 +553,7 @@ function initGame() {
             vida.addEventListener('click', comprarVida);
             vida.classList.add('available');
           }
-          vida.innerHTML = '💌 - $5 (Press "l")';
+          vida.innerHTML = '🐍 - $5 (Press "l")';
         }
 
         function optionSpeed() {
@@ -716,7 +730,7 @@ function initGame() {
   function showShop() {
     for (let i = 0; i < shopPosition.length; i++) {
       const cell = display[shopPosition[i]];
-      // cell.innerHTML = 'SHOP';
+      cell.innerHTML = '➕🐍🛠...';
 
       cell.classList.add('shop');
     }
@@ -724,7 +738,7 @@ function initGame() {
   function showMerca() {
     for (let i = 0; i < mercaPosition.length; i++) {
       const cell = display[mercaPosition[i]];
-      // cell.innerHTML = 'Merca';
+      cell.innerHTML = '$ / 🍏';
       cell.classList.add('merca');
     }
   }
@@ -857,6 +871,19 @@ function initGame() {
 
     console.log(`Apple created at position ${applePosition}`);
   }
+
+  // function highscore() {
+  //   console.log(highscoreAllTimes);
+  //   for (let i = 0; i < highscoreAllTimes.length; i++) {
+  //     if (score > highscoreAllTimes[i]) {
+  //       highscoreAllTimes.pop();
+  //       highscoreAllTimes.push(score);
+  //     }
+  //   }
+  //   // saveHighscore();
+
+  //   localStorage.setItem(score, scoreN[4]);
+  // }
 
   //
   // When pressing a key...

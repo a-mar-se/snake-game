@@ -244,8 +244,8 @@ h1 {
 }
 
 .snakeBody {
-  width: 95%;
-  height: 80%;
+  width: 90%;
+  height: 90%;
   border-radius: 0.5vw;
   /* cursor: pointer; */
   background: radial-gradient(
@@ -293,8 +293,17 @@ h1 {
       #613 10px,
       rgba(96, 16, 48, 0) 11px
     ),
-    rgb(168, 50, 3);
-  background-size: 20px 20px;
+    /* radial-gradient(circle at 100% 0%, #8a3 50%, blue 96%, violet 100%), */
+      radial-gradient(
+        rgb(88, 99, 255) 25%,
+        rgb(199, 76, 92) 35%,
+        rgb(161, 82, 197) 63%,
+        rgb(130, 54, 216) 70%,
+        rgb(53, 40, 167) 85%,
+        rgb(167, 21, 167) 95%,
+        blue
+      );
+  background-size: 8px 8px;
 }
 .apple {
   background-image: url('../images/normal-apple.png');
@@ -491,6 +500,7 @@ button {
 .vida {
   order: 21;
   z-index: 11;
+  height: 15%;
   /* position: absolute; */
 
   /* background-color: red; */
@@ -540,10 +550,12 @@ p {
 
 #applesEatenBack {
   /* min-width: 100px; */
-  /* height: 30px; */
+  height: 30px;
+  text-align: center;
   /* width: 200px; */
-  /* border-radius: 1rem; */
-  background: rgba(204, 248, 238, 0.75);
+  border-radius: 0.5rem;
+  /* background: linear-gradient( rgba(204, 248, 238, 0.75) var(--progressLevel),rgba(black) var(--progressLevel)); */
+ background: linear-gradient(90deg ,rgba(85, 73, 255, 0.75) ,  rgba(204, 248, 238, 0.5) var(--progressLevel));
   /* margin: 0 2vw 0 0; */
   /* padding: 0 2vw 0 0; */
 }
@@ -560,21 +572,32 @@ p {
 }
 
 .merca {
-  background-image: url('../images/merca.png');
+  /* background-image: url('../images/merca.png'); */
   background-repeat: no-repeat;
+  /* background-color: red; */
   background-size: cover;
   width: 100%;
   height: 100%;
-  border: 2px dotted red;
+  font-size: 50%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-self: center; */
 }
 .shop {
-  background-image: url('../images/shop.png');
+  /* background-image: url('../images/shop.png'); */
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
   height: 100%;
+  
+  font-size: 50%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-  border: 2px dotted red;
 }
 
   #simul {
