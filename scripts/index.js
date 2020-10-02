@@ -4,6 +4,8 @@ const startButton = document.querySelector('.startButton');
 const startButtonInf = document.querySelector('.startButtonInfinite');
 const startButtonContainer = document.querySelector('.startButtonContainer');
 function init() {
+  var mercaSound = document.getElementById('wobble');
+  mercaSound.play();
   // Click the button or press "Enter" or "SpaceBar" to start
   startButton.addEventListener('click', execGame);
 

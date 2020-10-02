@@ -72,8 +72,8 @@ let appleCanBeAfraid = true;
 let stillInArea = false;
 var appleSound = document.getElementById('appleSound');
 
-let speedReduction = 0.15;
-let lifesShop = 1;
+let speedReduction = 3;
+let cureValue = 1;
 let lengthReduction = 3;
 let applePrice = 1;
 let applesNow = 0;
@@ -81,7 +81,7 @@ let applesNow = 0;
 function initGame() {
   var backSound = document.getElementById('endless');
   backSound.volume = 0.3;
-  backSound.play();
+  backSound.play(0, 5);
 
   const renderTimerTime = () => {
     deciSeconds = deciSeconds + 1;
@@ -125,12 +125,25 @@ function initGame() {
   };
   showAppleScore();
   function showAppleScore() {
-    const appleScorePanel = document.querySelector('#applesEaten');
-    appleScorePanel.innerText = applesEaten;
+    const speedPanel = document.getElementById('speed');
+    speedPanel.innerHTML = `${(Math.round(speed) / 10).toFixed(2)} cells/s`;
+
+    const bappleScorePanel = document.querySelector('#applesEatenBack');
+    const progi = document.querySelector('#progressLevel');
+    bappleScorePanel.innerText = `${applesEaten} /100 🍏`;
+    // progi.style.setProperty('--progressLevel', `${applesEaten}%`);
     const appleinStock = document.querySelector('#applesInStock');
-    appleinStock.innerText = applesNow;
+    appleinStock.innerText = `${applesNow} 🍏`;
     const coinsScorePanel = document.querySelector('#coins');
-    coinsScorePanel.innerText = `€ ${Math.floor(money, 1)}`;
+    coinsScorePanel.innerText = `€ ${money.toFixed(2)}`;
+    const priceScorePanel = document.querySelector('#price');
+    priceScorePanel.innerText = `€ ${applePrice.toFixed(2)}`;
+    const reductionLengthPanel = document.querySelector('#reductionLength');
+    reductionLengthPanel.innerText = `${lengthReduction.toFixed(2)}`;
+    const reductionSpeedPanel = document.querySelector('#reductionSpeed');
+    reductionSpeedPanel.innerText = `${speedReduction.toFixed(2)}`;
+    const cureSpeedPanel = document.querySelector('#cureValue');
+    cureSpeedPanel.innerText = `${cureValue.toFixed(2)}`;
   }
   function addAppleScore() {
     applesNow = applesNow + 1;
@@ -150,7 +163,6 @@ function initGame() {
     document.getElementById('lifes').innerText = lifesDisp;
   }
   function moveObjects() {
-    displaySpeed();
     timeCount = timeCount + 1;
     if (timeCount === Math.floor(1000 / speed)) {
       moveSnake();
@@ -236,8 +248,8 @@ function initGame() {
       const celdaManzana = display[applePosition];
       if (stillInArea) {
         if (appleCanBeAfraid) {
-          var appleSound = document.getElementById('scaredSound');
-          appleSound.play();
+          var scSound = document.getElementById('scaredSound');
+          scSound.play();
           appleCanBeAfraid = false;
         }
         celdaManzana.classList.add('scared');
@@ -341,7 +353,7 @@ function initGame() {
           function increaseSpeed() {
             speed = speed + speedUnitIncrease;
 
-            displaySpeed();
+            showAppleScore();
           }
           snakeGrows();
           const cell = display[applePosition];
@@ -388,9 +400,6 @@ function initGame() {
     timeCount = 0;
 
     snakeHead = y * width + x;
-    // snakePositions.push(snakeHead);
-    console.log(snakePositions);
-    console.log(snakePositions);
     scaredApple();
 
     plotSnake();
@@ -398,164 +407,152 @@ function initGame() {
     checkIfEats();
     checkCrash();
 
-    const vida = document.createElement('button');
-    const speedProduct = document.createElement('button');
-    const reduceSnake = document.createElement('button');
-    const shopItem = document.createElement('button');
-
-    function removeShopOptions() {
-      vida.removeEventListener('click', comprarVida);
-      speedProduct.removeEventListener('click', comprarSpeed);
-      speedProduct.classList.remove('available');
-      vida.classList.remove('available');
-      reduceSnake.removeEventListener('click', comprarLength);
-      reduceSnake.classList.remove('available');
-      shopItem.removeEventListener('click', comprarItem);
-      shopItem.classList.remove('available');
-    }
-
-    function showShopOptions() {
-      if (money >= 5) {
-        speedProduct.addEventListener('click', comprarSpeed);
-        speedProduct.classList.add('available');
-        vida.addEventListener('click', comprarVida);
-        vida.classList.add('available');
-        reduceSnake.addEventListener('click', comprarLength);
-        reduceSnake.classList.add('available');
-      }
-
-      if (money >= 8) {
-        shopItem.addEventListener('click', comprarItem);
-        shopItem.classList.add('available');
-      }
-    }
-
-    function purchase() {
-      const purchaseSound = document.getElementById('purchase');
-      setTimeout(() => {
-        purchaseSound.pause();
-        purchaseSound.currentTime = 0;
-        purchaseSound.play();
-      }, 1);
-    }
-    function updatePurchase() {
-      showShopOptions();
-      showAppleScore();
-      displaySpeed();
-      purchase();
-    }
-    function comprarVida() {
-      removeShopOptions();
-      lifes = lifes + lifesShop;
-      money = money - 5;
-      console.log('You bought an extra life!');
-      updatePurchase();
-      showLifes();
-    }
-
     function getItem(ittem) {
+      // console.log('got ' + ittem);
+      const itemsPos = ['x1.5 💤', '+0.5 💌', 'x1.5 🛠', 'x1.2 €/🍏'];
       switch (ittem) {
-        case 'xspeed':
+        case itemsPos[0]:
           speedReduction = speedReduction * 1.5;
           break;
-        case 'xlifes':
-          lifesShop = lifesShop * 1.5;
+        case itemsPos[1]:
+          cureValue = cureValue + 0.5;
           break;
-        case 'xreduce':
+        case itemsPos[2]:
           lengthReduction = lengthReduction * 1.5;
           break;
-        case 'xapples':
+        case itemsPos[3]:
           applePrice = applePrice * 1.2;
           break;
+        default:
+          console.log('Error in item');
       }
     }
 
     const items = ['x1.5 💤', 'x1.5 ❤', 'x1.5 🛠', 'x1.2 €/🍏'];
-    function comprarItem(niceItem) {
-      removeShopOptions();
 
-      getItem(niceItem);
-      money = money - 8;
-      console.log('You bought an item!');
-      updatePurchase();
-    }
+    function enterShop() {
+      window.removeEventListener('keydown', handleKeyPress);
+      const shopItemObject = items[Math.floor(Math.random() * 4)];
 
-    function comprarSpeed() {
-      removeShopOptions();
-      speed = speed - speedReduction;
-      money = money - 5;
-      console.log('You bought a reduction in speed!');
-      updatePurchase();
-    }
+      const vida = document.createElement('button');
+      const speedProduct = document.createElement('button');
+      const reduceSnake = document.createElement('button');
+      const shopItem = document.createElement('button');
 
-    function comprarLength() {
-      removeShopOptions();
+      function removeShopOptions() {
+        vida.removeEventListener('click', comprarVida);
+        speedProduct.removeEventListener('click', comprarSpeed);
+        speedProduct.classList.remove('available');
+        vida.classList.remove('available');
+        reduceSnake.removeEventListener('click', comprarLength);
+        reduceSnake.classList.remove('available');
+        shopItem.removeEventListener('click', comprarItem);
+        shopItem.classList.remove('available');
 
-      // Reduce length and update money
-      for (let i = 0; i < lengthReduction; i++) {
-        if (lengthSnake > 1) {
+        window.removeEventListener('keydown', buysome);
+      }
+      function showShopOptions() {
+        window.addEventListener('keydown', buysome);
+        if (money >= 5) {
+          speedProduct.addEventListener('click', comprarSpeed);
+          speedProduct.classList.add('available');
+          vida.addEventListener('click', comprarVida);
+          vida.classList.add('available');
+
+          if (lengthSnake > 1 + lengthReduction) {
+            reduceSnake.addEventListener('click', comprarLength);
+            reduceSnake.classList.add('available');
+          }
+        }
+
+        if (money >= 8) {
+          shopItem.addEventListener('click', comprarItem);
+          shopItem.classList.add('available');
+        }
+      }
+
+      function purchase() {
+        const purchaseSound = document.getElementById('purchase');
+        setTimeout(() => {
+          purchaseSound.pause();
+          purchaseSound.currentTime = 0;
+          purchaseSound.play();
+        }, 1);
+      }
+      function updatePurchase() {
+        showShopOptions();
+        showAppleScore();
+        purchase();
+      }
+      function comprarVida() {
+        removeShopOptions();
+        lifes = lifes + cureValue;
+        money = money - 5;
+        console.log('Extra life!');
+        updatePurchase();
+        showLifes();
+      }
+
+      function comprarItem(niceItem) {
+        removeShopOptions();
+
+        getItem(niceItem);
+        money = money - 8;
+        console.log('Got an Item!');
+        updatePurchase();
+      }
+
+      function comprarSpeed() {
+        removeShopOptions();
+        speed = speed - speedReduction;
+        money = money - 5;
+        console.log('Reduction in speed!');
+        updatePurchase();
+      }
+
+      function comprarLength() {
+        removeShopOptions();
+
+        // Reduce length and update money
+        for (let i = 0; i < Math.floor(lengthReduction); i++) {
           lengthSnake = lengthSnake - 1;
           const tail = snakePositions.shift();
           const tailCell = display[tail];
           tailCell.classList.remove('snakeBody');
           tailCell.classList.remove('snakeHead');
         }
+
+        money = money - 5;
+        console.log('Reduction in length!');
+        updatePurchase();
       }
-      money = money - 5;
-      console.log('You bought a reduction in speed!');
-      updatePurchase();
-    }
 
-    function enterMerca() {
-      money = money + applesNow * applePrice;
-      applesNow = 0;
-      console.log('Exit Mercadillo!');
-      resetSnakePosition();
-      showAppleScore();
-    }
-    function enterShop() {
-      window.removeEventListener('keydown', handleKeyPress);
-      const shopItemObject = items[Math.floor(Math.random() * 4)];
-
-      window.removeEventListener('keydown', handleKeyPress);
-
-      window.addEventListener('keydown', buysome);
-      const shopLayout = document.createElement('div');
-
-      shopLayout.classList.add('shopLayout');
       function showOffers() {
+        window.addEventListener('keydown', buysome);
         // Vida extra
 
+        document.querySelector('body').appendChild(shopLayout);
         function optionVida() {
           vida.classList.add('vida');
           shopLayout.appendChild(vida);
-          document.querySelector('body').appendChild(shopLayout);
           if (money >= 5) {
             vida.addEventListener('click', comprarVida);
             vida.classList.add('available');
           }
-          vida.innerHTML = '❤';
-          const precio = document.createElement('p');
-          precio.innerHTML = '€5 (Press "l")';
-          vida.appendChild(precio);
+          vida.innerHTML = '💌 - €5 (Press "l")';
         }
 
         function optionSpeed() {
           speedProduct.classList.add('vida');
           shopLayout.appendChild(speedProduct);
-          document.querySelector('body').appendChild(shopLayout);
 
+          window.addEventListener('keydown', buysome);
           if (money >= 5) {
-            window.addEventListener('keydown', buysome);
             speedProduct.addEventListener('click', comprarSpeed);
             speedProduct.classList.add('available');
           }
 
-          speedProduct.innerHTML = '💤';
-
-          const precio = document.createElement('p');
-          precio.innerHTML = '5 € (Press "s")';
-          speedProduct.appendChild(precio);
+          speedProduct.innerHTML = '💤 -5 € (Press "s")';
 
           // Reduce speed
         }
@@ -563,32 +560,25 @@ function initGame() {
         function optionLength() {
           reduceSnake.classList.add('vida');
           shopLayout.appendChild(reduceSnake);
-          document.querySelector('body').appendChild(shopLayout);
-
           if (money >= 5) {
             window.addEventListener('keydown', buysome);
-            reduceSnake.addEventListener('click', comprarLength);
-            reduceSnake.classList.add('available');
+            if (lengthSnake > 4) {
+              reduceSnake.addEventListener('click', comprarLength);
+              reduceSnake.classList.add('available');
+            }
           }
 
-          reduceSnake.innerHTML = '🛠';
-
-          const precio = document.createElement('p');
-          precio.innerHTML = '€5 (Press "r")';
-          reduceSnake.appendChild(precio);
+          reduceSnake.innerHTML = '🛠 - €5 (Press "r")';
         }
+
         function optionItem(itt) {
           shopItem.classList.add('vida');
           shopLayout.appendChild(shopItem);
-          document.querySelector('body').appendChild(shopLayout);
           if (money >= 8) {
             shopItem.addEventListener('click', comprarItem);
             shopItem.classList.add('available');
           }
-          shopItem.innerHTML = itt;
-          const precio = document.createElement('p');
-          precio.innerHTML = '€8 (Press "i")';
-          shopItem.appendChild(precio);
+          shopItem.innerHTML = `${itt} - €8 (Press "i")`;
         }
         optionItem(shopItemObject);
         optionLength();
@@ -607,7 +597,9 @@ function initGame() {
           }
           case 'r': {
             if (money >= 5) {
-              comprarLength();
+              if (lengthSnake > 3) {
+                comprarLength();
+              }
             }
             break;
           }
@@ -633,10 +625,20 @@ function initGame() {
             goBack();
             break;
           }
+          default: {
+            break;
+          }
         }
       }
 
       clearInterval(intervalId);
+
+      window.removeEventListener('keydown', handleKeyPress);
+
+      window.addEventListener('keydown', buysome);
+      const shopLayout = document.createElement('div');
+
+      shopLayout.classList.add('shopLayout');
       showOffers();
 
       const goBackButton = document.createElement('button');
@@ -654,7 +656,6 @@ function initGame() {
         window.addEventListener('keydown', handleKeyPress);
         debugger;
       }
-      window.addEventListener('keydown', buysome);
       goBackButton.addEventListener('click', goBack);
     }
 
@@ -665,6 +666,16 @@ function initGame() {
           enterShop();
         }
       }
+    }
+
+    function enterMerca() {
+      var mercaSound = document.getElementById('mercaSound');
+      mercaSound.play();
+      applePrice = applePrice * 0.99;
+      money = money + applesNow * applePrice;
+      applesNow = 0;
+      resetSnakePosition();
+      showAppleScore();
     }
     function checkMerca() {
       for (let i = 0; i < mercaPosition.length; i++) {
@@ -714,10 +725,6 @@ function initGame() {
       cell.innerHTML = 'Merca';
     }
   }
-  const speedPanel = document.getElementById('speed');
-  function displaySpeed() {
-    speedPanel.innerHTML = `${Math.round(speed * 100) / 100} cells/s`;
-  }
   function showWalls() {
     // Define the walls positions
     for (let i = 0; i < width; i++) {
@@ -763,7 +770,6 @@ function initGame() {
       // tailCell.classList.remove('snakeHead');
     }
     if (lengthSnake > snakePositions.length) {
-      console.log(lengthSnake);
       snakePositions.unshift(tail);
     }
     for (let i = 0; i < snakePositions.length; i++) {
@@ -776,8 +782,6 @@ function initGame() {
     showSnake(snakePositions);
 
     const snakeHeadVisual = document.querySelector('.snakeHead');
-    // console.log(snakePositions);
-    // console.log(snakeHeadVisual);
     let directionRadialBorder = ` `;
     const dircs = [
       '4vw 4vw 1vw 1vw',
