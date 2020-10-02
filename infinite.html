@@ -17,6 +17,7 @@
 
     <audio src="./sounds/move-snake.wav" id="snakeMove"></audio>
     <audio src="./sounds/win-sound.wav" id="winSound"></audio>
+    <audio src="./sounds/merca-sound.wav" id="mercaSound"></audio>
 
     <audio src="./sounds/snake-crash.wav" id="snakeSound"></audio>
     <audio src="./sounds/game-over-sound.wav" id="gameOverSound"></audio>
@@ -33,18 +34,32 @@
         <div class="scoreValue" id="timer">00:00:00</div>
         <div>Score:</div>
         <div class="scoreValue" id="score">0</div>
-        <div>Eaten:</div>
-        <div class="scoreValue" id="applesEaten">0 🍏</div>
-        <div>In stock:</div>
-        <div class="scoreValue" id="applesInStock">0 🍏</div>
-      </div>
-      <div class="scorePanel">
+
         <div>Lifes:</div>
         <div class="scoreValue" id="lifes"></div>
         <div>Speed:</div>
         <div class="scoreValue" id="speed"></div>
+        <div>💌 :</div>
+        <div class="scoreValue" id="cureValue"></div>
+        <div>💤 :</div>
+        <div class="scoreValue" id="reductionSpeed"></div>
+        <div>🛠 :</div>
+        <div class="scoreValue" id="reductionLength"></div>
+      </div>
+      <div class="scorePanel">
+        <div>Eaten:</div>
+        <div id="applesEatenBack" class="scoreValue">
+          <div id="progressLevel"></div>
+        </div>
+
+        <!-- <div>0 🍏</div> -->
+        <div>In stock:</div>
+        <div class="scoreValue" id="applesInStock">0 🍏</div>
+
         <div>Money:</div>
-        <div class="scoreValue" id="coins">0 🍏</div>
+        <div class="scoreValue" id="coins"></div>
+        <div>Price:</div>
+        <div class="scoreValue" id="price"></div>
       </div>
     </div>
 
