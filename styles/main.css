@@ -613,6 +613,33 @@ p {
 
 .surprise {
   background-color: rgb(255, 0, 0);
-  width: 100%;
-  height: 100%;
+  border-radius: 50%;
+
+  /* background: radial-gradient(
+    blue 25%,
+    red 30%,
+    blue 35%,
+    blue 45%,
+    green 50%,
+    blue 55%,
+    rgba(0, 0, 0, 0) 60%
+  ); */
+  width: 75%;
+  height: 75%;
+  animation: spinBonus 1s ease-in-out infinite;
+}
+
+@keyframes spinBonus {
+  50% {
+    background-color: rgba(255, 255, 0, 0.2);
+    /*  background: radial-gradient(
+      rgba(0, 0, 255, 0.212) 25%,
+      rgba(255, 0, 0, 0.219) 30%,
+      rgba(0, 0, 255, 0.295) 35%,
+      blue 45%,
+      rgba(0, 128, 0, 0.308) 50%,
+      rgba(0, 0, 255, 0.363) 55%,
+      rgba(0, 0, 0, 0) 60%
+    ); */
+  }
 }

@@ -366,7 +366,7 @@ function initGame() {
 
     function checkIfBonus() {
       if (snakeHead == objectPosition) {
-        speed = speed + 0.1;
+        speed = speed + speedUnitIncrease * 2;
         const randomObject = items[Math.floor(Math.random() * 4)];
         getItem(randomObject);
         const cell = display[objectPosition];
@@ -537,10 +537,8 @@ function initGame() {
           vida.addEventListener('click', comprarVida);
           vida.classList.add('available');
 
-          if (lengthSnake > 1 + lengthReduction) {
-            reduceSnake.addEventListener('click', comprarLength);
-            reduceSnake.classList.add('available');
-          }
+          reduceSnake.addEventListener('click', comprarLength);
+          reduceSnake.classList.add('available');
         }
 
         if (money >= priceItem) {
@@ -583,8 +581,8 @@ function initGame() {
       function comprarSpeed() {
         removeShopOptions();
         speed = speed - speedReduction;
-        if (speed < 2) {
-          speed = 2;
+        if (speed < 20) {
+          speed = 20;
         }
         money = money - priceNormal;
         console.log('Reduction in speed!');
@@ -596,11 +594,13 @@ function initGame() {
 
         // Reduce length and update money
         for (let i = 0; i < Math.floor(lengthReduction); i++) {
-          lengthSnake = lengthSnake - 1;
-          const tail = snakePositions.shift();
-          const tailCell = display[tail];
-          tailCell.classList.remove('snakeBody');
-          tailCell.classList.remove('snakeHead');
+          if (lengthSnake > 2) {
+            lengthSnake = lengthSnake - 1;
+            const tail = snakePositions.shift();
+            const tailCell = display[tail];
+            tailCell.classList.remove('snakeBody');
+            tailCell.classList.remove('snakeHead');
+          }
         }
 
         money = money - priceNormal;
@@ -676,9 +676,7 @@ function initGame() {
           }
           case 'r': {
             if (money >= priceNormal) {
-              if (lengthSnake > 3) {
-                comprarLength();
-              }
+              comprarLength();
             }
             break;
           }
