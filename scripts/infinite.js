@@ -94,14 +94,14 @@ let cureValue = 1;
 let lengthReduction = 3;
 let applePrice = 1;
 let applesNow = 0;
-let backNotPlaying = true;
+// let backNotPlaying = true;
 function initGame() {
   var backSound = document.getElementById('endless');
   backSound.volume = 0.3;
-  if (backNotPlaying) {
-    backSound.play();
-    backNotPlaying = true;
-  }
+  backSound.play();
+  // if (backNotPlaying) {
+  //   backNotPlaying = true;
+  // }
 
   const renderTimerTime = () => {
     deciSeconds = deciSeconds + 1;
@@ -372,6 +372,7 @@ function initGame() {
         const cell = display[objectPosition];
 
         cell.classList.remove('surprise');
+        objectPosition = 0;
         showAppleScore();
       }
     }
@@ -447,8 +448,6 @@ function initGame() {
 
             // Find the cell of those coordinates
             const cell = display[objectPosition];
-
-            // createObject(randomObject, objectPosition);
             // Create new element to show on top of the field
             cell.classList.add('surprise');
             cell.classList.add('flick');
