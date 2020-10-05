@@ -55,7 +55,13 @@ let snakeHead = y * width + x;
 let speed = 30;
 let lengthSnake = 4;
 
-const items = ['x1.5 💤', '+0.5 🐍', 'x1.5 🛠', 'x1.2 $/🍏'];
+const items = [
+  'Sleep 💤x1.25',
+  'Cure 🐍+0.5❤',
+  'Cut Snake 🛠x1.25',
+  'Price ($/🍏)x1.2 ',
+  'More Apples Appear',
+];
 
 const resetPos = snakeHead;
 let snakePositions = [];
@@ -163,7 +169,7 @@ function initGame() {
     const priceScorePanel = document.querySelector('#price');
     priceScorePanel.innerText = `$ ${applePrice.toFixed(2)} / 🍏`;
     const reductionLengthPanel = document.querySelector('#reductionLength');
-    reductionLengthPanel.innerText = `-${lengthReduction}`;
+    reductionLengthPanel.innerText = `-${lengthReduction.toFixed(0)} cells`;
     const reductionSpeedPanel = document.querySelector('#reductionSpeed');
     reductionSpeedPanel.innerText = `- ${(speedReduction / 10).toFixed(
       1,
@@ -367,7 +373,7 @@ function initGame() {
     function checkIfBonus() {
       if (snakeHead == objectPosition) {
         speed = speed + speedUnitIncrease * 2;
-        const randomObject = items[Math.floor(Math.random() * 4)];
+        const randomObject = items[Math.floor(Math.random() * items.length)];
         getItem(randomObject);
         const cell = display[objectPosition];
 
@@ -407,6 +413,7 @@ function initGame() {
           increaseSpeed();
 
           appearApple();
+
           function checkIfWins() {
             // Condition for winning: when the snake occupies 1/3 of all available cells
             if (applesEaten >= 100) {
@@ -501,9 +508,11 @@ function initGame() {
         case items[3]:
           applePrice = applePrice * 1.25;
           break;
+
         default:
           console.log('Error in item');
       }
+      console.log(ittem);
     }
 
     function enterShop() {
@@ -619,7 +628,7 @@ function initGame() {
             vida.addEventListener('click', comprarVida);
             vida.classList.add('available');
           }
-          vida.innerHTML = `🐍 - $${priceNormal} (Press "l")`;
+          vida.innerHTML = `Cure 🐍 - $${priceNormal} (Press 'l')`;
         }
 
         function optionSpeed() {
@@ -632,7 +641,7 @@ function initGame() {
             speedProduct.classList.add('available');
           }
 
-          speedProduct.innerHTML = `💤 - $${priceNormal} (Press "s")`;
+          speedProduct.innerHTML = `Sleep 💤 - $${priceNormal} (Press 's')`;
 
           // Reduce speed
         }
@@ -646,7 +655,7 @@ function initGame() {
             reduceSnake.classList.add('available');
           }
 
-          reduceSnake.innerHTML = `🛠 - $${priceNormal} (Press "r")`;
+          reduceSnake.innerHTML = `Cut Snake 🛠 - $${priceNormal} (Press 'r')`;
         }
 
         function optionItem(itt) {
@@ -656,7 +665,7 @@ function initGame() {
             shopItem.addEventListener('click', comprarItem);
             shopItem.classList.add('available');
           }
-          shopItem.innerHTML = `${itt} - $${priceItem} (Press "i")`;
+          shopItem.innerHTML = `${itt} - $${priceItem} (Press 'i')`;
         }
         optionItem(shopItemObject);
         optionLength();
@@ -790,7 +799,7 @@ function initGame() {
   function showShop() {
     for (let i = 0; i < shopPosition.length; i++) {
       const cell = display[shopPosition[i]];
-      cell.innerHTML = '➕🐍🛠...';
+      cell.innerHTML = '💤🐍🛠';
 
       cell.classList.add('shop');
     }
