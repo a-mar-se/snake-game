@@ -60,7 +60,6 @@ const items = [
   'Cure 🐍+0.5❤',
   'Cut Snake 🛠x1.25',
   'Price ($/🍏)x1.2 ',
-  'More Apples Appear',
 ];
 
 const resetPos = snakeHead;
@@ -373,7 +372,8 @@ function initGame() {
     function checkIfBonus() {
       if (snakeHead == objectPosition) {
         speed = speed + speedUnitIncrease * 2;
-        const randomObject = items[Math.floor(Math.random() * items.length)];
+        const randomObject =
+          items[Math.floor(Math.random() * items.length - 0.0000001)];
         getItem(randomObject);
         const cell = display[objectPosition];
 
@@ -518,7 +518,8 @@ function initGame() {
     function enterShop() {
       applePrice = applePrice * mercaReduction;
       window.removeEventListener('keydown', handleKeyPress);
-      const shopItemObject = items[Math.floor(Math.random() * 4)];
+      const shopItemObject =
+        items[Math.floor(Math.random() * items.length - 0.0000001)];
 
       const vida = document.createElement('button');
       const speedProduct = document.createElement('button');
