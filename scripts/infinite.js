@@ -201,7 +201,7 @@ function initGame() {
 
     // Sun in the background moving
 
-    sunMove(deciSeconds, seconds);
+    // sunMove(deciSeconds, seconds);
   }
 
   function resetSnakePosition() {
